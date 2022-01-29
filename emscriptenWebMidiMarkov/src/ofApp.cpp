@@ -185,7 +185,7 @@ void ofApp::setup() {
 	number_2.value = 2;
 	number_3.setup(20, 160, 80, 20, 50, 2000);
 	number_3.value = 500;
-	number_4.setup(20, 200, 80, 20, 0, 127);
+	number_4.setup(20, 200, 80, 20, 1, 127);
 	number_4.value = 8;
 	number_5.setup(20, 240, 80, 20, 0, 127);
 	number_5.value = 50;
