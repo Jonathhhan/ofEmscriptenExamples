@@ -141,7 +141,7 @@ void ofApp::draw() {
 	ofDrawBitmapString("Load an audio file", 60, 55);
 	ofDrawBitmapString("or an video file", 60, 75);
 	ofDrawBitmapString("or use some audio input", 60, 95);
-	if (videoPlayer.getTexture() -> isAllocated()){
+	if (videoPlayer.getTexture() -> isAllocated()) {
 	videoPlayer.getTexture() -> draw(50, 350, 205, 110);
 	}
 }
