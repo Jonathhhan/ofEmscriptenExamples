@@ -1,39 +1,37 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::hSlider_1onMousePressed(float & e){
+void ofApp::hSlider_1onMousePressed(float & e) {
 	pd.sendFloat(patch.dollarZeroStr() + "-reverb", e); 
 	label_6.symbol = ofToString(e); 
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_2onMousePressed(float & e){ 
+void ofApp::hSlider_2onMousePressed(float & e) { 
 	pd.sendFloat(patch.dollarZeroStr() + "-lowpass", e);  
 	label_8.symbol = ofToString(e);
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_3onMousePressed(float & e){ 
+void ofApp::hSlider_3onMousePressed(float & e) { 
 	pd.sendFloat(patch.dollarZeroStr() + "-volume", e);
 	label_10.symbol = ofToString(e); 
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_1onMousePressed(bool & e){ 
+void ofApp::bang_1onMousePressed(bool & e) { 
 	if (audioPlayer.isPlaying()) 
 	audioPlayer.stop();
 	audioPlayer.loadLocal();
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e){ 
-	if (videoPlayer.isPlaying()) 
-	videoPlayer.stop();
+void ofApp::bang_2onMousePressed(bool & e) { 
 	videoPlayer.loadLocal();
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e){ 	
+void ofApp::bang_3onMousePressed(bool & e) { 	
 	audioPlayer.play();
 }   
  
