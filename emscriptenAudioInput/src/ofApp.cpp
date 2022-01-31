@@ -1,37 +1,89 @@
 #include "ofApp.h"
+#include "emscripten.h"
+#include "emscripten/bind.h"
+
+using namespace emscripten;
+
+ofEvent<std::string> loadAudioUrlEvent; 	
+ofEvent<std::string> loadVideoUrlEvent; 
+
+void loadAudioUrl(const std::string & url) {
+	std::string urlCopy = url;         
+	loadAudioUrlEvent.notify(urlCopy); 
+} 
+
+void loadVideoUrl(const std::string & url) {
+	std::string urlCopy = url;         
+	loadVideoUrlEvent.notify(urlCopy); 
+} 
+
+EMSCRIPTEN_BINDINGS(Module) {
+	emscripten::function("loadAudioUrl", & loadAudioUrl);
+	emscripten::function("loadVideoUrl", & loadVideoUrl);
+}
+
+void ofApp::loadAudioUrlX(std::string & rv) {
+	if (audioPlayer.isPlaying())	
+	audioPlayer.stop();
+	audioPlayer.loadString(rv);
+}
+
+void ofApp::loadVideoUrlX(std::string & rv) {
+	if (videoPlayer.isPlaying())	
+	videoPlayer.stop();
+	videoPlayer.loadString(rv);
+}
 
 //--------------------------------------------------------------
-void ofApp::hSlider_1onMousePressed(float & e) {
+void ofApp::hSlider_1onMousePressed(float & e){
 	pd.sendFloat(patch.dollarZeroStr() + "-reverb", e); 
 	label_6.symbol = ofToString(e); 
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_2onMousePressed(float & e) { 
+void ofApp::hSlider_2onMousePressed(float & e){ 
 	pd.sendFloat(patch.dollarZeroStr() + "-lowpass", e);  
 	label_8.symbol = ofToString(e);
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_3onMousePressed(float & e) { 
+void ofApp::hSlider_3onMousePressed(float & e){ 
 	pd.sendFloat(patch.dollarZeroStr() + "-volume", e);
 	label_10.symbol = ofToString(e); 
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_1onMousePressed(bool & e) { 
-	if (audioPlayer.isPlaying()) 
-	audioPlayer.stop();
-	audioPlayer.loadLocal();
+void ofApp::bang_1onMousePressed(bool & e){ 
+	EM_ASM(
+	var file_selector = document.createElement('input');
+	file_selector.setAttribute('type', 'file');
+	file_selector.setAttribute('accept','.wav, .mp3, .ogg');
+	file_selector.addEventListener("change", function(e){
+	var file = e.target.files[0]; 
+	var url = URL.createObjectURL(file);
+	Module.loadAudioUrl(url);
+	});
+	file_selector.click();
+	);
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e) { 
-	videoPlayer.loadLocal();
+void ofApp::bang_2onMousePressed(bool & e){ 
+	EM_ASM(
+	var file_selector = document.createElement('input');
+	file_selector.setAttribute('type', 'file');
+	file_selector.setAttribute('accept','.mp4, .webm');
+	file_selector.addEventListener("change", function(e){
+	var file = e.target.files[0]; 
+	var url = URL.createObjectURL(file);
+	Module.loadVideoUrl(url);
+	});
+	file_selector.click();
+	);
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e) { 	
+void ofApp::bang_3onMousePressed(bool & e){ 	
 	audioPlayer.play();
 }   
  
@@ -46,6 +98,8 @@ void ofApp::setup() {
 	ofAddListener(bang_1.onMousePressed, this, & ofApp::bang_1onMousePressed);
 	ofAddListener(bang_2.onMousePressed, this, & ofApp::bang_2onMousePressed);
 	ofAddListener(bang_3.onMousePressed, this, & ofApp::bang_3onMousePressed);
+	ofAddListener(loadAudioUrlEvent, this, & ofApp::loadAudioUrlX);
+	ofAddListener(loadVideoUrlEvent, this, & ofApp::loadVideoUrlX);
 	bang_1.setup(50, 125, 20);
 	bang_2.setup(50, 150, 20);
 	bang_3.setup(50, 175, 20);

@@ -32,6 +32,8 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		void bang_1onMousePressed(bool & e);
 		void bang_2onMousePressed(bool & e);
 		void bang_3onMousePressed(bool & e);
+		void loadAudioUrlX(std::string & rv);
+		void loadVideoUrlX(std::string & rv);
 
 		ofxPd pd;
 		ofxEmscriptenVideoPlayer videoPlayer;
