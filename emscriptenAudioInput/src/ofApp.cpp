@@ -2,8 +2,6 @@
 #include "emscripten.h"
 #include "emscripten/bind.h"
 
-using namespace emscripten;
-
 ofEvent<std::string> loadAudioUrlEvent; 	
 ofEvent<std::string> loadVideoUrlEvent; 
 
