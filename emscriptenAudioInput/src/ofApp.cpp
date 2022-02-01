@@ -27,8 +27,6 @@ void ofApp::loadAudioUrlX(std::string & url) {
 }
 
 void ofApp::loadVideoUrlX(std::string & url) {
-	if (videoPlayer.isPlaying())	
-	videoPlayer.stop();
 	videoPlayer.loadUrl(url);
 }
 
