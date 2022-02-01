@@ -25,13 +25,13 @@ EMSCRIPTEN_BINDINGS(Module) {
 void ofApp::loadAudioUrlX(std::string & rv) {
 	if (audioPlayer.isPlaying())	
 	audioPlayer.stop();
-	audioPlayer.loadString(rv);
+	audioPlayer.loadUrl(rv);
 }
 
 void ofApp::loadVideoUrlX(std::string & rv) {
 	if (videoPlayer.isPlaying())	
 	videoPlayer.stop();
-	videoPlayer.loadString(rv);
+	videoPlayer.loadUrl(rv);
 }
 
 //--------------------------------------------------------------
