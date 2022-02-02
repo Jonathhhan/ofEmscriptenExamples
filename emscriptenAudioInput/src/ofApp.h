@@ -7,6 +7,7 @@
 #include "hSlider.h"
 #include "label.h"
 #include "bang.h"
+#include "toggle.h"
 
 // a namespace for the Pd types
 using namespace pd;
@@ -31,7 +32,7 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		void hSlider_3onMousePressed(float & e);
 		void bang_1onMousePressed(bool & e);
 		void bang_2onMousePressed(bool & e);
-		void bang_3onMousePressed(bool & e);
+		void toggle_1onMousePressed(bool & e);
 		void loadAudioUrlX(std::string & rv);
 		void loadVideoUrlX(std::string & rv);
 
@@ -54,5 +55,5 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		label label_10;
 		bang bang_1;
 		bang bang_2;
-		bang bang_3;
+		toggle toggle_1;
 };

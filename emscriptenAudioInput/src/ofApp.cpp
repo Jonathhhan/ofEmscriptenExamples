@@ -21,19 +21,26 @@ EMSCRIPTEN_BINDINGS(Module) {
 }
 
 void ofApp::loadAudioUrlX(std::string & url) {
-	if (audioPlayer.isPlaying())	
-	audioPlayer.stop();
+	audioPlayer.unload();
 	audioPlayer.loadUrl(url);
+	audioPlayer.setLoop(true);
+	audioPlayer.play();
 }
 
 void ofApp::loadVideoUrlX(std::string & url) {
 	videoPlayer.loadUrl(url);
+	videoPlayer.play();
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_1onMousePressed(float & e) {
-	pd.sendFloat(patch.dollarZeroStr() + "-reverb", e); 
 	label_6.symbol = ofToString(e); 
+	audioPlayer.setPosition(e);
+	videoPlayer.setPosition(e);
+	ofLog(OF_LOG_NOTICE, "Audio duration: " + ofToString(audioPlayer.getDurationSecs()));
+	ofLog(OF_LOG_NOTICE, "Audio position: " + ofToString(audioPlayer.getPosition()));
+	ofLog(OF_LOG_NOTICE, "Video duration: " + ofToString(videoPlayer.getDuration()));
+	ofLog(OF_LOG_NOTICE, "Video position: " + ofToString(videoPlayer.getPosition()));
 }
 
 //--------------------------------------------------------------
@@ -53,7 +60,7 @@ void ofApp::bang_1onMousePressed(bool & e) {
 	EM_ASM(
 	var file_selector = document.createElement('input');
 	file_selector.setAttribute('type', 'file');
-	file_selector.setAttribute('accept','.wav, .mp3, .ogg');
+	file_selector.setAttribute('accept','.wav, .mp3, .mp4, adts. ,ogg. ,webm. ,caf. ,flac.');
 	file_selector.addEventListener("change", function(e){
 	var file = e.target.files[0]; 
 	var url = URL.createObjectURL(file);
@@ -68,7 +75,7 @@ void ofApp::bang_2onMousePressed(bool & e){
 	EM_ASM(
 	var file_selector = document.createElement('input');
 	file_selector.setAttribute('type', 'file');
-	file_selector.setAttribute('accept','.mp4, .webm');
+	file_selector.setAttribute('accept','.mp4, .webm, .3gp, mpeg. ,mov. ,ogg. ,caf. ,flac., .h264');
 	file_selector.addEventListener("change", function(e){
 	var file = e.target.files[0]; 
 	var url = URL.createObjectURL(file);
@@ -79,8 +86,14 @@ void ofApp::bang_2onMousePressed(bool & e){
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e){ 	
-	audioPlayer.play();
+void ofApp::toggle_1onMousePressed(bool & e){ 
+	if(e == false) {	
+	audioPlayer.setPaused(false);
+	videoPlayer.setPaused(false);
+	} else {
+	audioPlayer.setPaused(true);
+	videoPlayer.setPaused(true);
+	}	
 }   
  
 //--------------------------------------------------------------
@@ -93,23 +106,23 @@ void ofApp::setup() {
 	ofAddListener(hSlider_3.onMousePressed, this, & ofApp::hSlider_3onMousePressed);
 	ofAddListener(bang_1.onMousePressed, this, & ofApp::bang_1onMousePressed);
 	ofAddListener(bang_2.onMousePressed, this, & ofApp::bang_2onMousePressed);
-	ofAddListener(bang_3.onMousePressed, this, & ofApp::bang_3onMousePressed);
+	ofAddListener(toggle_1.onMousePressed, this, & ofApp::toggle_1onMousePressed);
 	ofAddListener(loadAudioUrlEvent, this, & ofApp::loadAudioUrlX);
 	ofAddListener(loadVideoUrlEvent, this, & ofApp::loadVideoUrlX);
 	bang_1.setup(50, 125, 20);
 	bang_2.setup(50, 150, 20);
-	bang_3.setup(50, 175, 20);
+	toggle_1.setup(50, 175, 20);
 	label_1.setup(50, 30, 205, 75, "");
 	label_2.setup(155, 125, 100, 20, "Load audio");
 	label_3.setup(155, 150, 100, 20, "Load video");
-	label_4.setup(155, 175, 100, 20, "Play");
-	label_5.setup(155, 200, 100, 20, "Reverb");
+	label_4.setup(155, 175, 100, 20, "Pause");
+	label_5.setup(155, 200, 100, 20, "Position");
 	label_6.setup(155, 225, 100, 20, "0");
 	label_7.setup(155, 250, 100, 20, "Lowpass");
 	label_8.setup(155, 275, 100, 20, "100");
 	label_9.setup(155, 300, 100, 20, "Volume");
 	label_10.setup(155, 325, 100, 20, "50");
-	hSlider_1.setup(50, 200, 100, 20, 0, 20);
+	hSlider_1.setup(50, 200, 100, 20, 0, 1);
 	hSlider_1.slider = 0;
 	hSlider_2.setup(50, 250, 100, 20, 0, 100);
 	hSlider_2.slider = 0.8;
@@ -181,7 +194,7 @@ void ofApp::draw() {
 	label_10.draw();
 	bang_1.draw();
 	bang_2.draw();
-	bang_3.draw();
+	toggle_1.draw();
 	hSlider_1.draw();
 	hSlider_2.draw();
 	hSlider_3.draw();
@@ -208,3 +221,4 @@ void ofApp::audioReceived(float * input, int bufferSize, int nChannels) {
 void ofApp::audioRequested(float * output, int bufferSize, int nChannels) {
 	pd.audioOut(output, bufferSize, nChannels);
 }
+
