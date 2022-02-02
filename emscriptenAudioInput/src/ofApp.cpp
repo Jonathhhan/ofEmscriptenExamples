@@ -37,10 +37,6 @@ void ofApp::hSlider_1onMousePressed(float & e) {
 	label_6.symbol = ofToString(e); 
 	audioPlayer.setPosition(e);
 	videoPlayer.setPosition(e);
-	ofLog(OF_LOG_NOTICE, "Audio duration: " + ofToString(audioPlayer.getDurationSecs()));
-	ofLog(OF_LOG_NOTICE, "Audio position: " + ofToString(audioPlayer.getPosition()));
-	ofLog(OF_LOG_NOTICE, "Video duration: " + ofToString(videoPlayer.getDuration()));
-	ofLog(OF_LOG_NOTICE, "Video position: " + ofToString(videoPlayer.getPosition()));
 }
 
 //--------------------------------------------------------------
@@ -93,7 +89,11 @@ void ofApp::toggle_1onMousePressed(bool & e){
 	} else {
 	audioPlayer.setPaused(true);
 	videoPlayer.setPaused(true);
-	}	
+	}
+	ofLog(OF_LOG_NOTICE, "Audio duration: " + ofToString(audioPlayer.getDurationSecs()));
+	ofLog(OF_LOG_NOTICE, "Audio position: " + ofToString(audioPlayer.getPosition()));
+	ofLog(OF_LOG_NOTICE, "Video duration: " + ofToString(videoPlayer.getDuration()));
+	ofLog(OF_LOG_NOTICE, "Video position: " + ofToString(videoPlayer.getPosition()));
 }   
  
 //--------------------------------------------------------------
