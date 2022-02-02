@@ -83,12 +83,15 @@ void ofApp::bang_2onMousePressed(bool & e){
 
 //--------------------------------------------------------------
 void ofApp::toggle_1onMousePressed(bool & e){ 
-	if(e == false) {	
-	audioPlayer.setPaused(false);
-	videoPlayer.setPaused(false);
-	} else {
-	audioPlayer.setPaused(true);
+	if (e == true && videoPlayer.getTexture() -> isAllocated()) {	
 	videoPlayer.setPaused(true);
+	} else {
+	videoPlayer.setPaused(false);
+	}
+	if (e == true) {
+	audioPlayer.setPaused(true);
+	} else {
+	audioPlayer.setPaused(false);
 	}
 	ofLog(OF_LOG_NOTICE, "Audio duration: " + ofToString(audioPlayer.getDurationSecs()));
 	ofLog(OF_LOG_NOTICE, "Audio position: " + ofToString(audioPlayer.getPosition()));
