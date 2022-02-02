@@ -98,31 +98,19 @@ var LibraryHTML5Audio = {
     },
 
     html5audio_sound_rate: function (sound_id) {
-        if (AUDIO.players[sound_id].src != undefined) {
-            return AUDIO.players[sound_id].playbackRate;
-        }
+	return AUDIO.players[sound_id].playbackRate;
     },
 
     html5audio_sound_set_rate: function (sound_id, rate) {
-        if (AUDIO.players[sound_id].src != undefined) {
-            AUDIO.players[sound_id].playbackRate = rate;
-        }
+	AUDIO.players[sound_id].playbackRate = rate;
     },
 
     html5audio_sound_done: function (sound_id) {
-        if (AUDIO.players[sound_id].src != undefined) {
-            return AUDIO.players[sound_id].done;
-        } else {
-            return false
-        }
+	return AUDIO.players[sound_id].done;
     },
 
     html5audio_sound_duration: function (sound_id) {
-        if (AUDIO.players[sound_id].src != undefined) {
-            return AUDIO.players[sound_id].duration;
-        } else {
-            return 0
-        }
+	return AUDIO.players[sound_id].duration;
     },
 
     html5audio_sound_position: function (sound_id) {
