@@ -99,7 +99,7 @@ void ofApp::bang_1onMousePressed(bool & e) {
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = '.wav, .aiff, .mp3, .mp4, adts., .ogg, .webm, .caf, .flac';
+	input.accept = '.adts, .aiff, .caf, .flac, .mp3, .mp4, .ogg, .wav, .webm';
 	input.onchange = function(e) {
 		var file = e.target.files[0]; 
 		var url = URL.createObjectURL(file);
@@ -114,7 +114,7 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = '.mp4, .webm, .mpeg, .mov, .ogg, .caf, .flac, .h264';
+	input.accept = '.3gp, .h264, .mov, .mp4, .mpeg, .ogg, .webm';
 	input.onchange = function(e) {
 		var file = e.target.files[0]; 
 		var url = URL.createObjectURL(file);
@@ -129,7 +129,7 @@ void ofApp::bang_3onMousePressed(bool & e) {
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = '.apng, .avif, .gif, .jpg, .jpeg, .jpe, .jfif, .png, .svg, .webp, .bmp, .ico, .tif, .tiff';
+	input.accept = '.apng, .avif, .bmp, .gif, .ico, .jfif, .jpe, .jpeg, .jpg, .png, .svg, .tif, .tiff, .webp';
 	input.onchange = function(e) {
 
 		// getting a hold of the file reference
