@@ -114,7 +114,7 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = '.mp4, .webm, .3gp, .mpeg, .mov, .ogg, .caf, .flac, .h264';
+	input.accept = '.mp4, .webm, .mpeg, .mov, .ogg, .caf, .flac, .h264';
 	input.onchange = function(e) {
 		var file = e.target.files[0]; 
 		var url = URL.createObjectURL(file);
