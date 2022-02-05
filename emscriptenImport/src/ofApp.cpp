@@ -131,7 +131,7 @@ void ofApp::bang_3onMousePressed(bool & e){
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = '.apng, .avif, .gif, .jpeg, .png, .svg, .webp, .bmp, .ico, .tiff';
+	input.accept = '.apng, .avif, .gif, .jpg, .jpeg, .png, .svg, .webp, .bmp, .ico, .tiff';
 	input.onchange = function(e) {
 
 		// getting a hold of the file reference
