@@ -45,9 +45,9 @@ void ofApp::loadImageX() {
 	char * buffer;
 	size_t result;
 
-	pFile = fopen("data/data","r");
+	pFile = fopen("data/data", "r");
 	
-	if (pFile==NULL) {fputs ("File error",stderr); ::exit (1);}
+	if (pFile==NULL) {fputs ("File error", stderr); ::exit (1);}
 
 	// obtain file size:
 	fseek (pFile , 0 , SEEK_END);
@@ -55,24 +55,22 @@ void ofApp::loadImageX() {
 	rewind (pFile);
 
 	// allocate memory to contain the whole file:
-	buffer = (char*) malloc (sizeof(char)*lSize);
-	if (buffer == NULL) {fputs ("Memory error",stderr); ::exit (2);}
+	buffer = (char*) malloc(sizeof(char) * lSize);
+	if (buffer == NULL) {fputs("Memory error", stderr); ::exit (2);}
 
 	// copy the file into the buffer:
 	result = fread (buffer, 1, lSize, pFile);
-	if (result != lSize) {fputs ("Reading error",stderr); ::exit (3);}
+	if (result != lSize) {fputs ("Reading error", stderr); ::exit (3);}
 
 	/* the whole file is now loaded in the memory buffer. */
 
 	// terminate
-	fclose (pFile);
-	EM_ASM(
-		FS.unlink("/data/data");
-	);
+	fclose(pFile);
+	EM_ASM(FS.unlink("/data/data"));
 	ofBuffer buffer1(buffer, lSize);
 	image.load(buffer1);
 	ofLog(OF_LOG_NOTICE, "Image buffer size: " + ofToString(lSize));
-	free (buffer);
+	free(buffer);
 }
 
 //--------------------------------------------------------------
@@ -112,7 +110,7 @@ void ofApp::bang_1onMousePressed(bool & e) {
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e){ 
+void ofApp::bang_2onMousePressed(bool & e) { 
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
@@ -127,7 +125,7 @@ void ofApp::bang_2onMousePressed(bool & e){
 }   
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e){ 
+void ofApp::bang_3onMousePressed(bool & e) { 
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
@@ -155,7 +153,7 @@ void ofApp::bang_3onMousePressed(bool & e){
 }   
 
 //--------------------------------------------------------------
-void ofApp::toggle_1onMousePressed(bool & e){ 
+void ofApp::toggle_1onMousePressed(bool & e) { 
 	if (e == true && videoPlayer.getTexture() -> isAllocated()) {	
 		videoPlayer.setPaused(true);
 	} else {
