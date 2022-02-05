@@ -157,19 +157,19 @@ void ofApp::bang_3onMousePressed(bool & e){
 //--------------------------------------------------------------
 void ofApp::toggle_1onMousePressed(bool & e){ 
 	if (e == true && videoPlayer.getTexture() -> isAllocated()) {	
-	videoPlayer.setPaused(true);
+		videoPlayer.setPaused(true);
 	} else {
-	videoPlayer.setPaused(false);
+		videoPlayer.setPaused(false);
 	}
 	if (e == true) {
-	ofLog(OF_LOG_NOTICE, "Player paused!");
-	ofLog(OF_LOG_NOTICE, "Audio duration: " + ofToString(audioPlayer.getDurationSecs()));
-	ofLog(OF_LOG_NOTICE, "Audio position: " + ofToString(audioPlayer.getPosition()));
-	ofLog(OF_LOG_NOTICE, "Video duration: " + ofToString(videoPlayer.getDuration()));
-	ofLog(OF_LOG_NOTICE, "Video position: " + ofToString(videoPlayer.getPosition()));
-	audioPlayer.setPaused(true);
+		ofLog(OF_LOG_NOTICE, "Player paused!");
+		ofLog(OF_LOG_NOTICE, "Audio duration: " + ofToString(audioPlayer.getDurationSecs()));
+		ofLog(OF_LOG_NOTICE, "Audio position: " + ofToString(audioPlayer.getPosition()));
+		ofLog(OF_LOG_NOTICE, "Video duration: " + ofToString(videoPlayer.getDuration()));
+		ofLog(OF_LOG_NOTICE, "Video position: " + ofToString(videoPlayer.getPosition()));
+		audioPlayer.setPaused(true);
 	} else {
-	audioPlayer.setPaused(false);
+		audioPlayer.setPaused(false);
 	}
 }   
  
@@ -246,10 +246,10 @@ void ofApp::draw() {
 	ofSetColor(255, 255, 255);
 	ofDrawBitmapString("Import.", 60, 55);
 	if (videoPlayer.getTexture() -> isAllocated()) {
-	videoPlayer.getTexture() -> draw(345, 40, 300, 200);
+		videoPlayer.getTexture() -> draw(345, 40, 300, 200);
 	}
 	if (image.isAllocated()) {
-	image.draw(345, 260, 300, 200);
+		image.draw(345, 260, 300, 200);
 	}
 }
 
