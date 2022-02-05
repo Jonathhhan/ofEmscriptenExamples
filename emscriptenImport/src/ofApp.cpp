@@ -101,7 +101,7 @@ void ofApp::bang_1onMousePressed(bool & e) {
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = '.wav, .mp3, .mp4, adts., .ogg, .webm, .caf, .flac';
+	input.accept = '.wav, .aiff, .mp3, .mp4, adts., .ogg, .webm, .caf, .flac';
 	input.onchange = function(e) {
 		var file = e.target.files[0]; 
 		var url = URL.createObjectURL(file);
