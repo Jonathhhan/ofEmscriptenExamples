@@ -47,7 +47,7 @@ void ofApp::loadImageX() {
 
 	pFile = fopen("data/data", "r");
 	
-	if (pFile==NULL) {fputs ("File error", stderr); ::exit (1);}
+	if (pFile==NULL) {fputs ("File error", stderr); std::exit (1);}
 
 	// obtain file size:
 	fseek (pFile , 0 , SEEK_END);
@@ -56,11 +56,11 @@ void ofApp::loadImageX() {
 
 	// allocate memory to contain the whole file:
 	buffer = (char*) malloc(sizeof(char) * lSize);
-	if (buffer == NULL) {fputs("Memory error", stderr); ::exit (2);}
+	if (buffer == NULL) {fputs("Memory error", stderr); std::exit (2);}
 
 	// copy the file into the buffer:
 	result = fread (buffer, 1, lSize, pFile);
-	if (result != lSize) {fputs ("Reading error", stderr); ::exit (3);}
+	if (result != lSize) {fputs ("Reading error", stderr); std::exit (3);}
 
 	/* the whole file is now loaded in the memory buffer. */
 
