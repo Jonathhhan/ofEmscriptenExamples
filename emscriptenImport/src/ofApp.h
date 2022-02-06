@@ -26,7 +26,7 @@ class ofApp : public ofBaseApp{
 
 		ofxEmscriptenVideoPlayer videoPlayer;
 		ofxEmscriptenSoundPlayer audioPlayer;
-		ofImage image;
+		ofTexture texture;
 		hSlider hSlider_1;
 		hSlider hSlider_2;
 		hSlider hSlider_3;

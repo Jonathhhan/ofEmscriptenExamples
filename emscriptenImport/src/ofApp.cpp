@@ -68,7 +68,7 @@ void ofApp::loadImageX() {
 	fclose(pFile);
 	EM_ASM(FS.unlink("/data/data"));
 	ofBuffer buffer1(buffer, lSize);
-	image.load(buffer1);
+	ofLoadImage(texture, buffer1);
 	ofLog(OF_LOG_NOTICE, "Image buffer size: " + ofToString(lSize));
 	free(buffer);
 }
@@ -246,12 +246,12 @@ void ofApp::draw() {
 	if (videoPlayer.getTexture() -> isAllocated()) {
 		videoPlayer.getTexture() -> draw(345, 40, 300, 200);
 	}
-	if (image.isAllocated()) {
-		image.draw(345, 260, 300, 200);
+	if (texture.isAllocated()) {
+		texture.draw(345, 260, 300, 200);
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::exit() {
-	image.clear();
+	texture.clear();
 }
