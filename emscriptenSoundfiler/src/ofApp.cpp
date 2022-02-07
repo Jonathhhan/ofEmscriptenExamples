@@ -87,7 +87,6 @@ void ofApp::bang_1onMousePressed(bool & e){
 			var uint8View = new Uint8Array(arrayBuffer);	
 			FS.createDataFile("/data/", "data", uint8View, true, true);
 			FS.syncfs(true, function (err) {
-				console.log("syncfs");
 				Module.loadAudio();
 				assert(!err);
         		});	
