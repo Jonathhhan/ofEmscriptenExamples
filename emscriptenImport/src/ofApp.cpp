@@ -254,5 +254,7 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::exit() {
+	audioPlayer.unload();
+	videoPlayer.close();
 	texture.clear();
 }
