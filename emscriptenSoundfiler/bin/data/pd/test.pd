@@ -1,4 +1,4 @@
-#N canvas 659 191 617 749 12;
+#N canvas 607 191 617 749 12;
 #X obj 39 691 dac~;
 #X obj 39 654 hip~ 5;
 #X obj 39 454 *~ 0.5;
@@ -31,7 +31,7 @@
 #X obj 202 550 line~;
 #X obj 190 575 bob~;
 #X obj 190 625 *~ 0;
-#X obj 39 30 r \$0-tempo;
+#X obj 39 55 r \$0-tempo;
 #X obj 63 230 r \$0-play;
 #X obj 202 475 r \$0-lowpass;
 #X obj 215 600 r \$0-volume;
