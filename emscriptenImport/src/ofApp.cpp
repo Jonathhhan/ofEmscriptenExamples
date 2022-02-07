@@ -66,7 +66,7 @@ void ofApp::loadImageX() {
 
 	// terminate
 	fclose(pFile);
-	image.load("data");
+	ofLoadImage(texture, "data");
 	ofLog(OF_LOG_NOTICE, "Image buffer size: " + ofToString(lSize));
 	free(buffer);
 	EM_ASM(FS.unlink("/data/data"));
