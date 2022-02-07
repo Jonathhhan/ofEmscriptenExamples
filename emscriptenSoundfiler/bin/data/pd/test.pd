@@ -1,4 +1,4 @@
-#N canvas 607 191 617 749 12;
+#N canvas 555 191 617 749 12;
 #X obj 39 691 dac~;
 #X obj 39 654 hip~ 5;
 #X obj 39 454 *~ 0.5;
@@ -43,11 +43,11 @@
 #X obj 64 604 r \$0-volume;
 #X obj 195 127 soundfiler;
 #X obj 195 52 r \$0-soundfiler;
-#X obj 195 178 print samplesize:;
 #X obj 195 77 \$0;
-#X obj 262 152 print soundfiler;
 #X msg 195 102 read -resize -maxsize 2e+09 ../data \$1-left \$1-right
 ;
+#X obj 262 152 print Soundfiler;
+#X obj 195 178 print Samplesize;
 #X connect 1 0 0 0;
 #X connect 2 0 17 0;
 #X connect 3 0 38 0;
@@ -93,9 +93,9 @@
 #X connect 39 0 26 1;
 #X connect 40 0 14 0;
 #X connect 41 0 23 1;
-#X connect 42 0 44 0;
 #X connect 42 0 20 0;
+#X connect 42 0 47 0;
 #X connect 42 1 46 0;
-#X connect 43 0 45 0;
-#X connect 45 0 47 0;
-#X connect 47 0 42 0;
+#X connect 43 0 44 0;
+#X connect 44 0 45 0;
+#X connect 45 0 42 0;
