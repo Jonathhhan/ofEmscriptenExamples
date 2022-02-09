@@ -4,8 +4,7 @@
 
 ofEvent<std::string> loadAudioUrlEvent; 	
 ofEvent<std::string> loadVideoUrlEvent; 
-ofEvent<void> loadImageEvent; 
-
+ofEvent<void> loadImageEvent;
 
 void loadAudioUrl(const std::string & url) {
 	std::string urlCopy = url;         
@@ -29,46 +28,18 @@ EMSCRIPTEN_BINDINGS(Module) {
 
 void ofApp::loadAudioUrlX(std::string & url) {
 	audioPlayer.unload();
-	audioPlayer.loadUrl(url);
+	audioPlayer.load(url);
 	audioPlayer.setLoop(true);
 	audioPlayer.play();
 }
 
 void ofApp::loadVideoUrlX(std::string & url) {
-	videoPlayer.loadUrl(url);
+	videoPlayer.load(url);
 	videoPlayer.play();
 }
 
 void ofApp::loadImageX() {
-	FILE * pFile;
-	long lSize;
-	char * buffer;
-	size_t result;
-
-	pFile = fopen("data/data", "r");
-	
-	if (pFile==NULL) {fputs ("File error", stderr); ::exit (1);}
-
-	// obtain file size:
-	fseek (pFile , 0 , SEEK_END);
-	lSize = ftell (pFile);
-	rewind (pFile);
-
-	// allocate memory to contain the whole file:
-	buffer = (char*) malloc(sizeof(char) * lSize);
-	if (buffer == NULL) {fputs("Memory error", stderr); ::exit (2);}
-
-	// copy the file into the buffer:
-	result = fread (buffer, 1, lSize, pFile);
-	if (result != lSize) {fputs ("Reading error", stderr); ::exit (3);}
-
-	/* the whole file is now loaded in the memory buffer. */
-
-	// terminate
-	fclose(pFile);
 	ofLoadImage(texture, "data");
-	ofLog(OF_LOG_NOTICE, "Image buffer size: " + ofToString(lSize));
-	free(buffer);
 	EM_ASM(FS.unlink("/data/data"));
 }
 
