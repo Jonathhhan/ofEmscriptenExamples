@@ -19,7 +19,6 @@ class ofApp : public ofBaseApp{
 		void bang_1_event(bool & e);
 		void bang_2_event(bool & e);
 		void bang_3_event(bool & e);
-		void bang_4_event(bool & e);
 		void toggle_1_event(bool & e);
 		void loadAudioUrlX(std::string & string);
 		void loadVideoUrlX(std::string & string);
