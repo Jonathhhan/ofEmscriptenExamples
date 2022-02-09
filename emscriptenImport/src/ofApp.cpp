@@ -6,66 +6,8 @@ ofEvent<std::string> loadAudioUrlEvent;
 ofEvent<std::string> loadVideoUrlEvent; 
 ofEvent<void> loadImageEvent;
 
-void loadAudioUrl(const std::string & url) {
-	std::string urlCopy = url;         
-	loadAudioUrlEvent.notify(urlCopy); 
-} 
-
-void loadVideoUrl(const std::string & url) {
-	std::string urlCopy = url;         
-	loadVideoUrlEvent.notify(urlCopy); 
-} 
-
-void loadImage() {        
-	loadImageEvent.notify(); 
-} 
-
-EMSCRIPTEN_BINDINGS(Module) {
-	emscripten::function("loadAudioUrl", & loadAudioUrl);
-	emscripten::function("loadVideoUrl", & loadVideoUrl);
-	emscripten::function("loadImage", & loadImage);
-}
-
-void ofApp::loadAudioUrlX(std::string & url) {
-	audioPlayer.unload();
-	audioPlayer.load(url);
-	audioPlayer.setLoop(true);
-	audioPlayer.play();
-}
-
-void ofApp::loadVideoUrlX(std::string & url) {
-	videoPlayer.load(url);
-	videoPlayer.play();
-}
-
-void ofApp::loadImageX() {
-	ofLoadImage(texture, "data");
-	EM_ASM(FS.unlink("/data/data"));
-}
-
 //--------------------------------------------------------------
-void ofApp::hSlider_1onMousePressed(float & e) {
-	label_6.symbol = ofToString(e); 
-	audioPlayer.setPosition(e);
-	videoPlayer.setPosition(e);
-}
-
-//--------------------------------------------------------------
-void ofApp::hSlider_2onMousePressed(float & e) { 
-	audioPlayer.setPan(e);
-	videoPlayer.setPan(e);
-	label_8.symbol = ofToString(e);
-}
-
-//--------------------------------------------------------------
-void ofApp::hSlider_3onMousePressed(float & e) { 
-	audioPlayer.setVolume(e);
-	videoPlayer.setVolume(e);
-	label_10.symbol = ofToString(e); 
-}   
-
-//--------------------------------------------------------------
-void ofApp::bang_1onMousePressed(bool & e) { 
+void ofApp::bang_1_event(bool & e) { 
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
@@ -79,8 +21,19 @@ void ofApp::bang_1onMousePressed(bool & e) {
 	);
 }   
 
+void loadAudioUrl(std::string url) {    
+	loadAudioUrlEvent.notify(url); 
+} 
+
+void ofApp::loadAudioUrlX(std::string & url) {
+	audioPlayer.unload();
+	audioPlayer.load(url);
+	audioPlayer.setLoop(true);
+	audioPlayer.play();
+}
+
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e) { 
+void ofApp::bang_2_event(bool & e) { 
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
@@ -92,10 +45,19 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	};
 	input.click();
 	);
-}   
+}
+
+void loadVideoUrl(std::string url) {
+	loadVideoUrlEvent.notify(url); 
+}
+
+void ofApp::loadVideoUrlX(std::string & url) {
+	videoPlayer.load(url);
+	videoPlayer.play();
+}
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e) { 
+void ofApp::bang_3_event(bool & e) { 
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
@@ -124,8 +86,24 @@ void ofApp::bang_3onMousePressed(bool & e) {
 	);
 }   
 
+void loadImage() {        
+	loadImageEvent.notify(); 
+}
+
+void ofApp::loadImageX() {
+	ofLoadImage(texture, "data");
+	EM_ASM(FS.unlink("/data/data"));
+}
+
 //--------------------------------------------------------------
-void ofApp::toggle_1onMousePressed(bool & e) { 
+EMSCRIPTEN_BINDINGS(Module) {
+	emscripten::function("loadAudioUrl", & loadAudioUrl);
+	emscripten::function("loadVideoUrl", & loadVideoUrl);
+	emscripten::function("loadImage", & loadImage);
+}
+
+//--------------------------------------------------------------
+void ofApp::toggle_1_event(bool & e) { 
 	if (e == true && videoPlayer.getTexture() -> isAllocated()) {	
 		videoPlayer.setPaused(true);
 	} else {
@@ -141,43 +119,64 @@ void ofApp::toggle_1onMousePressed(bool & e) {
 	} else {
 		audioPlayer.setPaused(false);
 	}
-}   
- 
+}
+
+//--------------------------------------------------------------
+void ofApp::hSlider_1_event(float & e) {
+	label_6.symbol = ofToString(e); 
+	audioPlayer.setPosition(e);
+	videoPlayer.setPosition(e);
+}
+
+//--------------------------------------------------------------
+void ofApp::hSlider_2_event(float & e) { 
+	audioPlayer.setPan(e);
+	videoPlayer.setPan(e);
+	label_8.symbol = ofToString(e);
+}
+
+//--------------------------------------------------------------
+void ofApp::hSlider_3_event(float & e) { 
+	audioPlayer.setVolume(e);
+	videoPlayer.setVolume(e);
+	label_10.symbol = ofToString(e); 
+}
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(100, 100, 100);
 	videoPlayer.setPixelFormat(OF_PIXELS_RGBA);
 	videoPlayer.setUsePixels(false);
-	ofAddListener(hSlider_1.onMousePressed, this, & ofApp::hSlider_1onMousePressed);
-	ofAddListener(hSlider_2.onMousePressed, this, & ofApp::hSlider_2onMousePressed); 
-	ofAddListener(hSlider_3.onMousePressed, this, & ofApp::hSlider_3onMousePressed);
-	ofAddListener(bang_1.onMousePressed, this, & ofApp::bang_1onMousePressed);
-	ofAddListener(bang_2.onMousePressed, this, & ofApp::bang_2onMousePressed);
-	ofAddListener(bang_3.onMousePressed, this, & ofApp::bang_3onMousePressed);
-	ofAddListener(toggle_1.onMousePressed, this, & ofApp::toggle_1onMousePressed);
+	ofAddListener(hSlider_1.onMousePressed, this, & ofApp::hSlider_1_event);
+	ofAddListener(hSlider_2.onMousePressed, this, & ofApp::hSlider_2_event); 
+	ofAddListener(hSlider_3.onMousePressed, this, & ofApp::hSlider_3_event);
+	ofAddListener(bang_1.onMousePressed, this, & ofApp::bang_1_event);
+	ofAddListener(bang_2.onMousePressed, this, & ofApp::bang_2_event);
+	ofAddListener(bang_3.onMousePressed, this, & ofApp::bang_3_event);
+	ofAddListener(toggle_1.onMousePressed, this, & ofApp::toggle_1_event);
 	ofAddListener(loadAudioUrlEvent, this, & ofApp::loadAudioUrlX);
 	ofAddListener(loadVideoUrlEvent, this, & ofApp::loadVideoUrlX);
 	ofAddListener(loadImageEvent, this, & ofApp::loadImageX);
-	bang_1.setup(50, 125, 20);
-	bang_2.setup(50, 150, 20);
-	bang_3.setup(50, 175, 20);
-	toggle_1.setup(50, 200, 20);
-	label_1.setup(50, 30, 205, 75, "");
-	label_2.setup(155, 125, 100, 20, "Load audio");
-	label_3.setup(155, 150, 100, 20, "Load video");
-	label_4.setup(155, 175, 100, 20, "Load image");
-	label_5.setup(155, 200, 100, 20, "Pause");
-	label_6.setup(155, 225, 100, 20, "Position");
-	label_7.setup(155, 250, 100, 20, "0");
-	label_8.setup(155, 275, 100, 20, "Panorama");
-	label_9.setup(155, 300, 100, 20, "0");
-	label_10.setup(155, 325, 100, 20, "Volume");
-	label_11.setup(155, 350, 100, 20, "0.5");
-	hSlider_1.setup(50, 225, 100, 20, 0, 1);
+	bang_1.setup(40, 135, 20);
+	bang_2.setup(40, 160, 20);
+	bang_3.setup(40, 185, 20);
+	toggle_1.setup(40, 210, 20);
+	label_1.setup(40, 40, 205, 75, "");
+	label_2.setup(145, 135, 100, 20, "Load audio");
+	label_3.setup(145, 160, 100, 20, "Load video");
+	label_4.setup(145, 185, 100, 20, "Load image");
+	label_5.setup(145, 210, 100, 20, "Pause");
+	label_6.setup(145, 235, 100, 20, "Position");
+	label_7.setup(145, 260, 100, 20, "0");
+	label_8.setup(145, 285, 100, 20, "Panorama");
+	label_9.setup(145, 310, 100, 20, "0");
+	label_10.setup(145, 335, 100, 20, "Volume");
+	label_11.setup(145, 360, 100, 20, "0.5");
+	hSlider_1.setup(40, 235, 100, 20, 0, 1);
 	hSlider_1.slider = 0;
-	hSlider_2.setup(50, 275, 100, 20, -1, 1);
+	hSlider_2.setup(40, 285, 100, 20, -1, 1);
 	hSlider_2.slider = 0.5;
-	hSlider_3.setup(50, 325, 100, 20, 0, 1);
+	hSlider_3.setup(40, 335, 100, 20, 0, 1);
 	hSlider_3.slider = 0.5;
 }
 
@@ -190,11 +189,11 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(240, 220, 100);
-        ofDrawRectangle(20, 20, 285, 450);
-        ofDrawRectangle(325, 20, 340, 450);
+        ofDrawRectangle(20, 20, 245, 460);
+        ofDrawRectangle(285, 20, 340, 460);
         ofSetColor(0, 0, 0);
-        ofDrawRectangle(345, 40, 300, 200);
-        ofDrawRectangle(345, 260, 300, 200);
+        ofDrawRectangle(305, 40, 300, 200);
+        ofDrawRectangle(305, 260, 300, 200);
 	label_1.draw();
 	label_2.draw();
 	label_3.draw();
@@ -214,7 +213,7 @@ void ofApp::draw() {
 	hSlider_2.draw();
 	hSlider_3.draw();
 	ofSetColor(255, 255, 255);
-	ofDrawBitmapString("Import.", 60, 55);
+	ofDrawBitmapString("Import.", 50, 65);
 	if (videoPlayer.getTexture() -> isAllocated()) {
 		videoPlayer.getTexture() -> draw(345, 40, 300, 200);
 	}
