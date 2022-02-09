@@ -213,7 +213,7 @@ void ofApp::draw() {
 	hSlider_2.draw();
 	hSlider_3.draw();
 	ofSetColor(255, 255, 255);
-	ofDrawBitmapString(title, 50, 65);
+	ofDrawBitmapString("Import.", 50, 65);
 	if (videoPlayer.getTexture() -> isAllocated()) {
 		videoPlayer.getTexture() -> draw(305, 40, 300, 200);
 	}
