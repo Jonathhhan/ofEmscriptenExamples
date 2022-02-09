@@ -147,7 +147,6 @@ void ofApp::setup() {
 	ofBackground(100, 100, 100);
 	videoPlayer.setPixelFormat(OF_PIXELS_RGBA);
 	videoPlayer.setUsePixels(false);
-	title = "Import.";
 	ofAddListener(hSlider_1.onMousePressed, this, & ofApp::hSlider_1_event);
 	ofAddListener(hSlider_2.onMousePressed, this, & ofApp::hSlider_2_event); 
 	ofAddListener(hSlider_3.onMousePressed, this, & ofApp::hSlider_3_event);
