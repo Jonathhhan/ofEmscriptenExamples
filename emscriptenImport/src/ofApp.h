@@ -46,5 +46,4 @@ class ofApp : public ofBaseApp{
 		bang bang_2;
 		bang bang_3;
 		toggle toggle_1;
-		std::string title;
 };
