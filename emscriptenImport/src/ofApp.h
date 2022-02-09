@@ -13,15 +13,16 @@ class ofApp : public ofBaseApp{
 		void draw();
 		void exit();
 		
-		void hSlider_1onMousePressed(float & e);
-		void hSlider_2onMousePressed(float & e);
-		void hSlider_3onMousePressed(float & e);
-		void bang_1onMousePressed(bool & e);
-		void bang_2onMousePressed(bool & e);
-		void bang_3onMousePressed(bool & e);
-		void toggle_1onMousePressed(bool & e);
-		void loadAudioUrlX(std::string & rv);
-		void loadVideoUrlX(std::string & rv);
+		void hSlider_1_event(float & e);
+		void hSlider_2_event(float & e);
+		void hSlider_3_event(float & e);
+		void bang_1_event(bool & e);
+		void bang_2_event(bool & e);
+		void bang_3_event(bool & e);
+		void bang_4_event(bool & e);
+		void toggle_1_event(bool & e);
+		void loadAudioUrlX(std::string & string);
+		void loadVideoUrlX(std::string & string);
 		void loadImageX();
 
 		ofxEmscriptenVideoPlayer videoPlayer;
@@ -45,4 +46,5 @@ class ofApp : public ofBaseApp{
 		bang bang_2;
 		bang bang_3;
 		toggle toggle_1;
+		std::string title;
 };
