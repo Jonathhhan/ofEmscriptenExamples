@@ -123,23 +123,23 @@ void ofApp::toggle_1_event(bool & e) {
 
 //--------------------------------------------------------------
 void ofApp::hSlider_1_event(float & e) {
-	label_6.symbol = ofToString(e); 
 	audioPlayer.setPosition(e);
 	videoPlayer.setPosition(e);
+	label_7.symbol = ofToString(e); 
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_2_event(float & e) { 
 	audioPlayer.setPan(e);
 	videoPlayer.setPan(e);
-	label_8.symbol = ofToString(e);
+	label_9.symbol = ofToString(e);
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_3_event(float & e) { 
 	audioPlayer.setVolume(e);
 	videoPlayer.setVolume(e);
-	label_10.symbol = ofToString(e); 
+	label_11.symbol = ofToString(e); 
 }
 
 //--------------------------------------------------------------
@@ -147,6 +147,7 @@ void ofApp::setup() {
 	ofBackground(100, 100, 100);
 	videoPlayer.setPixelFormat(OF_PIXELS_RGBA);
 	videoPlayer.setUsePixels(false);
+	title = "Import.";
 	ofAddListener(hSlider_1.onMousePressed, this, & ofApp::hSlider_1_event);
 	ofAddListener(hSlider_2.onMousePressed, this, & ofApp::hSlider_2_event); 
 	ofAddListener(hSlider_3.onMousePressed, this, & ofApp::hSlider_3_event);
@@ -157,26 +158,26 @@ void ofApp::setup() {
 	ofAddListener(loadAudioUrlEvent, this, & ofApp::loadAudioUrlX);
 	ofAddListener(loadVideoUrlEvent, this, & ofApp::loadVideoUrlX);
 	ofAddListener(loadImageEvent, this, & ofApp::loadImageX);
-	bang_1.setup(40, 135, 20);
-	bang_2.setup(40, 160, 20);
-	bang_3.setup(40, 185, 20);
-	toggle_1.setup(40, 210, 20);
+	bang_1.setup(40, 160, 20);
+	bang_2.setup(40, 185, 20);
+	bang_3.setup(40, 210, 20);
+	toggle_1.setup(40, 235, 20);
 	label_1.setup(40, 40, 205, 75, "");
-	label_2.setup(145, 135, 100, 20, "Load audio");
-	label_3.setup(145, 160, 100, 20, "Load video");
-	label_4.setup(145, 185, 100, 20, "Load image");
-	label_5.setup(145, 210, 100, 20, "Pause");
-	label_6.setup(145, 235, 100, 20, "Position");
-	label_7.setup(145, 260, 100, 20, "0");
-	label_8.setup(145, 285, 100, 20, "Panorama");
-	label_9.setup(145, 310, 100, 20, "0");
-	label_10.setup(145, 335, 100, 20, "Volume");
-	label_11.setup(145, 360, 100, 20, "0.5");
-	hSlider_1.setup(40, 235, 100, 20, 0, 1);
+	label_2.setup(145, 160, 100, 20, "Load audio");
+	label_3.setup(145, 185, 100, 20, "Load video");
+	label_4.setup(145, 210, 100, 20, "Load image");
+	label_5.setup(145, 235, 100, 20, "Pause");
+	label_6.setup(145, 260, 100, 20, "Position");
+	label_7.setup(145, 285, 100, 20, "0");
+	label_8.setup(145, 310, 100, 20, "Panorama");
+	label_9.setup(145, 335, 100, 20, "0");
+	label_10.setup(145, 360, 100, 20, "Volume");
+	label_11.setup(145, 385, 100, 20, "0.5");
+	hSlider_1.setup(40, 260, 100, 20, 0, 1);
 	hSlider_1.slider = 0;
-	hSlider_2.setup(40, 285, 100, 20, -1, 1);
+	hSlider_2.setup(40, 310, 100, 20, -1, 1);
 	hSlider_2.slider = 0.5;
-	hSlider_3.setup(40, 335, 100, 20, 0, 1);
+	hSlider_3.setup(40, 360, 100, 20, 0, 1);
 	hSlider_3.slider = 0.5;
 }
 
@@ -213,12 +214,12 @@ void ofApp::draw() {
 	hSlider_2.draw();
 	hSlider_3.draw();
 	ofSetColor(255, 255, 255);
-	ofDrawBitmapString("Import.", 50, 65);
+	ofDrawBitmapString(title, 50, 65);
 	if (videoPlayer.getTexture() -> isAllocated()) {
-		videoPlayer.getTexture() -> draw(345, 40, 300, 200);
+		videoPlayer.getTexture() -> draw(305, 40, 300, 200);
 	}
 	if (texture.isAllocated()) {
-		texture.draw(345, 260, 300, 200);
+		texture.draw(305, 260, 300, 200);
 	}
 }
 
