@@ -263,7 +263,7 @@ void ofApp::setup() {
 		int ticksPerBuffer = 32; // 32 * 64 = buffer len of 2048
 		int numInputs = 0; // no built in mic
 	#else
-		int ticksPerBuffer = 8; // 8 * 64 = buffer len of 512
+		int ticksPerBuffer = 4; // 8 * 64 = buffer len of 512
 		int numInputs = 0;
 	#endif
 
