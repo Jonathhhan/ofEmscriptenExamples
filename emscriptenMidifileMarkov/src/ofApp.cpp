@@ -133,37 +133,37 @@ void ofApp::number_8onMousePressed(float & e){
 void ofApp::hRadio_1onMousePressed(float & e){
 	pd.sendFloat(patch.dollarZeroStr() + "-scale", e);
 	if(e == 0)
-	label_16.symbol = "Scale: Major";
+	label_8.symbol = "Scale: Major";
 	if(e == 1)
-	label_16.symbol = "Scale: Middle East Minor";
+	label_8.symbol = "Scale: Middle East Minor";
 	if(e == 2)
-	label_16.symbol = "Scale: Lydian dominant";
+	label_8.symbol = "Scale: Lydian dominant";
 	if(e == 3)
-	label_16.symbol = "Scale: Harmonic minor";
+	label_8.symbol = "Scale: Harmonic minor";
 	if(e == 4)
-	label_16.symbol = "Scale: Chromatic blues";
+	label_8.symbol = "Scale: Chromatic blues";
 	if(e == 5)
-	label_16.symbol = "Scale: Whole tones";
+	label_8.symbol = "Scale: Whole tones";
 	if(e == 6)
-	label_16.symbol = "Scale: Diminished";
+	label_8.symbol = "Scale: Diminished";
 	if(e == 7)
-	label_16.symbol = "Scale: Pentatonic";
+	label_8.symbol = "Scale: Pentatonic";
 	if(e == 8)
-	label_16.symbol = "Scale: Pentatonic blues";
+	label_8.symbol = "Scale: Pentatonic blues";
 	if(e == 9)
-	label_16.symbol = "Scale: Gaku Joshi";
+	label_8.symbol = "Scale: Gaku Joshi";
 	if(e == 10)
-	label_16.symbol = "Scale: In Sen";
+	label_8.symbol = "Scale: In Sen";
 	if(e == 11)
-	label_16.symbol = "Scale: Hira Joshi";
+	label_8.symbol = "Scale: Hira Joshi";
 	if(e == 12)
-	label_16.symbol = "Scale: Yo";
+	label_8.symbol = "Scale: Yo";
 	if(e == 13)
-	label_16.symbol = "Scale: Ryo";
+	label_8.symbol = "Scale: Ryo";
 	if(e == 14)
-	label_16.symbol = "Scale: Iwato";
+	label_8.symbol = "Scale: Iwato";
 	if(e == 15)
-	label_16.symbol = "Scale: Tamuke";
+	label_8.symbol = "Scale: Tamuke";
 }
 
 //--------------------------------------------------------------
