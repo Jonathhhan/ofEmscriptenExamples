@@ -31,7 +31,7 @@ void ofApp::midiChanged(std::string & ev) {
 	pd.addFloat(inPitch);
 	pd.addFloat(inVelocity);
 	pd.finishList(patch.dollarZeroStr()+"-midiIn");
-	label_10.symbol = "Midi in: " + ofToString(inChannel) + " " + ofToString(inPitch) + " " + ofToString(inVelocity);
+	label_18.symbol = "Midi in: " + ofToString(inChannel) + " " + ofToString(inPitch) + " " + ofToString(inVelocity);
 }
 
 //--------------------------------------------------------------
@@ -400,7 +400,7 @@ void ofApp::receiveNoteOn(const int channel, const int pitch, const int velocity
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_11.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
+	label_19.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
 }
 
 void ofApp::receiveProgramChange(const int channel, const int value) {
@@ -410,5 +410,5 @@ void ofApp::receiveProgramChange(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_12.symbol = "Program change: " + ofToString(192) + " " + ofToString(value);
+	label_4.symbol = "Program change: " + ofToString(192) + " " + ofToString(value);
 }
