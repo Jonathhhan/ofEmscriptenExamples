@@ -178,7 +178,7 @@ void ofApp::setup() {
 		OF_EXIT_APP(1);
 	}
 	
-	seq_setup();
+	midi_setup();
 
 	// subscribe to receive source names
 	pd.subscribe("toOF");
