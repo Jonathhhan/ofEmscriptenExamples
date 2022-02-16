@@ -269,8 +269,13 @@ void ofApp::print(const std::string &message) {
 
 //--------------------------------------------------------------
 void ofApp::receiveFloat(const std::string &dest, float value) {
-	if (dest == "toOF"){
+	if (dest == "toOF") {
 	label_12.symbol = "Possibilities: " + ofToString(value);
+	}
+	if (dest == "midiOut") {
+	EM_ASM_(
+	sendMIDI($0), value);
+	label_13.symbol = "Midi out: " + ofToString(value);
 	}
 }
 
