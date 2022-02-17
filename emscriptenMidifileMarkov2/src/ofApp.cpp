@@ -108,7 +108,7 @@ void ofApp::bang_4onMousePressed(bool & e){
 		document.body.removeChild(a);
 		URL.revokeObjectURL(a.href);
 	} else {
-	alert("Please play a markov chain before download!")
+	alert("Please play and stop the markov chains before download!")
 	}
 	);
 }
