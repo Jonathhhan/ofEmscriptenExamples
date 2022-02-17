@@ -6,7 +6,7 @@
 ofEvent<void> loadMidiEvent;
 
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e) { 
+void ofApp::bang_3onMousePressed(bool & e) { 
 	EM_ASM(
 	var input = document.createElement('input');
 	input.type = 'file';
@@ -50,11 +50,6 @@ EMSCRIPTEN_BINDINGS(Module) {
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_1onMousePressed(bool & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-pause", e);
-}
-
-//--------------------------------------------------------------
 void ofApp::hSlider_1onMousePressed(float & e){
 	pd.sendFloat(patch.dollarZeroStr() + "-tempo", e);
 }
@@ -80,24 +75,63 @@ void ofApp::bang_1onMousePressed(bool & e){
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-markovMake");
+void ofApp::bang_2onMousePressed(bool & e){
+	pd.sendBang(patch.dollarZeroStr() + "-stop");
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-markovReset");
+	EM_ASM(
+	var found = false;
+	for (const file of FS.readdir("/data/pd/")){
+		if ("record.mid" == file) {
+		found = true;
+        	}        
+	}
+	if(found){
+        	var content = FS.readFile("/data/pd/record.mid");  
+        	console.log(content);      
+		var today = new Date();
+		var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
+		var a = document.createElement('a');
+		a.download = "markovRemix-" + time + ".mid";
+		var blob = new Blob(
+		[content],
+		{
+		type: "text/plain;charset=utf-8"
+		}
+		);
+		a.href = URL.createObjectURL(blob);
+		a.style.display = "none";
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(a.href);
+	} else {
+	alert("Please play a markov chain before download!")
+	}
+	);
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_5onMousePressed(bool & e){
+	pd.sendBang(patch.dollarZeroStr() + "-markovMake");
+}
+
+//--------------------------------------------------------------
+void ofApp::bang_6onMousePressed(bool & e){
+	pd.sendBang(patch.dollarZeroStr() + "-markovReset");
+}
+
+//--------------------------------------------------------------
+void ofApp::bang_7onMousePressed(bool & e){
 	pd.sendBang(patch.dollarZeroStr() + "-markovRandom");
 }
+
 
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(100, 100, 100);
-	ofAddListener(toggle_1.onMousePressed, this, &ofApp::toggle_1onMousePressed);
 	ofAddListener(hSlider_1.onMousePressed, this, &ofApp::hSlider_1onMousePressed);
 	ofAddListener(hSlider_2.onMousePressed, this, &ofApp::hSlider_2onMousePressed);
 	ofAddListener(hSlider_3.onMousePressed, this, &ofApp::hSlider_3onMousePressed);
@@ -107,27 +141,31 @@ void ofApp::setup() {
 	ofAddListener(bang_3.onMousePressed, this, &ofApp::bang_3onMousePressed);
 	ofAddListener(bang_4.onMousePressed, this, &ofApp::bang_4onMousePressed);
 	ofAddListener(bang_5.onMousePressed, this, &ofApp::bang_5onMousePressed);
+	ofAddListener(bang_6.onMousePressed, this, &ofApp::bang_6onMousePressed);
+	ofAddListener(bang_7.onMousePressed, this, &ofApp::bang_7onMousePressed);
 	ofAddListener(loadMidiEvent, this, &ofApp::loadMidiX);
 	label_1.setup(20, 20, 680, 20, "Markov Generator");
 	label_2.setup(120, 80, 200, 20, "Play");
-	label_3.setup(120, 120, 200, 20, "Pause");
+	label_3.setup(120, 120, 200, 20, "Stop");
 	label_4.setup(120, 200, 200, 20, "Tempo");
 	label_5.setup(120, 240, 200, 20, "Velocity");
 	label_6.setup(120, 280, 200, 20, "Note Length");
 	label_7.setup(500, 80, 200, 20, "Load midifile");
-	label_8.setup(500, 160, 200, 20, "Markov order");
-	label_9.setup(500, 200, 200, 20, "Create the chain");
-	label_10.setup(500, 240, 200, 20, "Start position");
-	label_11.setup(500, 280, 200, 20, "Random position");
-	label_12.setup(20, 400, 680, 20, "Possibilities: 0");
-	label_13.setup(20, 440, 680, 20, "Midi out: 0");
-	toggle_1.setup(20, 120, 20);
+	label_8.setup(500, 120, 200, 20, "Download midifile");
+	label_9.setup(500, 200, 200, 20, "Markov order");
+	label_10.setup(500, 240, 200, 20, "Create the chains");
+	label_11.setup(500, 280, 200, 20, "Start position");
+	label_12.setup(500, 320, 200, 20, "Random position");
+	label_13.setup(20, 400, 680, 20, "Possibilities: 0");
+	label_14.setup(20, 440, 680, 20, "Midi out: 0");
 	bang_1.setup(20, 80, 20);
-	bang_2.setup(400, 80, 20);
-	bang_3.setup(400, 200, 20);
-	bang_4.setup(400, 240, 20);
-	bang_5.setup(400, 280, 20);
-	number_1.setup(400, 160, 80, 20, 1, 100);
+	bang_2.setup(20, 120, 20);
+	bang_3.setup(400, 80, 20);
+	bang_4.setup(400, 120, 20);
+	bang_5.setup(400, 240, 20);
+	bang_6.setup(400, 280, 20);
+	bang_7.setup(400, 320, 20);
+	number_1.setup(400, 200, 80, 20, 1, 100);
 	number_1.value = 4;
 	hSlider_1.setup(20, 200, 80, 20, 0.5, 1.5);
 	hSlider_1.value = 1;
@@ -233,16 +271,18 @@ void ofApp::draw() {
 	label_11.draw();
 	label_12.draw();
 	label_13.draw();
+	label_14.draw();
 	hSlider_1.draw();
 	hSlider_2.draw();
 	hSlider_3.draw();
 	number_1.draw();
-	toggle_1.draw();
 	bang_1.draw();
 	bang_2.draw();
 	bang_3.draw();
 	bang_4.draw();
 	bang_5.draw();
+	bang_6.draw();
+	bang_7.draw();
 }
 
 //--------------------------------------------------------------

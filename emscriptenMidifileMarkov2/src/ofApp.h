@@ -45,24 +45,24 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		void hSlider_2onMousePressed(float & e);
 		void hSlider_3onMousePressed(float & e);
 		void number_1onMousePressed(float & e);
-		void toggle_1onMousePressed(bool & e);
 		void bang_1onMousePressed(bool & e);
 		void bang_2onMousePressed(bool & e);
 		void bang_3onMousePressed(bool & e);
 		void bang_4onMousePressed(bool & e);	
-		void bang_5onMousePressed(bool & e);	
+		void bang_5onMousePressed(bool & e);
+		void bang_6onMousePressed(bool & e);	
+		void bang_7onMousePressed(bool & e);	
 		void loadMidiX();
 
 		ofxPd pd;
 		Patch patch;
-		vector<float> scopeArray;
-		vector<Patch> instances;
-		toggle toggle_1;
 		bang bang_1;
 		bang bang_2;
 		bang bang_3;
 		bang bang_4;
 		bang bang_5;
+		bang bang_6;
+		bang bang_7;
 		hSlider hSlider_1;
 		hSlider hSlider_2;
 		hSlider hSlider_3;
@@ -80,4 +80,5 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		label label_11;
 		label label_12;
 		label label_13;
+		label label_14;
 };
