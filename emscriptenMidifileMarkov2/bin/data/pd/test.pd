@@ -1,4 +1,4 @@
-#N canvas 435 116 969 763 12;
+#N canvas 407 237 969 763 12;
 #X obj 64 385 markov;
 #A saved memory;
 #A saved indices 0;
@@ -107,7 +107,7 @@
 #X connect 0 16 2 0;
 #X connect 1 0 0 0;
 #X restore 104 580 pd pgmout;
-#N canvas 711 467 612 338 makenote 1;
+#N canvas 545 296 612 338 makenote 0;
 #X obj 37 28 inlet;
 #X obj 37 53 route 144 145 146 147 148 149 150 151 152 153 154 155
 156 157 158 159, f 70;
@@ -166,7 +166,7 @@
 #X connect 9 0 7 2;
 #X connect 10 0 7 2;
 #X restore 67 228 pd note;
-#N canvas 72 96 450 300 note 1;
+#N canvas 592 231 450 300 note 0;
 #X obj 126 131 makenote 0 200;
 #X obj 191 83 r \$0-velocity;
 #X obj 134 83 unpack;
@@ -684,7 +684,7 @@
 #X connect 2 16 1 0;
 #X restore 104 628 pd bendout;
 #X obj 577 289 text define \$0-midiFile;
-#N canvas 573 266 642 408 player 0;
+#N canvas 522 314 642 408 player 0;
 #X obj 112 295 del;
 #X obj 130 197 r \$0-tempo;
 #X obj 55 153 bng 15 250 50 0 empty \$0-play play 17 7 0 10 -262144
@@ -725,6 +725,7 @@
 #X obj 223 270 r \$0-markovMake;
 #X obj 223 128 t b b b b;
 #X msg 283 152 clear;
+#X obj 316 246 r \$0-init;
 #X connect 0 0 17 0;
 #X connect 1 0 15 0;
 #X connect 2 0 25 0;
@@ -765,6 +766,7 @@
 #X connect 36 2 22 0;
 #X connect 36 3 37 0;
 #X connect 37 0 20 0;
+#X connect 38 0 19 0;
 #X restore 108 409 pd player;
 #X obj 140 319 r \$0-markov_bang;
 #X obj 161 343 r \$0-midi_list;
