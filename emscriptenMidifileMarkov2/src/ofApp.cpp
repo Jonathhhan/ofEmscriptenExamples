@@ -89,8 +89,7 @@ void ofApp::bang_4onMousePressed(bool & e){
         	}        
 	}
 	if(found){
-        	var content = FS.readFile("/data/pd/record.mid");  
-        	console.log(content);      
+        	var content = FS.readFile("/data/pd/record.mid");      
 		var today = new Date();
 		var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
 		var a = document.createElement('a');
@@ -107,6 +106,7 @@ void ofApp::bang_4onMousePressed(bool & e){
 		a.click();
 		document.body.removeChild(a);
 		URL.revokeObjectURL(a.href);
+
 	} else {
 	alert("Please play and stop the markov chains before download!")
 	}
