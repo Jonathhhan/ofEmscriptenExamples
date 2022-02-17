@@ -684,7 +684,7 @@
 #X connect 2 16 1 0;
 #X restore 104 628 pd bendout;
 #X obj 577 289 text define \$0-midiFile;
-#N canvas 630 453 642 408 player 0;
+#N canvas 573 266 642 408 player 0;
 #X obj 112 295 del;
 #X obj 130 197 r \$0-tempo;
 #X obj 55 153 bng 15 250 50 0 empty \$0-play play 17 7 0 10 -262144
@@ -705,7 +705,7 @@
 #X obj 130 247 + 2;
 #X obj 112 320 spigot 1;
 #X msg 233 320 save record.mid;
-#X msg 211 271 stop;
+#X msg 211 293 stop;
 #X obj 233 345 s \$0-record_midi;
 #X msg 243 198 line 0;
 #X msg 263 174 record;
@@ -722,7 +722,7 @@
 #X obj 223 222 text sequence \$0-programStorage;
 #X obj 223 246 s \$0-program;
 #X obj 165 246 t b b b;
-#X obj 295 128 r \$0-markovMake;
+#X obj 223 270 r \$0-markovMake;
 #X obj 223 128 t b b b b;
 #X msg 283 152 clear;
 #X connect 0 0 17 0;
@@ -759,7 +759,7 @@
 #X connect 34 0 24 0;
 #X connect 34 1 18 0;
 #X connect 34 2 19 0;
-#X connect 35 0 23 0;
+#X connect 35 0 19 0;
 #X connect 36 0 32 0;
 #X connect 36 1 21 0;
 #X connect 36 2 22 0;
