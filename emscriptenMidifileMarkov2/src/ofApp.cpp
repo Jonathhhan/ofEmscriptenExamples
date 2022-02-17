@@ -128,7 +128,6 @@ void ofApp::bang_7onMousePressed(bool & e){
 	pd.sendBang(patch.dollarZeroStr() + "-markovRandom");
 }
 
-
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(100, 100, 100);
@@ -326,7 +325,7 @@ void ofApp::receiveNoteOn(const int channel, const int pitch, const int velocity
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_13.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
+	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
 }
 
 //--------------------------------------------------------------
@@ -336,7 +335,7 @@ void ofApp::receiveControlChange(const int channel, const int controller, const 
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_13.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(controller) + " " + ofToString(value);
+	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(controller) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -346,7 +345,7 @@ void ofApp::receiveProgramChange(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_13.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
+	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -356,7 +355,7 @@ void ofApp::receivePitchBend(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_13.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
+	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -366,7 +365,7 @@ void ofApp::receiveAftertouch(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_13.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
+	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -376,5 +375,5 @@ void ofApp::receivePolyAftertouch(const int channel, const int pitch, const int 
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_13.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(value);
+	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(value);
 }
