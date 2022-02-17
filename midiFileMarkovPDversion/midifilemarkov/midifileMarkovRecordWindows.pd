@@ -1,4 +1,4 @@
-#N canvas 542 62 1108 789 12;
+#N canvas 349 85 1108 789 12;
 #X obj 64 295 markov;
 #A saved memory;
 #A saved indices 0;
@@ -21,8 +21,8 @@
 #X msg 672 352 line 0;
 #X obj 655 378 text sequence \$0-midiFile;
 #X msg 690 303 read midifile.txt;
-#X msg 729 255 midiFileLoaded;
-#X obj 729 279 print;
+#X msg 732 255 midiFileLoaded;
+#X obj 732 279 print;
 #X obj 655 85 openpanel;
 #X obj 655 65 bng 15 250 50 0 empty empty loadMidiFile 17 7 0 10 -262144
 -1 -1;
