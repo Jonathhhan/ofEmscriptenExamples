@@ -52,8 +52,8 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		void bang_5onMousePressed(bool & e);
 		void bang_6onMousePressed(bool & e);	
 		void bang_7onMousePressed(bool & e);	
-		void loadMidiX();
-
+		void loadMidiX(std::string & file);
+		
 		ofxPd pd;
 		Patch patch;
 		bang bang_1;
@@ -81,4 +81,6 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		label label_12;
 		label label_13;
 		label label_14;
+		
+		std::string midifile;
 };

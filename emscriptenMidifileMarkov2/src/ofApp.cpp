@@ -3,7 +3,7 @@
 #include "emscripten/bind.h"
 
 //--------------------------------------------------------------
-ofEvent<void> loadMidiEvent;
+ofEvent<std::string &> loadMidiEvent;
 
 //--------------------------------------------------------------
 void ofApp::bang_3onMousePressed(bool & e) { 
@@ -24,9 +24,9 @@ void ofApp::bang_3onMousePressed(bool & e) {
 		reader.onload = function() {
 			var arrayBuffer = reader.result;
 			var uint8View = new Uint8Array(arrayBuffer);	
-			FS.createDataFile("/data/", "data", uint8View, true, true);
+			FS.createDataFile("/data/pd/", file.name, uint8View, true, true);
 			FS.syncfs(true, function (err) {
-				Module.loadMidi();
+				Module.loadMidi(file.name);
 				assert(!err);
         		});	
 		}
@@ -35,13 +35,14 @@ void ofApp::bang_3onMousePressed(bool & e) {
 	);
 }
 
-void loadMidi() {        
-	loadMidiEvent.notify(); 
+void loadMidi(std::string file) {        
+	loadMidiEvent.notify(file); 
 }
 
-void ofApp::loadMidiX() {
-	pd.sendBang(patch.dollarZeroStr() + "-loadMidiFile");
-	EM_ASM(FS.unlink("/data/data"));
+void ofApp::loadMidiX(std::string & file) {
+	midifile = file;
+	pd.sendSymbol(patch.dollarZeroStr() + "-loadMidiFile", file);
+	EM_ASM(FS.unlink("/data/pd/" + UTF8ToString($0)), file.c_str());
 }
 
 //--------------------------------------------------------------
@@ -93,7 +94,7 @@ void ofApp::bang_4onMousePressed(bool & e){
 		var today = new Date();
 		var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
 		var a = document.createElement('a');
-		a.download = "markovRemix-" + time + ".mid";
+		a.download = UTF8ToString($0).substring(0, UTF8ToString($0).length - 4) + "-markovRemix-" + time + ".mid";
 		var blob = new Blob(
 		[content],
 		{
@@ -106,11 +107,10 @@ void ofApp::bang_4onMousePressed(bool & e){
 		a.click();
 		document.body.removeChild(a);
 		URL.revokeObjectURL(a.href);
-
 	} else {
 	alert("Please play and stop the markov chains before download!")
 	}
-	);
+	, midifile.c_str());
 }
 
 //--------------------------------------------------------------
