@@ -54,7 +54,7 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		void bang_7onMousePressed(bool & e);	
 		void loadMidiX(std::string & file);
 		
-		ofxPd pd;
+		ofxPd puredata;
 		Patch patch;
 		bang bang_1;
 		bang bang_2;

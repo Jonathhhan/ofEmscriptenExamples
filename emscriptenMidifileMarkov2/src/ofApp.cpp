@@ -41,7 +41,7 @@ void loadMidi(std::string file) {
 
 void ofApp::loadMidiX(std::string & file) {
 	midifile = file;
-	pd.sendSymbol(patch.dollarZeroStr() + "-loadMidiFile", file);
+	puredata.sendSymbol(patch.dollarZeroStr() + "-loadMidiFile", file);
 	EM_ASM(FS.unlink("/data/pd/" + UTF8ToString($0)), file.c_str());
 }
 
@@ -52,32 +52,32 @@ EMSCRIPTEN_BINDINGS(Module) {
 
 //--------------------------------------------------------------
 void ofApp::hSlider_1onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-tempo", e);
+	puredata.sendFloat(patch.dollarZeroStr() + "-tempo", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_2onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-velocity", e);
+	puredata.sendFloat(patch.dollarZeroStr() + "-velocity", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_3onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-note_length", e);
+	puredata.sendFloat(patch.dollarZeroStr() + "-note_length", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::number_1onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-markovOrder", e);
+	puredata.sendFloat(patch.dollarZeroStr() + "-markovOrder", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-play");
+	puredata.sendBang(patch.dollarZeroStr() + "-play");
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-stop");
+	puredata.sendBang(patch.dollarZeroStr() + "-stop");
 }
 
 //--------------------------------------------------------------
@@ -115,17 +115,17 @@ void ofApp::bang_4onMousePressed(bool & e){
 
 //--------------------------------------------------------------
 void ofApp::bang_5onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-markovMake");
+	puredata.sendBang(patch.dollarZeroStr() + "-markovMake");
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_6onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-markovReset");
+	puredata.sendBang(patch.dollarZeroStr() + "-markovReset");
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_7onMousePressed(bool & e){
-	pd.sendBang(patch.dollarZeroStr() + "-markovRandom");
+	puredata.sendBang(patch.dollarZeroStr() + "-markovRandom");
 }
 
 //--------------------------------------------------------------
@@ -211,39 +211,39 @@ void ofApp::setup() {
 	// note: you won't see any message prints until update() is called since
 	// the queued messages are processed there, this is normal
 	//
-	if(!pd.init(2, numInputs, 44100, ticksPerBuffer, false)) {
+	if(!puredata.init(2, numInputs, 44100, ticksPerBuffer, false)) {
 		OF_EXIT_APP(1);
 	}
 	
 	midi_setup();
 
 	// subscribe to receive source names
-	pd.subscribe("toOF");
-	pd.subscribe("env");
+	puredata.subscribe("toOF");
+	puredata.subscribe("env");
 
 	// add message receiver, required if you want to recieve messages
 	// automatically receives from all subscribed sources
-	pd.addReceiver(*this); 
-	pd.ignoreSource(*this, "env");        // don't receive from "env"
-	//pd.ignoreSource(*this);             // ignore all sources
-	//pd.receiveSource(*this, "toOF");	  // receive only from "toOF"
+	puredata.addReceiver(*this); 
+	puredata.ignoreSource(*this, "env");        // don't receive from "env"
+	//puredata.ignoreSource(*this);             // ignore all sources
+	//puredata.receiveSource(*this, "toOF");	  // receive only from "toOF"
 
 	// add midi receiver, required if you want to recieve midi messages
-	pd.addMidiReceiver(*this); // automatically receives from all channels
-	//pd.ignoreMidiChannel(*this, 1);     // ignore midi channel 1
-	//pd.ignoreMidiChannel(*this);        // ignore all channels
-	//pd.receiveMidiChannel(*this, 1);    // receive only from channel 1
+	puredata.addMidiReceiver(*this); // automatically receives from all channels
+	//puredata.ignoreMidiChannel(*this, 1);     // ignore midi channel 1
+	//puredata.ignoreMidiChannel(*this);        // ignore all channels
+	//puredata.receiveMidiChannel(*this, 1);    // receive only from channel 1
 
 	// add the data/pd folder to the search path
-	//pd.addToSearchPath("pd/abs");
+	//puredata.addToSearchPath("pd/abs");
 
 	// audio processing on
-	pd.start();
+	puredata.start();
 
 	// -----------------------------------------------------
 	//cout << endl << "BEGIN Patch Test" << endl;
 	// open patch
-	patch = pd.openPatch("pd/test.pd");
+	patch = puredata.openPatch("pd/test.pd");
 	cout << patch << endl;
 	//cout << "FINISH Patch Test" << endl;
 }
@@ -293,12 +293,12 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::audioReceived(float * input, int bufferSize, int nChannels) {
-	pd.audioIn(input, bufferSize, nChannels);
+	puredata.audioIn(input, bufferSize, nChannels);
 }
 
 //--------------------------------------------------------------
 void ofApp::audioRequested(float * output, int bufferSize, int nChannels) {
-	pd.audioOut(output, bufferSize, nChannels);
+	puredata.audioOut(output, bufferSize, nChannels);
 }
 
 //--------------------------------------------------------------
