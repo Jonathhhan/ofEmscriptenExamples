@@ -21,14 +21,14 @@
 #X msg 672 352 line 0;
 #X obj 655 378 text sequence \$0-midiFile;
 #X msg 690 303 read midifile.txt;
-#X msg 732 255 midiFileLoaded;
-#X obj 732 279 print;
+#X msg 731 255 midiFileLoaded;
+#X obj 731 279 print;
 #X obj 655 61 openpanel;
 #X obj 655 41 bng 15 250 50 0 empty empty loadMidiFile 17 7 0 10 -262144
 -1 -1;
-#X obj 707 231 midi;
-#X msg 725 181 open \$1;
-#X msg 707 206 save midifile.txt;
+#X obj 706 231 midi;
+#X msg 723 181 open \$1;
+#X msg 706 206 save midifile.txt;
 #X floatatom 22 34 5 1 100 0 - - -;
 #X obj 64 391 list split 1;
 #X obj 110 343 print markov;
