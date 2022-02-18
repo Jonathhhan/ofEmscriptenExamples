@@ -131,50 +131,52 @@ void ofApp::bang_7onMousePressed(bool & e){
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(100, 100, 100);
-	ofAddListener(hSlider_1.onMousePressed, this, &ofApp::hSlider_1onMousePressed);
-	ofAddListener(hSlider_2.onMousePressed, this, &ofApp::hSlider_2onMousePressed);
-	ofAddListener(hSlider_3.onMousePressed, this, &ofApp::hSlider_3onMousePressed);
+	
+	ofAddListener(groupOfBangs[0].onMousePressed, this, &ofApp::bang_1onMousePressed);
+	ofAddListener(groupOfBangs[1].onMousePressed, this, &ofApp::bang_2onMousePressed);
+	ofAddListener(groupOfBangs[2].onMousePressed, this, &ofApp::bang_3onMousePressed);
+	ofAddListener(groupOfBangs[3].onMousePressed, this, &ofApp::bang_4onMousePressed);
+	ofAddListener(groupOfBangs[4].onMousePressed, this, &ofApp::bang_5onMousePressed);
+	ofAddListener(groupOfBangs[5].onMousePressed, this, &ofApp::bang_6onMousePressed);
+	ofAddListener(groupOfBangs[6].onMousePressed, this, &ofApp::bang_7onMousePressed);
+	ofAddListener(groupOfHSliders[0].onMousePressed, this, &ofApp::hSlider_1onMousePressed);
+	ofAddListener(groupOfHSliders[1].onMousePressed, this, &ofApp::hSlider_2onMousePressed);
+	ofAddListener(groupOfHSliders[2].onMousePressed, this, &ofApp::hSlider_3onMousePressed);
 	ofAddListener(number_1.onMousePressed, this, &ofApp::number_1onMousePressed);
-	ofAddListener(bang_1.onMousePressed, this, &ofApp::bang_1onMousePressed);
-	ofAddListener(bang_2.onMousePressed, this, &ofApp::bang_2onMousePressed);
-	ofAddListener(bang_3.onMousePressed, this, &ofApp::bang_3onMousePressed);
-	ofAddListener(bang_4.onMousePressed, this, &ofApp::bang_4onMousePressed);
-	ofAddListener(bang_5.onMousePressed, this, &ofApp::bang_5onMousePressed);
-	ofAddListener(bang_6.onMousePressed, this, &ofApp::bang_6onMousePressed);
-	ofAddListener(bang_7.onMousePressed, this, &ofApp::bang_7onMousePressed);
 	ofAddListener(loadMidiEvent, this, &ofApp::loadMidiX);
-	label_1.setup(20, 20, 680, 20, "Markov Generator");
-	label_2.setup(120, 80, 200, 20, "Play");
-	label_3.setup(120, 120, 200, 20, "Stop");
-	label_4.setup(120, 200, 200, 20, "Tempo");
-	label_5.setup(120, 240, 200, 20, "Velocity");
-	label_6.setup(120, 280, 200, 20, "Note Length");
-	label_7.setup(500, 80, 200, 20, "Load midifile");
-	label_8.setup(500, 120, 200, 20, "Download midifile");
-	label_9.setup(500, 200, 200, 20, "Markov order");
-	label_10.setup(500, 240, 200, 20, "Create the chains");
-	label_11.setup(500, 280, 200, 20, "Start position");
-	label_12.setup(500, 320, 200, 20, "Random position");
-	label_13.setup(20, 400, 680, 20, "Possibilities: 0");
-	label_14.setup(20, 440, 680, 20, "Midi out: 0");
-	bang_1.setup(20, 80, 20);
-	bang_2.setup(20, 120, 20);
-	bang_3.setup(400, 80, 20);
-	bang_4.setup(400, 120, 20);
-	bang_5.setup(400, 240, 20);
-	bang_6.setup(400, 280, 20);
-	bang_7.setup(400, 320, 20);
+	
+	groupOfLabels[0].setup(20, 20, 680, 20, "Markov Generator");
+	groupOfLabels[1].setup(120, 80, 200, 20, "Play");
+	groupOfLabels[2].setup(120, 120, 200, 20, "Stop");
+	groupOfLabels[3].setup(120, 200, 200, 20, "Tempo");
+	groupOfLabels[4].setup(120, 240, 200, 20, "Velocity");
+	groupOfLabels[5].setup(120, 280, 200, 20, "Note Length");
+	groupOfLabels[6].setup(500, 80, 200, 20, "Load midifile");
+	groupOfLabels[7].setup(500, 120, 200, 20, "Download midifile");
+	groupOfLabels[8].setup(500, 200, 200, 20, "Markov order");
+	groupOfLabels[9].setup(500, 240, 200, 20, "Create the chains");
+	groupOfLabels[10].setup(500, 280, 200, 20, "Start position");
+	groupOfLabels[11].setup(500, 320, 200, 20, "Random position");
+	groupOfLabels[12].setup(20, 400, 680, 20, "Possibilities: 0");
+	groupOfLabels[13].setup(20, 440, 680, 20, "Midi out: 0");
+	groupOfBangs[0].setup(20, 80, 20);
+	groupOfBangs[1].setup(20, 120, 20);
+	groupOfBangs[2].setup(400, 80, 20);
+	groupOfBangs[3].setup(400, 120, 20);
+	groupOfBangs[4].setup(400, 240, 20);
+	groupOfBangs[5].setup(400, 280, 20);
+	groupOfBangs[6].setup(400, 320, 20);
+	groupOfHSliders[0].setup(20, 200, 80, 20, 0.5, 1.5);
+	groupOfHSliders[0].value = 1;
+	groupOfHSliders[0].slider = 0.5;
+	groupOfHSliders[1].setup(20, 240, 80, 20, 0, 1);
+	groupOfHSliders[1].value = 1;
+	groupOfHSliders[1].slider = 1;
+	groupOfHSliders[2].setup(20, 280, 80, 20, 0, 1000);
+	groupOfHSliders[2].value = 200;
+	groupOfHSliders[2].slider = 0.2;
 	number_1.setup(400, 200, 80, 20, 1, 100);
 	number_1.value = 4;
-	hSlider_1.setup(20, 200, 80, 20, 0.5, 1.5);
-	hSlider_1.value = 1;
-	hSlider_1.slider = 0.5;
-	hSlider_2.setup(20, 240, 80, 20, 0, 1);
-	hSlider_2.value = 1;
-	hSlider_2.slider = 1;
-	hSlider_3.setup(20, 280, 80, 20, 0, 1000);
-	hSlider_3.value = 200;
-	hSlider_3.slider = 0.2;
 	
 	//ofSetLogLevel("Pd", OF_LOG_VERBOSE); // see verbose info inside
 
@@ -241,11 +243,10 @@ void ofApp::setup() {
 	puredata.start();
 
 	// -----------------------------------------------------
-	//cout << endl << "BEGIN Patch Test" << endl;
+	
 	// open patch
 	patch = puredata.openPatch("pd/test.pd");
-	cout << patch << endl;
-	//cout << "FINISH Patch Test" << endl;
+	cout << "Markov Generator" << endl;
 }
 
 //--------------------------------------------------------------
@@ -257,31 +258,16 @@ void ofApp::update() {
 void ofApp::draw() {
 	ofSetColor(50, 50, 50);
         ofDrawRectangle(10, 10, 700, 460);
-	label_1.draw();
-	label_2.draw();
-	label_3.draw();
-	label_4.draw();
-	label_5.draw();
-	label_6.draw();
-	label_7.draw();
-	label_8.draw();
-	label_9.draw();
-	label_10.draw();
-	label_11.draw();
-	label_12.draw();
-	label_13.draw();
-	label_14.draw();
-	hSlider_1.draw();
-	hSlider_2.draw();
-	hSlider_3.draw();
+	for(int i=0; i<NBANGS; i++){
+		groupOfBangs[i].draw();
+	}
+	for(int i=0; i<NHSLIDERS; i++){
+		groupOfHSliders[i].draw();
+	}
+	for(int i=0; i<NLABELS; i++){
+		groupOfLabels[i].draw();
+	}
 	number_1.draw();
-	bang_1.draw();
-	bang_2.draw();
-	bang_3.draw();
-	bang_4.draw();
-	bang_5.draw();
-	bang_6.draw();
-	bang_7.draw();
 }
 
 //--------------------------------------------------------------
@@ -309,12 +295,12 @@ void ofApp::print(const std::string &message) {
 //--------------------------------------------------------------
 void ofApp::receiveFloat(const std::string &dest, float value) {
 	if (dest == "toOF") {
-	label_13.symbol = "Possibilities: " + ofToString(value);
+	groupOfLabels[12].symbol = "Possibilities: " + ofToString(value);
 	}
 	if (dest == "midiOut") {
 	EM_ASM_(
 	sendMIDI($0), value);
-	label_14.symbol = "Midi out: " + ofToString(value);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(value);
 	}
 }
 
@@ -325,7 +311,7 @@ void ofApp::receiveNoteOn(const int channel, const int pitch, const int velocity
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
 }
 
 //--------------------------------------------------------------
@@ -335,7 +321,7 @@ void ofApp::receiveControlChange(const int channel, const int controller, const 
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(controller) + " " + ofToString(value);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(controller) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -345,7 +331,7 @@ void ofApp::receiveProgramChange(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -355,7 +341,7 @@ void ofApp::receivePitchBend(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -365,7 +351,7 @@ void ofApp::receiveAftertouch(const int channel, const int value) {
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
 }
 
 //--------------------------------------------------------------
@@ -375,5 +361,5 @@ void ofApp::receivePolyAftertouch(const int channel, const int pitch, const int 
 	EM_ASM_(
 	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 	sendMIDI(data), array, lengthOfArray);
-	label_14.symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(value);
+	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(value);
 }

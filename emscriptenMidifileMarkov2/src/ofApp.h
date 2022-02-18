@@ -11,6 +11,10 @@
 #include "number.h"
 #include "hRadio.h"
 
+#define NBANGS 7
+#define NHSLIDERS 3
+#define NLABELS 14
+
 // a namespace for the Pd types
 using namespace pd;
 
@@ -56,31 +60,10 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 		
 		ofxPd puredata;
 		Patch patch;
-		bang bang_1;
-		bang bang_2;
-		bang bang_3;
-		bang bang_4;
-		bang bang_5;
-		bang bang_6;
-		bang bang_7;
-		hSlider hSlider_1;
-		hSlider hSlider_2;
-		hSlider hSlider_3;
+		bang groupOfBangs[NBANGS];
+		hSlider groupOfHSliders[NHSLIDERS];
+		label groupOfLabels[NLABELS];
 		number number_1;
-		label label_1;	
-		label label_2;
-		label label_3;
-		label label_4;
-		label label_5;
-		label label_6;
-		label label_7;
-		label label_8;
-		label label_9;
-		label label_10;
-		label label_11;
-		label label_12;
-		label label_13;
-		label label_14;
 		
 		std::string midifile;
 };
