@@ -1,4 +1,4 @@
-#N canvas 504 272 857 652 12;
+#N canvas 441 189 857 652 12;
 #X obj 64 295 markov;
 #A saved memory;
 #A saved indices 0;
@@ -539,17 +539,13 @@
 #X obj 507 170 midi;
 #X msg 525 120 open \$1;
 #X msg 507 145 save midifile.txt;
-#X obj 495 589 s \$0-midi_list;
-#X obj 495 514 -;
-#X obj 513 464 r \$0-init;
-#X msg 513 489 0;
-#X obj 455 539 list split 1;
-#X obj 455 464 t l f f;
-#X obj 495 564 list prepend;
-#X obj 487 383 unpack f f f f;
-#X obj 455 439 spigot;
-#X obj 455 358 t l l;
-#X obj 507 411 expr if($f1 >= 128 && $f1 < 144 \, 0 \, 1);
+#X obj 495 466 s \$0-midi_list;
+#X obj 495 391 -;
+#X obj 513 341 r \$0-init;
+#X msg 513 366 0;
+#X obj 455 416 list split 1;
+#X obj 455 341 t l f f;
+#X obj 495 441 list prepend;
 #X obj 627 366 print midiFileSize;
 #X connect 0 0 44 0;
 #X connect 1 0 0 0;
@@ -560,7 +556,7 @@
 #X connect 11 0 12 0;
 #X connect 12 0 10 0;
 #X connect 13 0 14 0;
-#X connect 14 0 57 0;
+#X connect 14 0 53 0;
 #X connect 14 1 25 0;
 #X connect 16 0 35 0;
 #X connect 17 0 18 0;
@@ -574,7 +570,7 @@
 #X connect 21 5 15 0;
 #X connect 22 0 10 0;
 #X connect 23 1 31 0;
-#X connect 25 0 59 0;
+#X connect 25 0 55 0;
 #X connect 26 0 4 0;
 #X connect 28 0 29 0;
 #X connect 29 0 33 0;
@@ -601,8 +597,3 @@
 #X connect 53 1 49 1;
 #X connect 53 2 49 0;
 #X connect 54 0 48 0;
-#X connect 55 1 58 0;
-#X connect 56 0 53 0;
-#X connect 57 0 56 0;
-#X connect 57 1 55 0;
-#X connect 58 0 56 1;
