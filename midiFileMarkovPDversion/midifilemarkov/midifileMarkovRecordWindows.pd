@@ -4,8 +4,8 @@
 #A saved indices 0;
 #A saved markov;
 #A saved order.in 2;
-#A saved order 3;
-#A saved markov.index 1768;
+#A saved order 7;
+#A saved markov.index 7091;
 #X msg 81 109 make;
 #X msg 96 133 reset;
 #X msg 108 157 random;
@@ -679,7 +679,7 @@
 #X obj 207 566 route 0 1;
 #X obj 207 542 list prepend;
 #X obj 286 429 hsl 128 15 0 1000 0 0 empty \$0-init_note_length note_length
--2 -8 0 10 -262144 -1 -1 2540 1;
+-2 -8 0 10 -262144 -1 -1 2540 0;
 #X obj 350 589 r \$0-note_length;
 #X obj 237 590 t l l;
 #X obj 269 662 pack f f 0;
