@@ -1,4 +1,4 @@
-#N canvas 376 238 983 700 10;
+#N canvas 324 238 983 700 10;
 #X obj 527 177 text define \$0-markov;
 #X msg 730 361 clear;
 #X obj 703 39 inlet;
@@ -138,7 +138,7 @@
 #X connect 36 0 29 0;
 #X restore 703 637 pd savestate;
 #X obj 527 131 r \$0-clear;
-#N canvas 592 470 438 229 test 0;
+#N canvas 540 470 438 229 test 0;
 #X obj 37 33 inlet;
 #X obj 37 171 outlet;
 #X obj 37 56 text size \$0-markov;
