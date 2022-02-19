@@ -1,4 +1,4 @@
-#N canvas 473 184 983 763 12;
+#N canvas 421 184 983 763 12;
 #X obj 64 385 markov;
 #A saved memory;
 #A saved indices 0;
@@ -107,7 +107,7 @@
 #X connect 0 16 2 0;
 #X connect 1 0 0 0;
 #X restore 104 580 pd pgmout;
-#N canvas 493 296 612 338 makenote 1;
+#N canvas 441 296 612 338 makenote 0;
 #X obj 37 28 inlet;
 #X obj 37 53 route 144 145 146 147 148 149 150 151 152 153 154 155
 156 157 158 159, f 70;
