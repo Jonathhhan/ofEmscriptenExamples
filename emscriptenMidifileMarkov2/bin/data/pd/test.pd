@@ -1,4 +1,4 @@
-#N canvas 487 214 983 763 12;
+#N canvas 362 224 1161 763 12;
 #X obj 64 385 markov;
 #A saved memory;
 #A saved indices 0;
@@ -19,7 +19,7 @@
 #X obj 64 38 loadbang;
 #X msg 559 433 line 0;
 #X obj 543 459 text sequence \$0-midiFile;
-#X msg 576 384 read midifile.txt;
+#X msg 575 384 read midifile.txt;
 #X msg 617 336 midiFileLoaded;
 #X obj 617 360 print;
 #X floatatom 22 38 5 1 100 0 - - -;
@@ -683,18 +683,18 @@
 #X connect 2 15 11 0;
 #X connect 2 16 1 0;
 #X restore 104 628 pd bendout;
-#X obj 576 409 text define \$0-midiFile;
-#N canvas 453 329 642 531 player 0;
+#X obj 575 409 text define \$0-midiFile;
+#N canvas 587 356 642 531 player 0;
 #X obj 112 415 del;
 #X obj 130 317 r \$0-tempo;
-#X obj 55 273 bng 15 250 50 0 empty \$0-play play 17 7 0 10 -262144
+#X obj 55 213 bng 15 250 50 0 empty \$0-play play 17 7 0 10 -262144
 -1 -1;
 #X obj 470 151 loadbang;
 #X msg 470 175 1;
 #X obj 470 224 loadbang;
 #X msg 470 248 1;
 #X obj 112 465 s \$0-markov_bang;
-#X obj 112 293 r \$0-delay;
+#X obj 112 233 r \$0-delay;
 #X obj 470 297 loadbang;
 #X msg 470 321 200;
 #X obj 470 199 s \$0-tempo;
@@ -712,8 +712,8 @@
 #X obj 165 346 bng 15 250 50 0 empty \$0-stop stop 17 7 0 10 -262144
 -1 -1;
 #X msg 165 391 0;
-#X obj 55 293 t b b b;
-#X msg 78 318 1;
+#X obj 55 233 t b b b;
+#X msg 78 258 1;
 #X obj 165 416 == 1;
 #X obj 262 69 text size \$0-midiFile;
 #X obj 223 119 spigot;
@@ -729,6 +729,9 @@
 #X obj 262 218 > 0;
 #X obj 262 193 text size \$0-programStorage;
 #X obj 223 268 t b b;
+#X obj 130 273 nbx 5 14 -1e+37 1e+37 0 0 \$0-midifile_tempo empty midifile_tempo
+0 -8 0 10 -262144 -1 -1 0 256;
+#X obj 112 292 * 1;
 #X connect 0 0 17 0;
 #X connect 1 0 15 0;
 #X connect 2 0 25 0;
@@ -736,7 +739,7 @@
 #X connect 4 0 11 0;
 #X connect 5 0 6 0;
 #X connect 6 0 12 0;
-#X connect 8 0 14 0;
+#X connect 8 0 43 0;
 #X connect 9 0 10 0;
 #X connect 10 0 13 0;
 #X connect 14 0 0 0;
@@ -774,6 +777,8 @@
 #X connect 40 0 39 0;
 #X connect 41 0 32 0;
 #X connect 41 1 21 0;
+#X connect 42 0 43 1;
+#X connect 43 0 14 0;
 #X restore 108 409 pd player;
 #X obj 140 319 r \$0-markov_bang;
 #X obj 161 343 r \$0-midi_list;
@@ -781,10 +786,10 @@
 #X obj 129 38 r \$0-markovOrder;
 #X obj 110 221 r \$0-markovRandom;
 #X obj 101 165 r \$0-markovReset;
-#X obj 543 113 r \$0-loadMidiFile;
+#X obj 543 37 r \$0-loadMidiFile;
 #X msg 64 62 4;
-#X obj 592 312 midi;
-#X msg 592 287 save midifile.txt;
+#X obj 591 312 midi;
+#X msg 591 287 save midifile.txt;
 #X obj 715 508 print midiFileSize;
 #N canvas 72 96 450 300 list-drip 0;
 #X obj 164 74 inlet;
@@ -827,18 +832,25 @@
 #X obj 575 509 list split 1;
 #X obj 654 560 expr if($f1 >= 192 && $f1 < 207 \, 1 \, 0), f 39;
 #X obj 615 533 t l f;
-#X msg 625 213 clear;
-#X obj 642 188 s \$0-init;
+#X msg 623 213 clear;
+#X obj 639 188 s \$0-init;
 #X obj 64 409 t l f;
 #X obj 104 483 t l l;
 #X obj 180 434 t l l;
 #X obj 180 409 r \$0-program;
-#X obj 625 237 text define \$0-programStorage;
+#X obj 623 237 text define \$0-programStorage;
 #X obj 615 608 text set \$0-programStorage 1000;
 #X obj 83 115 r \$0-markovMake;
-#X msg 609 262 open \$1;
+#X msg 607 262 open \$1;
 #X obj 543 484 t l l;
-#N canvas 807 324 472 283 reset 0;
+#X msg 687 87 read \$1;
+#X obj 920 249 nbx 5 14 -1e+37 1e+37 0 0 \$0-midifile_tempo empty midifile_tempo
+0 -8 0 10 -262144 -1 -1 0 256;
+#X obj 920 212 expr ($f1 / $f2) / 1000;
+#X obj 740 137 route ticks_per_quarternote microsec_per_quarternote
+;
+#X obj 543 62 t b b b b a b b b b a;
+#N canvas 743 441 472 283 reset 0;
 #X obj 104 237 ctlout;
 #X obj 104 137 until;
 #X msg 104 112 16;
@@ -896,8 +908,8 @@
 #X connect 25 0 3 0;
 #X connect 25 1 9 0;
 #X connect 25 2 15 0;
-#X restore 659 163 pd reset midi controls;
-#X obj 543 138 t b b b b a b b b;
+#X restore 655 163 pd reset midi cc;
+#X obj 687 112 midifile;
 #X connect 0 0 60 0;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
@@ -924,7 +936,7 @@
 #X connect 33 0 10 0;
 #X connect 34 0 3 0;
 #X connect 35 0 2 0;
-#X connect 36 0 70 0;
+#X connect 36 0 73 0;
 #X connect 37 0 10 0;
 #X connect 38 1 15 0;
 #X connect 39 0 38 0;
@@ -960,11 +972,18 @@
 #X connect 67 0 38 0;
 #X connect 68 0 53 0;
 #X connect 68 1 55 0;
-#X connect 70 0 13 0;
-#X connect 70 1 12 0;
-#X connect 70 2 14 0;
-#X connect 70 3 39 0;
-#X connect 70 4 67 0;
-#X connect 70 5 58 0;
-#X connect 70 6 59 0;
-#X connect 70 7 69 0;
+#X connect 69 0 75 0;
+#X connect 71 0 70 0;
+#X connect 72 0 71 1;
+#X connect 72 1 71 0;
+#X connect 73 0 13 0;
+#X connect 73 1 12 0;
+#X connect 73 2 14 0;
+#X connect 73 3 39 0;
+#X connect 73 4 67 0;
+#X connect 73 5 58 0;
+#X connect 73 6 59 0;
+#X connect 73 7 74 0;
+#X connect 73 8 75 0;
+#X connect 73 9 69 0;
+#X connect 75 2 72 0;
