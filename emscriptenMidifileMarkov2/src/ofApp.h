@@ -9,7 +9,6 @@
 #include "toggle.h"
 #include "label.h"
 #include "number.h"
-#include "hRadio.h"
 
 #define NBANGS 7
 #define NHSLIDERS 3
