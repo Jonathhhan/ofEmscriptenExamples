@@ -212,8 +212,9 @@ void ofApp::setup() {
 		OF_EXIT_APP(1);
 	}
 	
-	// setup the external
+	// setup the externals
 	midi_setup();
+	midifile_setup();
 
 	// subscribe to receive source names
 	puredata.subscribe("toOF");

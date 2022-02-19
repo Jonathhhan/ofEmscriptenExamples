@@ -1,5 +1,6 @@
 #pragma once
 
 extern "C" {
-	void seq_setup();
+	void midi_setup();
+	void midifile_setup();
 }
