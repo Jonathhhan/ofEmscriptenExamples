@@ -178,11 +178,6 @@ void ofApp::setup() {
 	number_1.setup(400, 200, 80, 20, 1, 100);
 	number_1.value = 4;
 	
-	//ofSetLogLevel("Pd", OF_LOG_VERBOSE); // see verbose info inside
-
-	// double check where we are ...
-	cout << ofFilePath::getCurrentWorkingDirectory() << endl;
-
 	// the number of libpd ticks per buffer,
 	// used to compute the audio buffer len: tpb * blocksize (always 64)
 	#ifdef TARGET_LINUX_ARM
@@ -217,24 +212,18 @@ void ofApp::setup() {
 		OF_EXIT_APP(1);
 	}
 	
+	// setup the external
 	midi_setup();
 
 	// subscribe to receive source names
 	puredata.subscribe("toOF");
-	puredata.subscribe("env");
 
 	// add message receiver, required if you want to recieve messages
 	// automatically receives from all subscribed sources
 	puredata.addReceiver(*this); 
-	puredata.ignoreSource(*this, "env");        // don't receive from "env"
-	//puredata.ignoreSource(*this);             // ignore all sources
-	//puredata.receiveSource(*this, "toOF");	  // receive only from "toOF"
 
 	// add midi receiver, required if you want to recieve midi messages
 	puredata.addMidiReceiver(*this); // automatically receives from all channels
-	//puredata.ignoreMidiChannel(*this, 1);     // ignore midi channel 1
-	//puredata.ignoreMidiChannel(*this);        // ignore all channels
-	//puredata.receiveMidiChannel(*this, 1);    // receive only from channel 1
 
 	// add the data/pd folder to the search path
 	//puredata.addToSearchPath("pd/abs");
@@ -297,7 +286,7 @@ void ofApp::receiveFloat(const std::string &dest, float value) {
 	if (dest == "toOF") {
 	groupOfLabels[12].symbol = "Possibilities: " + ofToString(value);
 	}
-	if (dest == "midiOut") {
+	if (dest == "midi_out") {
 	EM_ASM_(
 	sendMIDI($0), value);
 	groupOfLabels[13].symbol = "Midi out: " + ofToString(value);
