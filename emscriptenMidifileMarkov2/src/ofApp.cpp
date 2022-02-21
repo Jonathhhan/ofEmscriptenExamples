@@ -171,6 +171,7 @@ void ofApp::hRadio_1onMousePressed(float & e){
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(100, 100, 100);
+	EM_ASM_(sendMIDI([201, 1]));
 	
 	ofAddListener(groupOfBangs[0].onMousePressed, this, &ofApp::bang_1onMousePressed);
 	ofAddListener(groupOfBangs[1].onMousePressed, this, &ofApp::bang_2onMousePressed);
