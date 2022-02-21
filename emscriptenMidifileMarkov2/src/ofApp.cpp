@@ -51,26 +51,6 @@ EMSCRIPTEN_BINDINGS(Module) {
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_1onMousePressed(float & e){
-	puredata.sendFloat(patch.dollarZeroStr() + "-tempo", e);
-}
-
-//--------------------------------------------------------------
-void ofApp::hSlider_2onMousePressed(float & e){
-	puredata.sendFloat(patch.dollarZeroStr() + "-velocity", e);
-}
-
-//--------------------------------------------------------------
-void ofApp::hSlider_3onMousePressed(float & e){
-	puredata.sendFloat(patch.dollarZeroStr() + "-note_length", e);
-}
-
-//--------------------------------------------------------------
-void ofApp::number_1onMousePressed(float & e){
-	puredata.sendFloat(patch.dollarZeroStr() + "-markovOrder", e);
-}
-
-//--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e){
 	puredata.sendBang(patch.dollarZeroStr() + "-play");
 }
@@ -129,6 +109,66 @@ void ofApp::bang_7onMousePressed(bool & e){
 }
 
 //--------------------------------------------------------------
+void ofApp::hSlider_1onMousePressed(float & e){
+	puredata.sendFloat(patch.dollarZeroStr() + "-tempo", e);
+}
+
+//--------------------------------------------------------------
+void ofApp::hSlider_2onMousePressed(float & e){
+	puredata.sendFloat(patch.dollarZeroStr() + "-velocity", e);
+}
+
+//--------------------------------------------------------------
+void ofApp::hSlider_3onMousePressed(float & e){
+	puredata.sendFloat(patch.dollarZeroStr() + "-note_length", e);
+}
+
+//--------------------------------------------------------------
+void ofApp::number_1onMousePressed(float & e){
+	puredata.sendFloat(patch.dollarZeroStr() + "-markovOrder", e);
+}
+
+//--------------------------------------------------------------
+void ofApp::hRadio_1onMousePressed(float & e){
+	if (e == 0) {
+	EM_ASM_(sendMIDI([201, 1]));
+	groupOfLabels[6].symbol = "Standard";
+	}
+	if (e == 1) {
+	EM_ASM_(sendMIDI([201, 9]));
+	groupOfLabels[6].symbol = "Room";
+	}
+	if (e == 2) {
+	EM_ASM_(sendMIDI([201, 17]));
+	groupOfLabels[6].symbol = "Power";
+	}
+	if (e == 3) {
+	EM_ASM_(sendMIDI([201, 25]));
+	groupOfLabels[6].symbol = "Electronic";
+	}
+	if (e == 4) {
+	EM_ASM_(sendMIDI([201, 26]));
+	groupOfLabels[6].symbol = "TR-808";
+	}
+	if (e == 5) {
+	EM_ASM_(sendMIDI([201, 33]));
+	groupOfLabels[6].symbol = "Jazz";
+	}
+	if (e == 6) {
+	EM_ASM_(sendMIDI([201, 41]));
+	groupOfLabels[6].symbol = "Brush";
+	}
+	if (e == 7) {
+	EM_ASM_(sendMIDI([201, 49]));
+	groupOfLabels[6].symbol = "Orchestra";
+	}
+	if (e == 8) {
+	EM_ASM_(sendMIDI([201, 57]));
+	groupOfLabels[6].symbol = "Sound FX";
+	}
+}
+
+//--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(100, 100, 100);
 	
@@ -143,6 +183,7 @@ void ofApp::setup() {
 	ofAddListener(groupOfHSliders[1].onMousePressed, this, &ofApp::hSlider_2onMousePressed);
 	ofAddListener(groupOfHSliders[2].onMousePressed, this, &ofApp::hSlider_3onMousePressed);
 	ofAddListener(number_1.onMousePressed, this, &ofApp::number_1onMousePressed);
+	ofAddListener(hRadio_1.onMousePressed, this, &ofApp::hRadio_1onMousePressed);
 	ofAddListener(loadMidiEvent, this, &ofApp::loadMidiX);
 	
 	groupOfLabels[0].setup(20, 20, 680, 20, "Markov Generator");
@@ -151,14 +192,16 @@ void ofApp::setup() {
 	groupOfLabels[3].setup(120, 200, 200, 20, "Tempo");
 	groupOfLabels[4].setup(120, 240, 200, 20, "Velocity");
 	groupOfLabels[5].setup(120, 280, 200, 20, "Note Length");
-	groupOfLabels[6].setup(500, 80, 200, 20, "Load midifile");
-	groupOfLabels[7].setup(500, 120, 200, 20, "Download midifile");
-	groupOfLabels[8].setup(500, 200, 200, 20, "Markov order");
-	groupOfLabels[9].setup(500, 240, 200, 20, "Create the chains");
-	groupOfLabels[10].setup(500, 280, 200, 20, "Start position");
-	groupOfLabels[11].setup(500, 320, 200, 20, "Random position");
-	groupOfLabels[12].setup(20, 400, 680, 20, "Possibilities: 0");
-	groupOfLabels[13].setup(20, 440, 680, 20, "Midi out: 0");
+	groupOfLabels[6].setup(220, 320, 100, 20, "Standard");
+	groupOfLabels[7].setup(500, 80, 200, 20, "Load midifile");
+	groupOfLabels[8].setup(500, 120, 200, 20, "Download midifile");
+	groupOfLabels[9].setup(500, 200, 200, 20, "Markov order");
+	groupOfLabels[10].setup(500, 240, 200, 20, "Create the chains");
+	groupOfLabels[11].setup(500, 280, 200, 20, "Start position");
+	groupOfLabels[12].setup(500, 320, 200, 20, "Random position");
+	groupOfLabels[13].setup(20, 400, 680, 20, "Index: 0");
+	groupOfLabels[14].setup(20, 440, 680, 20, "Possibilities: 0");
+	groupOfLabels[15].setup(20, 480, 680, 20, "Midi out: 0");
 	groupOfBangs[0].setup(20, 80, 20);
 	groupOfBangs[1].setup(20, 120, 20);
 	groupOfBangs[2].setup(400, 80, 20);
@@ -177,6 +220,7 @@ void ofApp::setup() {
 	groupOfHSliders[2].slider = 0.2;
 	number_1.setup(400, 200, 80, 20, 1, 100);
 	number_1.value = 4;
+	hRadio_1.setup(20, 320, 20, 9);
 	
 	// the number of libpd ticks per buffer,
 	// used to compute the audio buffer len: tpb * blocksize (always 64)
@@ -214,10 +258,13 @@ void ofApp::setup() {
 	
 	// setup the externals
 	midi_setup();
-	midifile_setup();
 
 	// subscribe to receive source names
-	puredata.subscribe("toOF");
+	puredata.subscribe("index");
+	puredata.subscribe("possibilities");
+	puredata.subscribe("drumkit");
+	puredata.subscribe("markov_list");
+	puredata.subscribe("midi_out");
 
 	// add message receiver, required if you want to recieve messages
 	// automatically receives from all subscribed sources
@@ -247,7 +294,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(50, 50, 50);
-        ofDrawRectangle(10, 10, 700, 460);
+        ofDrawRectangle(10, 10, 700, 500);
 	for(int i=0; i<NBANGS; i++){
 		groupOfBangs[i].draw();
 	}
@@ -258,6 +305,7 @@ void ofApp::draw() {
 		groupOfLabels[i].draw();
 	}
 	number_1.draw();
+	hRadio_1.draw();
 }
 
 //--------------------------------------------------------------
@@ -284,72 +332,37 @@ void ofApp::print(const std::string &message) {
 
 //--------------------------------------------------------------
 void ofApp::receiveFloat(const std::string &dest, float value) {
-	if (dest == "toOF") {
-	groupOfLabels[12].symbol = "Possibilities: " + ofToString(value);
+	if (dest == "index") {
+	groupOfLabels[13].symbol = "Index: " + ofToString(value);
 	}
+	if (dest == "possibilities") {
+	groupOfLabels[14].symbol = "Possibilities: " + ofToString(value);
+	}
+}
+
+void ofApp::receiveList(const std::string &dest, const pd::List &list) {
 	if (dest == "midi_out") {
-	EM_ASM_(
-	sendMIDI($0), value);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(value);
+		if (list.len() == 2) {
+			int val_0 = list.getFloat(0);
+			int val_1 = list.getFloat(1);
+			int array[2] = {val_0, val_1};
+			size_t lengthOfArray = sizeof array / sizeof array[0];
+			EM_ASM_(
+			var data = new Uint32Array(HEAPU32.buffer, $0, $1);
+			sendMIDI(data), array, lengthOfArray);
+		}
+		if (list.len() == 3) {
+			int val_0 = list.getFloat(0);
+			int val_1 = list.getFloat(1);
+			int val_2 = list.getFloat(2);
+			int array[3] = {val_0, val_1, val_2};
+			size_t lengthOfArray = sizeof array / sizeof array[0];
+			EM_ASM_(
+			var data = new Uint32Array(HEAPU32.buffer, $0, $1);
+			sendMIDI(data), array, lengthOfArray);
+		}
 	}
-}
-
-//--------------------------------------------------------------
-void ofApp::receiveNoteOn(const int channel, const int pitch, const int velocity) {
-	int array[3] = {channel, pitch, velocity};
-	size_t lengthOfArray = sizeof array / sizeof array[0];
-	EM_ASM_(
-	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
-	sendMIDI(data), array, lengthOfArray);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(velocity);
-}
-
-//--------------------------------------------------------------
-void ofApp::receiveControlChange(const int channel, const int controller, const int value) {
-	int array[3] = {channel, controller, value};
-	size_t lengthOfArray = sizeof array / sizeof array[0];
-	EM_ASM_(
-	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
-	sendMIDI(data), array, lengthOfArray);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(controller) + " " + ofToString(value);
-}
-
-//--------------------------------------------------------------
-void ofApp::receiveProgramChange(const int channel, const int value) {
-	int array[2] = {channel, value};
-	size_t lengthOfArray = sizeof array / sizeof array[0];
-	EM_ASM_(
-	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
-	sendMIDI(data), array, lengthOfArray);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
-}
-
-//--------------------------------------------------------------
-void ofApp::receivePitchBend(const int channel, const int value) {
-	int array[2] = {channel, value};
-	size_t lengthOfArray = sizeof array / sizeof array[0];
-	EM_ASM_(
-	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
-	sendMIDI(data), array, lengthOfArray);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
-}
-
-//--------------------------------------------------------------
-void ofApp::receiveAftertouch(const int channel, const int value) {
-	int array[2] = {channel, value};
-	size_t lengthOfArray = sizeof array / sizeof array[0];
-	EM_ASM_(
-	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
-	sendMIDI(data), array, lengthOfArray);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(value);
-}
-
-//--------------------------------------------------------------
-void ofApp::receivePolyAftertouch(const int channel, const int pitch, const int value) {
-	int array[3] = {channel, pitch, value};
-	size_t lengthOfArray = sizeof array / sizeof array[0];
-	EM_ASM_(
-	var data = new Uint32Array(HEAPU32.buffer, $0, $1);
-	sendMIDI(data), array, lengthOfArray);
-	groupOfLabels[13].symbol = "Midi out: " + ofToString(channel) + " " + ofToString(pitch) + " " + ofToString(value);
+	if (dest == "markov_list") {
+		groupOfLabels[15].symbol = "Midi out: " + ofToString(list.getFloat(0)) + " " + ofToString(list.getFloat(1)) + " " + ofToString(list.getFloat(2));
+	}
 }
