@@ -133,36 +133,28 @@ void ofApp::hRadio_1onMousePressed(float & e){
 	if (e == 0) {
 	EM_ASM_(sendMIDI([201, 1]));
 	groupOfLabels[6].symbol = "Standard";
-	}
-	if (e == 1) {
+	} else if (e == 1) {
 	EM_ASM_(sendMIDI([201, 9]));
 	groupOfLabels[6].symbol = "Room";
-	}
-	if (e == 2) {
+	} else if (e == 2) {
 	EM_ASM_(sendMIDI([201, 17]));
 	groupOfLabels[6].symbol = "Power";
-	}
-	if (e == 3) {
+	} else if (e == 3) {
 	EM_ASM_(sendMIDI([201, 25]));
 	groupOfLabels[6].symbol = "Electronic";
-	}
-	if (e == 4) {
+	} else if (e == 4) {
 	EM_ASM_(sendMIDI([201, 26]));
 	groupOfLabels[6].symbol = "TR-808";
-	}
-	if (e == 5) {
+	} else if (e == 5) {
 	EM_ASM_(sendMIDI([201, 33]));
 	groupOfLabels[6].symbol = "Jazz";
-	}
-	if (e == 6) {
+	} else if (e == 6) {
 	EM_ASM_(sendMIDI([201, 41]));
 	groupOfLabels[6].symbol = "Brush";
-	}
-	if (e == 7) {
+	} else if (e == 7) {
 	EM_ASM_(sendMIDI([201, 49]));
 	groupOfLabels[6].symbol = "Orchestra";
-	}
-	if (e == 8) {
+	} else if (e == 8) {
 	EM_ASM_(sendMIDI([201, 57]));
 	groupOfLabels[6].symbol = "Sound FX";
 	}
@@ -335,8 +327,7 @@ void ofApp::print(const std::string &message) {
 void ofApp::receiveFloat(const std::string &dest, float value) {
 	if (dest == "index") {
 	groupOfLabels[13].symbol = "Index: " + ofToString(value);
-	}
-	if (dest == "possibilities") {
+	} else if (dest == "possibilities") {
 	groupOfLabels[14].symbol = "Possibilities: " + ofToString(value);
 	}
 }
@@ -351,8 +342,7 @@ void ofApp::receiveList(const std::string &dest, const pd::List &list) {
 			EM_ASM_(
 			var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 			sendMIDI(data), array, lengthOfArray);
-		}
-		if (list.len() == 3) {
+		} else if (list.len() == 3) {
 			int val_0 = list.getFloat(0);
 			int val_1 = list.getFloat(1);
 			int val_2 = list.getFloat(2);
@@ -362,8 +352,11 @@ void ofApp::receiveList(const std::string &dest, const pd::List &list) {
 			var data = new Uint32Array(HEAPU32.buffer, $0, $1);
 			sendMIDI(data), array, lengthOfArray);
 		}
-	}
-	if (dest == "markov_list") {
-		groupOfLabels[15].symbol = "Midi out: " + ofToString(list.getFloat(0)) + " " + ofToString(list.getFloat(1)) + " " + ofToString(list.getFloat(2));
+	} else if (dest == "markov_list") {
+		if (list.len() == 2) {
+			groupOfLabels[15].symbol = "Midi out: " + ofToString(list.getFloat(0)) + " " + ofToString(list.getFloat(1));
+		} else if (list.len() == 3) {
+			groupOfLabels[15].symbol = "Midi out: " + ofToString(list.getFloat(0)) + " " + ofToString(list.getFloat(1)) + " " + ofToString(list.getFloat(2));
+		}
 	}
 }
