@@ -63,6 +63,7 @@ typedef struct _midi{
     t_clock       *x_clock;
     t_clock       *x_slaveclock;
     t_outlet      *x_bangout;
+    t_outlet      *x_deltaout;
 // panic
     unsigned char  x_note_status;
     unsigned char  x_channel;
@@ -527,6 +528,17 @@ static void midi_dump(t_midi *x){
     outlet_bang(x->x_bangout);
 }
 
+static void midi_dump_delta(t_midi *x){
+    t_midievent *ep = x->x_sequence;
+    int nevents = x->x_nevents;
+    while(nevents--){  // LATER rethink sysex continuation
+        double bp = ep->e_delta;
+        outlet_float(x->x_deltaout, (float)bp);
+        ep++;
+    }
+    outlet_bang(x->x_bangout);
+}
+
 static void midi_clocktick(t_midi *x){
     t_float output;
     if(x->x_mode == MIDI_PLAYMODE || x->x_mode == MIDI_SLAVEMODE){
@@ -961,6 +973,7 @@ static void *midi_new(t_symbol * s, int ac, t_atom *av){
     x->x_clock = clock_new(x, (t_method)midi_clocktick);
     x->x_slaveclock = clock_new(x, (t_method)midi_slaveclocktick);
     outlet_new((t_object *)x, &s_anything);
+    x->x_deltaout = outlet_new((t_object *)x, &s_anything);
     x->x_bangout = outlet_new((t_object *)x, &s_bang);
 // panic
     x->x_note_status = 0;
@@ -984,6 +997,7 @@ void midi_setup(void){
     class_addmethod(midi_class, (t_method)midi_write, gensym("save"), A_DEFSYM, 0);
     class_addmethod(midi_class, (t_method)midi_panic, gensym("panic"), 0);
     class_addmethod(midi_class, (t_method)midi_dump, gensym("dump"), 0);
+    class_addmethod(midi_class, (t_method)midi_dump_delta, gensym("dump_delta"), 0);
     class_addmethod(midi_class, (t_method)midi_pause, gensym("pause"), 0);
     class_addmethod(midi_class, (t_method)midi_continue, gensym("continue"), 0);
     class_addmethod(midi_class, (t_method)midi_click, gensym("click"), A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, A_FLOAT, 0);
