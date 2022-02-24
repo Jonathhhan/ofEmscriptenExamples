@@ -539,8 +539,8 @@ static void midi_dump_delta(t_midi *x){
         int i;
         for(i = 0, bp++; i < 3 && *bp != MIDI_EOM; i++, bp++)
             outlet_float(((t_object *)x)->ob_outlet, (float)*bp);
-            	if (*bp == MIDI_EOM)
-	    outlet_bang(x->x_bangout_eom);
+            if (*bp == MIDI_EOM)
+	        outlet_bang(x->x_bangout_eom);
         ep++;
     }
     outlet_bang(x->x_bangout);
