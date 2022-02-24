@@ -1,4 +1,4 @@
-#N canvas 426 158 1270 772 12;
+#N canvas 310 154 1270 772 12;
 #X obj 84 379 markov;
 #A saved memory 707.142 185 7 127 192 34 127 176 7 127 193 61 127 194
 38 127 195 37 127 197 26 127 198 52 127 182 7 93 199 56 93 153 65 80
@@ -515,7 +515,7 @@
 \; 135 219 220 \; 219 220 221 \; 220 221 222 \; 221 222 223 \;;
 #A saved order.in 2;
 #A saved order 2;
-#A saved markov.index 163;
+#A saved markov.index 183;
 #X msg 103 140 make;
 #X msg 121 190 reset;
 #X msg 130 240 random;
@@ -643,7 +643,7 @@
 #X connect 25 0 13 1;
 #X restore 813 113 pd reset midi cc;
 #X obj 205 405 r \$0-init;
-#N canvas 698 293 642 515 player 0;
+#N canvas 646 293 642 515 player 0;
 #X obj 112 415 del;
 #X obj 130 317 r \$0-tempo;
 #X obj 55 272 bng 15 250 50 0 empty \$0-play play 17 7 0 10 -262144
@@ -688,7 +688,7 @@
 #X obj 223 268 t b b;
 #X obj 262 69 f 0;
 #X obj 280 44 r \$0-size;
-#X msg 470 248 0.5;
+#X msg 470 248 1;
 #X connect 0 0 16 0;
 #X connect 1 0 14 0;
 #X connect 2 0 24 0;
