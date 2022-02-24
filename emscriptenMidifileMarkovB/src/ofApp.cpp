@@ -210,8 +210,8 @@ void ofApp::setup() {
 	groupOfHSliders[2].setup(20, 280, 80, 20, 0, 1000);
 	groupOfHSliders[2].value = 200;
 	groupOfHSliders[2].slider = 0.2;
-	number_1.setup(400, 200, 80, 20, 1, 100);
-	number_1.value = 4;
+	number_1.setup(400, 200, 80, 20, 1, 10);
+	number_1.value = 2;
 	hRadio_1.setup(20, 320, 20, 9);
 	
 	// the number of libpd ticks per buffer,
