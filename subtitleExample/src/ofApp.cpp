@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	subParserFactory = new SubtitleParserFactory("Alphaville.ENG.srt");
+	subParserFactory = new SubtitleParserFactory(ofToDataPath("Alphaville.ENG.srt"));
 	parser = subParserFactory->getParser();
 
 	//to get subtitles
