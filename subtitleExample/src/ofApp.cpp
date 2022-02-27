@@ -10,7 +10,7 @@ void ofApp::setup() {
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	for (SubtitleItem* element : sub)
 	{
 		if (element->getStartTime() <= (ofGetElapsedTimeMillis() + 35000) && element->getEndTime() >= (ofGetElapsedTimeMillis() + 35000)) {
