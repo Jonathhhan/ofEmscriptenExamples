@@ -6,7 +6,6 @@ void ofApp::setup() {
 	parser = subParserFactory->getParser();
 
 	//to get subtitles
-
 	sub = parser->getSubtitles();
 }
 
