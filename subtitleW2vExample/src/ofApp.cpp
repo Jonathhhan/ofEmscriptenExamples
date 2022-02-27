@@ -2,18 +2,15 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-
 	string file_name = "vec_text8.bin";	
 	cout << "Loading embeddings file: " << file_name << endl;
 	embed.load_binary(file_name);
-
 	cout << "words: " << embed.words << endl;
 	cout << "dimensions: " << embed.size << endl;
 	subParserFactory = new SubtitleParserFactory(ofToDataPath("Alphaville.ENG.srt"));
 	parser = subParserFactory->getParser();
 
 	//to get subtitles
-
 	sub = parser->getSubtitles();
 }
 
