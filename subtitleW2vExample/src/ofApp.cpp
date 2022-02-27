@@ -50,6 +50,8 @@ void ofApp::draw() {
 				s.pop_back();
 				s.pop_back();
 				s.pop_back();
+				
+				// create vector from words
             			ofxWord2VecVector Vec = embed.words_to_vec(s, &used_indices);
 				if (!Vec.empty()) {
 					s2 = "";
@@ -58,7 +60,9 @@ void ofApp::draw() {
 					cout << "Result:" << endl;
 					for (int i = 0; i < match.size(); i++) {
 						s2.append(match[i].word + " ");
-					}			
+					}
+					
+					// find subtitle with most common w2v words
 					for (SubtitleItem* element : sub) {
 						vector<string> v1, v2;
 						v2 = element->getIndividualWords();
