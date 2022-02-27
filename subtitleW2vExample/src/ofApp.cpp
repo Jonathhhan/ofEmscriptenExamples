@@ -29,13 +29,19 @@ void ofApp::draw() {
 				subNo = element->getSubNo();
 	    			word = element->getIndividualWords();
             			for(std::string display : word){
+					
+					// make everything lower case
     					std::for_each(display.begin(), display.end(), [](char & c) {
         					c = ::tolower(c);
     					});
+					
+					// erase those chars
 					char chars[] = ".,-!:?0123456789; ";
 					for (unsigned int i = 0; i < strlen(chars); ++i) {
 						display.erase (std::remove(display.begin(), display.end(), chars[i]), display.end());
 					}
+					
+					// exclude those words
 					std::string s1 = display.substr(0, display.find("'"));
 					if (s1 != "you" && s1 != "i" && s1 != "the" && s1 != "and" && s1 != "this" && s1 != "if" && s1 != "or" && s1 != "my" && s1 != "that" && s1 != "your" && s1 != "me" && s1 != "a" && s1 != "to" && s1 != "was" && s1 != "are"  && s1 != "it" && s1 != "with" && s1 != "for" && s1 != "in" && s1 != "is" && s1 != "of" && s1 != "von" && s1 != "on" && s1 != "braun" && s1 != "sir" && s1 != "alphaville") {
 						s.append (s1 + " + ");
