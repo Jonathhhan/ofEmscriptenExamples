@@ -1,16 +1,5 @@
 #include "ofApp.h"
 
-
-
-    #include <algorithm>
-    #include <iterator>
-    #include <string>
-    #include <vector>
-    #include <list>
-    #include <iostream>
-
-
-
 //--------------------------------------------------------------
 void ofApp::setup() {
 
