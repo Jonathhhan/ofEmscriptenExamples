@@ -20,7 +20,7 @@ videoPlayer.play();
 	
 	// exclude those words
 	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"};
-	for (float i = 0; i < sub.size(); ++i) {
+	for (int i = 1; i < sub.size(); ++i) {
 		subIndex.insert(i);
 	}
 }
@@ -33,13 +33,15 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(200);
-	ofDrawRectangle(90, 10, 420, 320);
+	std::string
+	ofDrawBitmapString("Montageautomat 2", 300 - (sub[selectSubtitle] -> getDialogue().size()*4) , 400);
+	ofDrawRectangle(90, 50, 420, 320);
 	ofSetColor(255);
-	videoPlayer.draw(100, 20, 400, 300);
+	videoPlayer.draw(100, 60, 400, 300);
 	if (sub[selectSubtitle]->getStartTime() <= movieTime + ofGetElapsedTimeMillis() && sub[selectSubtitle]->getEndTime() >= movieTime + ofGetElapsedTimeMillis()) {
 		ofSetColor(255, 200, 200);
-		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - (sub[selectSubtitle] -> getDialogue().size()*4) , 360);
-	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis()) {
+		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - (sub[selectSubtitle] -> getDialogue().size()*4) , 400);
+	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size > 0) {
 		std::map<int, int> m;
 		std::multimap<int, int> m2;
 		std::vector<int> used_indices;
@@ -68,7 +70,7 @@ void ofApp::draw() {
 				// create vector from words
 				ofxWord2VecVector Vec = embed.words_to_vec(individualWord, &used_indices);
 				if (!Vec.empty()) {
-					int count = 50;
+					int count = 1;
 					auto match = embed.match_cos(Vec, count, used_indices);
 					for (int i = 0; i < match.size(); i++) {
 						v1.push_back(match[i].word);
@@ -115,7 +117,7 @@ void ofApp::draw() {
 		
 		// exclude choosen subtitle
 		for(auto it = subIndex.begin(); it != subIndex.end(); ) {
-			if(*it == selectSubtitle) {
+			if (*it == selectSubtitle) {
 				it = subIndex.erase(it);
 			} else {
 				++it;
