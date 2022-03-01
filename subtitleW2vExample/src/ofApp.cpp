@@ -70,7 +70,7 @@ void ofApp::draw() {
 				// create vector from words
 				ofxWord2VecVector Vec = embed.words_to_vec(individualWord, &used_indices);
 				if (!Vec.empty()) {
-					int count = 1;
+					int count = 10; // number of vector words
 					auto match = embed.match_cos(Vec, count, used_indices);
 					for (int i = 0; i < match.size(); i++) {
 						v1.push_back(match[i].word);
