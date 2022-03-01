@@ -33,15 +33,15 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(200);
-	std::string
-	ofDrawBitmapString("Montageautomat 2", 300 - (sub[selectSubtitle] -> getDialogue().size()*4) , 400);
+	title = "Montageautomat 2";
+	ofDrawBitmapString("Montageautomat 2", 300 - title.size() * 4, 400);
 	ofDrawRectangle(90, 50, 420, 320);
 	ofSetColor(255);
 	videoPlayer.draw(100, 60, 400, 300);
 	if (sub[selectSubtitle]->getStartTime() <= movieTime + ofGetElapsedTimeMillis() && sub[selectSubtitle]->getEndTime() >= movieTime + ofGetElapsedTimeMillis()) {
 		ofSetColor(255, 200, 200);
-		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - (sub[selectSubtitle] -> getDialogue().size()*4) , 400);
-	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size > 0) {
+		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
+	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
 		std::map<int, int> m;
 		std::multimap<int, int> m2;
 		std::vector<int> used_indices;

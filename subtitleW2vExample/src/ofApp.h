@@ -18,6 +18,7 @@ class ofApp : public ofBaseApp{
 		
 		int movieTime;
 		int selectSubtitle;
+		std::string title;
 		std::string fileName;
 		std::set<int> subIndex;
 		std::vector<std::string> individualWords;
