@@ -66,6 +66,8 @@ void ofApp::draw() {
 				for (int i = 0; i < strlen(chars); ++i) {
 					individualWord.erase (std::remove(individualWord.begin(), individualWord.end(), chars[i]), individualWord.end());
 				}
+				
+				// erase everything after "'"
 				individualWord = individualWord.substr(0, individualWord.find("'"));
 				
 				// create vector from words
@@ -126,3 +128,4 @@ void ofApp::draw() {
 		}
 	}
 }
+
