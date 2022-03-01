@@ -38,7 +38,7 @@ void ofApp::draw() {
 	ofDrawRectangle(90, 50, 420, 320);
 	ofSetColor(255);
 	videoPlayer.draw(100, 60, 400, 300);
-	if (sub[selectSubtitle]->getStartTime() <= movieTime + ofGetElapsedTimeMillis() && sub[selectSubtitle]->getEndTime() >= movieTime + ofGetElapsedTimeMillis()) {
+	if (sub[selectSubtitle] -> getStartTime() <= movieTime + ofGetElapsedTimeMillis() && sub[selectSubtitle]->getEndTime() >= movieTime + ofGetElapsedTimeMillis()) {
 		ofSetColor(255, 200, 200);
 		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
 	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
@@ -98,9 +98,9 @@ void ofApp::draw() {
     			m2.insert(std::make_pair(i.second, i.first));
     		}
 		auto it = m2.rbegin(); // get the elem with the highest key
-		auto range = m2.equal_range(it->first);
+		auto range = m2.equal_range(it -> first);
 		for (auto it = range.first; it != range.second; ++it) {
-    			std::cout << "Weight: " << it -> first<< ", Subtitle: " << it -> second << std::endl; 
+    			std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second << std::endl; 
     			choosenSubs.push_back(it -> second);
     		}
     		
