@@ -26,7 +26,7 @@ videoPlayer.play();
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
     videoPlayer.update();
 }
 
