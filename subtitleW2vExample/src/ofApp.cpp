@@ -42,16 +42,17 @@ void ofApp::draw() {
 		ofSetColor(255, 200, 200);
 		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
 	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
+	    	
+	    	// find next subtitle
 		std::map<int, int> m;
 		std::multimap<int, int> m2;
 		std::vector<int> used_indices;
 		std::vector<string> v1, v2;
 		std::vector<int> choosenSubs;
-	    	individualWords = sub[selectSubtitle] -> getIndividualWords();
-	    	
-	    	// find next subtitle
+		individualWords = sub[selectSubtitle] -> getIndividualWords();
             	for(std::string individualWord : individualWords) {
             		if (std::find(stopWords.begin(), stopWords.end(), individualWord) != stopWords.end()) {
+
             			// do nothing
             		} else {
             		
@@ -59,7 +60,7 @@ void ofApp::draw() {
     				std::for_each(individualWord.begin(), individualWord.end(), [](char & c) {
         				c = std::tolower(c);
     				});
-    				
+				
     				// erase those chars
 				char chars[] = ".,-!:?0123456789; ";
 				for (int i = 0; i < strlen(chars); ++i) {
