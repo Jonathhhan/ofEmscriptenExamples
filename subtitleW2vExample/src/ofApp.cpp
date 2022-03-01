@@ -101,8 +101,12 @@ void ofApp::draw() {
     			std::cout << "Weight: " << it -> first<< ", Subtitle: " << it -> second << std::endl; 
     			choosenSubs.push_back(it -> second);
     		}
+    		
+    		// choose a random subtitle with highest key
     		int random = rand() % choosenSubs.size();
 		selectSubtitle = choosenSubs[random] - 1;
+		
+		// set new time
 		std::cout << "Selected subtitle: " << selectSubtitle << std::endl;
 		std::cout << "Dialog: " << sub[selectSubtitle] -> getDialogue()<<std::endl;
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000) / videoPlayer.getDuration());
