@@ -4,6 +4,7 @@
 void ofApp::setup() {
 videoPlayer.load("Alphaville.mp4");
 videoPlayer.play();
+	title = "Montageautomat 2";
 	movieTime = 0;
 	selectSubtitle = 0;
 	fileName = "vec_text8.bin";	
@@ -33,8 +34,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(200);
-	title = "Montageautomat 2";
-	ofDrawBitmapString("Montageautomat 2", 300 - title.size() * 4, 30);
+	ofDrawBitmapString(title, 300 - title.size() * 4, 30);
 	ofDrawRectangle(90, 50, 420, 320);
 	ofSetColor(255);
 	videoPlayer.draw(100, 60, 400, 300);
