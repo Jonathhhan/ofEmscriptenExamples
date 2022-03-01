@@ -62,7 +62,7 @@ void ofApp::draw() {
     				});
 				
     				// erase those chars
-				char chars[] = ".,-!:?0123456789; ";
+				char chars[] = ".,-!:?0123456789;";
 				for (int i = 0; i < strlen(chars); ++i) {
 					individualWord.erase (std::remove(individualWord.begin(), individualWord.end(), chars[i]), individualWord.end());
 				}
@@ -73,7 +73,7 @@ void ofApp::draw() {
 				// create vector from words
 				ofxWord2VecVector Vec = embed.words_to_vec(individualWord, &used_indices);
 				if (!Vec.empty()) {
-					int count = 10; // number of vector words
+					int count = 50; // number of vector words
 					auto match = embed.match_cos(Vec, count, used_indices);
 					for (int i = 0; i < match.size(); i++) {
 						v1.push_back(match[i].word);
@@ -113,7 +113,7 @@ void ofApp::draw() {
 		
 		// set new time
 		std::cout << "Selected subtitle: " << selectSubtitle << std::endl;
-		std::cout << "Dialog: " << sub[selectSubtitle] -> getDialogue()<<std::endl;
+		std::cout << "Dialog: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000) / videoPlayer.getDuration());
 		movieTime = sub[selectSubtitle - 1] -> getEndTime();
 		ofResetElapsedTimeCounter();
