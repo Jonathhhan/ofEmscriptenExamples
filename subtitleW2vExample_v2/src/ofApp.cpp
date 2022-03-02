@@ -121,12 +121,6 @@ void ofApp::draw() {
 		ofResetElapsedTimeCounter();
 		
 		// exclude choosen subtitle
-		for(auto it = subIndex.begin(); it != subIndex.end();) {
-			if (*it == selectSubtitle) {
-				it = subIndex.erase(it);
-			} else {
-				++it;
-			}
-		}
+		ofRemove(subIndex, selectSubtitle);
 	}
 }
