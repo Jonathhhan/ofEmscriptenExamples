@@ -64,26 +64,26 @@ void ofApp::draw() {
 		std::vector<int> used_indices;
 		std::vector<string> v1;
 		std::vector<int> choosenSubs;
-		individualWords = sub[selectSubtitle] -> getDialogue();
+		currentSubtitle = sub[selectSubtitle] -> getDialogue();
 
 		// process current subtitle
-		ofToLower(individualWords);
+		ofToLower(currentSubtitle);
 		char chars[] = ".,-!:?0123456789;'";
 		for (int i = 0; i < strlen(chars); ++i) {
-			ofStringReplace(individualWords, char[i], "");
+			ofStringReplace(currentSubtitle, char[i], "");
 		}
-		individualWords.insert(0, " ");
-		individualWords += " ";
+		currentSubtitle.insert(0, " ");
+		currentSubtitle += " ";
 		for (int i = 0; i < stopWords.size(); i++) {
-			ofStringReplace(individualWords, " " + stopWords[i] + " ", " ");
+			ofStringReplace(currentSubtitle, " " + stopWords[i] + " ", " ");
             	}
-            	if (individualWords.length() > 1) {
-            		individualWords.erase(0, 1);
-            		individualWords.pop_back();
+            	if (currentSubtitle.length() > 1) {
+            		currentSubtitle.erase(0, 1);
+            		currentSubtitle.pop_back();
             	}
 				
 		// create vector from words
-		ofxWord2VecVector Vec = embed.words_to_vec(individualWords, &used_indices);
+		ofxWord2VecVector Vec = embed.words_to_vec(currentSubtitle, &used_indices);
 		if (!Vec.empty()) {
 			int count = 50; // number of vector words
 			match = embed.match_cos(Vec, count, used_indices);
