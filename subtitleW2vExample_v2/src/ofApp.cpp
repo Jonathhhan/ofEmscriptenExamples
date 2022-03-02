@@ -83,7 +83,7 @@ void ofApp::draw() {
             	}
 				
 		// create vector from words
-		ofxWord2VecVector Vec = embed.words_to_vec(currentSubtitle, &used_indices);
+		Vec = embed.words_to_vec(currentSubtitle, &used_indices);
 		if (!Vec.empty()) {
 			int count = 50; // number of vector words
 			match = embed.match_cos(Vec, count, used_indices);
