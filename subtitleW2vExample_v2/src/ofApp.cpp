@@ -58,8 +58,6 @@ void ofApp::draw() {
 		ofSetColor(255, 200, 200);
 		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
 	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
-	    	
-	    	// find next subtitle
 		std::map<int, float> m;
 		std::map<std::string, float> m3;
 		std::multimap<float, int> m2;
@@ -68,10 +66,8 @@ void ofApp::draw() {
 		std::vector<int> choosenSubs;
 		individualWords = sub[selectSubtitle] -> getDialogue();
 
-		// make everything lower case
+		// process current subtitle
 		ofToLower(individualWords);
-				
-		// erase those chars
 		char chars[] = ".,-!:?0123456789;'";
 		for (int i = 0; i < strlen(chars); ++i) {
 			ofStringReplace(individualWords, char[i], "");
