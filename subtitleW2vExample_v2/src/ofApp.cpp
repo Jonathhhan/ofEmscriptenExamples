@@ -74,7 +74,7 @@ void ofApp::draw() {
 		// erase those chars
 		char chars[] = ".,-!:?0123456789;'";
 		for (int i = 0; i < strlen(chars); ++i) {
-			individualWords.erase (std::remove(individualWords.begin(), individualWords.end(), chars[i]), individualWords.end());
+			individualWords.erase(std::remove(individualWords.begin(), individualWords.end(), chars[i]), individualWords.end());
 		}
 		individualWords.insert(0, " ");
 		individualWords += " ";
