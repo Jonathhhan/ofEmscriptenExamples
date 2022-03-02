@@ -32,7 +32,7 @@ videoPlayer.play();
 	parser = subParserFactory->getParser();
 
 	// to get subtitles
-	sub = parser->getSubtitles();
+	sub = parser -> getSubtitles();
 	std::cout << "Subtitles: " << sub.size() << std::endl;
 	
 	// exclude those words from subtitles
