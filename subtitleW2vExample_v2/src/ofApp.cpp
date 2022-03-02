@@ -69,9 +69,7 @@ void ofApp::draw() {
 		individualWords = sub[selectSubtitle] -> getDialogue();
 
 		// make everything lower case
-		std::for_each(individualWords.begin(), individualWords.end(), [](char & c) {
-			c = std::tolower(c);
-		});
+		ofToLower(individualWords);
 				
 		// erase those chars
 		char chars[] = ".,-!:?0123456789;'";
