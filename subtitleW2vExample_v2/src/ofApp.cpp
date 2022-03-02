@@ -79,7 +79,7 @@ void ofApp::draw() {
 		individualWords.insert(0, " ");
 		individualWords += " ";
 		for (int i = 0; i < stopWords.size(); i++) {
-			ofStringReplace(individualWordse, " " + stopWords[i] + " ", "");
+			ofStringReplace(individualWords, " " + stopWords[i] + " ", "");
             	}
             	if (individualWords.length() > 1) {
             		individualWords.erase(0, 1);
