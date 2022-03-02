@@ -24,6 +24,6 @@ class ofApp : public ofBaseApp{
 		std::string title;
 		std::string fileName;
 		std::set<int> subIndex;
-		std::string individualWords;
+		std::string currentSubtitle;
 		std::vector<std::string> stopWords;
 };
