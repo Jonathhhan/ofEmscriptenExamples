@@ -15,6 +15,7 @@ class ofApp : public ofBaseApp{
 		SubtitleParser* parser;
 		std::vector<SubtitleItem*> sub;
 		ofxWord2VecEmbedding embed;
+		vector<ofxWord2VecSorterItem> match;
 		
 		int movieTime;
 		int selectSubtitle;
@@ -23,5 +24,4 @@ class ofApp : public ofBaseApp{
 		std::set<int> subIndex;
 		std::string individualWords;
 		std::vector<std::string> stopWords;
-		vector<ofxWord2VecSorterItem> match;
 };
