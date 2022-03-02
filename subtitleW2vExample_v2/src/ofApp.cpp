@@ -70,7 +70,7 @@ void ofApp::draw() {
 		ofToLower(currentSubtitle);
 		char chars[] = ".,-!:?0123456789;'";
 		for (int i = 0; i < strlen(chars); ++i) {
-			ofStringReplace(currentSubtitle, char[i], "");
+			ofStringReplace(currentSubtitle, chars[i], "");
 		}
 		currentSubtitle.insert(0, " ");
 		currentSubtitle += " ";
