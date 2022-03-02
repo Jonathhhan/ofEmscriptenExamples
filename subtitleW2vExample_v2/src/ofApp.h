@@ -16,6 +16,7 @@ class ofApp : public ofBaseApp{
 		SubtitleParser* parser;
 		std::vector<SubtitleItem*> sub;
 
+		ofxWord2VecVector Vec;
 		ofxWord2VecEmbedding embed;
 		vector<ofxWord2VecSorterItem> match;
 		
