@@ -58,9 +58,8 @@ void ofApp::draw() {
 		ofSetColor(255, 200, 200);
 		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
 	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
-		std::map<int, float> m;
-		std::map<std::string, float> m3;
-		std::multimap<float, int> m2;
+		std::map<std::string, float> mapWordWeight;
+		std::map<int, float> mapSubNoWeight;
 		std::vector<int> used_indices;
 		std::vector<string> v1;
 		std::vector<int> choosenSubs;
@@ -88,7 +87,7 @@ void ofApp::draw() {
 			int count = 50; // number of vector words
 			match = embed.match_cos(Vec, count, used_indices);
 			for (int i = 0; i < match.size(); i++) {
-				m3[match[i].word] = match[i].value;
+				mapWordWeight[match[i].word] = match[i].value;
 			}	
 		}
 		
@@ -98,18 +97,15 @@ void ofApp::draw() {
 		vector<string> target_list;
 		v1 = sub[element] -> getIndividualWords();
 		std::sort(v1.begin(), v1.end());
-		std::set_intersection(v1.begin(), v1.end(), m3.begin(),
-		m3.end(), back_inserter(target_list), mycomparer());
+		std::set_intersection(v1.begin(), v1.end(), mapWordWeight.begin(),
+		mapWordWeight.end(), back_inserter(target_list), mycomparer());
 		for(const auto & c : target_list) { 
-			weight += m3[c];
+			weight += mapWordWeight[c];
 		}
-		m[sub[element] -> getSubNo()] = weight / sub[element] -> getWordCount();
+		mapSubNoWeight[weight / sub[element] -> getWordCount()] = sub[element] -> getSubNo();
 		}
-		for (auto&& i : m) {
-    			m2.insert(std::make_pair(i.second, i.first));
-    		}
-		auto it = m2.rbegin(); // get the elem with the highest key
-		auto range = m2.equal_range(it -> first);
+		auto it = mapSubNoWeight.rbegin(); // get the elem with the highest key
+		auto range = mapSubNoWeight.equal_range(it -> first);
 		for (auto it = range.first; it != range.second; ++it) {
     			// std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second - 1 << ", Dialogue: " << sub[it -> second - 1] -> getDialogue() << std::endl; 
     			choosenSubs.push_back(it -> second);
