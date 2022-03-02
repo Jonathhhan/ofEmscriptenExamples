@@ -54,7 +54,7 @@ void ofApp::draw() {
 	ofDrawRectangle(90, 50, 420, 320);
 	ofSetColor(255);
 	videoPlayer.draw(100, 60, 400, 300);
-	if (sub[selectSubtitle] -> getStartTime() <= movieTime + ofGetElapsedTimeMillis() && sub[selectSubtitle]->getEndTime() >= movieTime + ofGetElapsedTimeMillis()) {
+	if (sub[selectSubtitle] -> getStartTime() <= movieTime + ofGetElapsedTimeMillis() && sub[selectSubtitle] -> getEndTime() >= movieTime + ofGetElapsedTimeMillis()) {
 		ofSetColor(255, 200, 200);
 		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
 	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
