@@ -63,9 +63,9 @@ void ofApp::draw() {
 		std::vector<int> used_indices;
 		std::vector<string> v1;
 		std::vector<int> choosenSubs;
-		currentSubtitle = sub[selectSubtitle] -> getDialogue();
 
 		// process current subtitle
+		currentSubtitle = sub[selectSubtitle] -> getDialogue();
 		ofToLower(currentSubtitle);
 		char chars[] = ".,-!:?0123456789;'";
 		for (int i = 0; i < strlen(chars); ++i) {
