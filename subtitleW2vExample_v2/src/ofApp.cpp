@@ -59,7 +59,7 @@ void ofApp::draw() {
 		ofDrawBitmapString(sub[selectSubtitle] -> getDialogue(), 300 - sub[selectSubtitle] -> getDialogue().size() * 4, 400);
 	} else if (sub[selectSubtitle] -> getEndTime() + 1000 <= movieTime + ofGetElapsedTimeMillis() && subIndex.size() > 0) {
 		std::map<std::string, float> mapWordWeight;
-		std::map<int, float> mapSubNoWeight;
+		std::map<int, float> mapSubWeight;
 		std::vector<int> used_indices;
 		std::vector<string> v1;
 		std::vector<int> choosenSubs;
@@ -102,10 +102,10 @@ void ofApp::draw() {
 		for(const auto & c : target_list) { 
 			weight += mapWordWeight[c];
 		}
-		mapSubNoWeight[weight / sub[element] -> getWordCount()] = sub[element] -> getSubNo();
+		mapSubWeight[weight / sub[element] -> getWordCount()] = sub[element] -> getSubNo();
 		}
-		auto it = mapSubNoWeight.rbegin(); // get the elem with the highest key
-		auto range = mapSubNoWeight.equal_range(it -> first);
+		auto it = mapSubWeight.rbegin(); // get the elem with the highest key
+		auto range = mapSubWeight.equal_range(it -> first);
 		for (auto it = range.first; it != range.second; ++it) {
     			// std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second - 1 << ", Dialogue: " << sub[it -> second - 1] -> getDialogue() << std::endl; 
     			choosenSubs.push_back(it -> second);
