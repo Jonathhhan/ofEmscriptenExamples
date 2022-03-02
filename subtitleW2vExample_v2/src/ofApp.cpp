@@ -79,9 +79,7 @@ void ofApp::draw() {
 		individualWords.insert(0, " ");
 		individualWords += " ";
 		for (int i = 0; i < stopWords.size(); i++) {
-			std::string::size_type pos = individualWords.find(" " + stopWords[i] + " ");       		
-			if (pos != std::string::npos)
-   				individualWords.erase(pos + 1, stopWords[i].length() + 1);
+			ofStringReplace(individualWordse, " " + stopWords[i] + " ", "");
             	}
             	if (individualWords.length() > 1) {
             		individualWords.erase(0, 1);
