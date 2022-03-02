@@ -11,9 +11,11 @@ class ofApp : public ofBaseApp{
 		void draw();
 		
 		ofVideoPlayer videoPlayer;
+	
 		SubtitleParserFactory* subParserFactory;
 		SubtitleParser* parser;
 		std::vector<SubtitleItem*> sub;
+
 		ofxWord2VecEmbedding embed;
 		vector<ofxWord2VecSorterItem> match;
 		
