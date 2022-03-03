@@ -22,9 +22,17 @@ class ofApp : public ofBaseApp{
 		
 		int movieTime;
 		int selectSubtitle;
+		int random;
+		float weight;
+		std::map<std::string, float> mapWordWeight;
+		std::multimap<float, int> multimapSubWeight;
+		std::vector<int> used_indices;
+		std::vector<string> v1;
+		std::vector<int> choosenSubs;
 		std::string title;
 		std::string fileName;
-		std::set<int> subIndex;
-		std::string currentSubtitle;
+		std::vector<int> subIndex;
+		std::string currentDialogue;
+		std::string lowerCurrentDialogue;
 		std::vector<std::string> stopWords;
 };
