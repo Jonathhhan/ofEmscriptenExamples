@@ -105,7 +105,7 @@ void ofApp::draw() {
 		auto it = multimapSubWeight.rbegin(); // get the elem with the highest key
 		auto range = multimapSubWeight.equal_range(it -> first);
 		for (auto it = range.first; it != range.second; ++it) {
-			std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second - 1 << ", Dialogue: " << sub[it -> second - 1] -> getDialogue() << std::endl; 
+			// std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second - 1 << ", Dialogue: " << sub[it -> second - 1] -> getDialogue() << std::endl; 
 			choosenSubs.push_back(it -> second);
 		}
     		
