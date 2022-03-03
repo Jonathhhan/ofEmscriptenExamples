@@ -208,7 +208,7 @@ void ofApp::setup() {
 	vectorWords = 50;
 	
 	// exclude those words from subtitles
-	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "this", "that", "these", "those", "there's" "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "haven't", "do", "done", "does", "did", "doing", "don't", "did'nt", "a", "an", "the", "and", "as", "of", "at", "by", "for", "with", "to", "from", "in", "out", "on", "off", "then", "so", "s", "t", "don", "i'm", "i'll", "alphaville", "we'll", "let's", "will", "can", "your're", "i'm", "i'd", "would", "wouldn't", "will", "won’t", "seem", "should", "should'nt", "could", "couldn't", "isn't"};
+	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "this", "that", "these", "those", "there's" "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "haven't", "do", "done", "does", "did", "doing", "don't", "did'nt", "a", "an", "the", "and", "as", "of", "at", "by", "for", "with", "to", "from", "in", "out", "on", "off", "then", "so", "s", "t", "don", "i'm", "it's", "i'll", "i've", "alphaville", "we'll", "let's", "will", "can", "your're", "i'm", "i'd", "would", "wouldn't", "will", "won’t", "seem", "should", "should'nt", "could", "couldn't", "isn't", "we're"};
 
 	groupOfBangs[0].setup(190, 80 + 5, 20);
 	groupOfBangs[1].setup(190, 110 + 5, 20);
@@ -258,7 +258,7 @@ void ofApp::draw() {
 	} 
 	ofSetColor(255);
 	if (videoPlayer.getTexture() -> isAllocated()) {
-		videoPlayer.getTexture() -> draw(400, 60, 400, 300);
+		videoPlayer.getTexture() -> draw(400, 60 + 150 - 200 * (videoPlayer.getHeight() / videoPlayer.getWidth()), 400, 400 * (videoPlayer.getHeight() / videoPlayer.getWidth()));
 	}
 	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && subIndex.size() > 0) {
 		mapWordWeight.clear();
