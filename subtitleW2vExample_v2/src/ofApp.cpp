@@ -211,7 +211,7 @@ void ofApp::setup() {
 	vectorWords = 50;
 	
 	// exclude those words from subtitles
-	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "this", "that", "these", "those", "there's" "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "haven't", "do", "done", "does", "did", "doing", "don't", "did'nt", "a", "an", "the", "and", "as", "of", "at", "by", "for", "with", "to", "from", "in", "out", "on", "off", "then", "so", "s", "t", "don", "i'm", "it's", "i'll", "i've", "alphaville", "we'll", "let's", "will", "can", "your're", "i'm", "i'd", "would", "wouldn't", "will", "won’t", "seem", "should", "should'nt", "could", "couldn't", "isn't", "we're"};
+	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "m", "re", "ll", "didn"};
 
 	groupOfBangs[0].setup(190, 80 + 5, 20);
 	groupOfBangs[1].setup(190, 110 + 5, 20);
@@ -237,6 +237,7 @@ void ofApp::update() {
 		// process current subtitle
 		currentDialogue = sub[selectSubtitle]->getDialogue();
 		lowerCurrentDialogue = ofToLower(currentDialogue);
+		ofStringReplace(lowerCurrentDialogue, "'", " ");
 		char chars[] = ".,-!:?0123456789;";
 		for (int i = 0; i < strlen(chars); ++i) {
 			ofStringReplace(lowerCurrentDialogue, ofToString(chars[i]), "");
@@ -308,7 +309,7 @@ void ofApp::draw() {
 	ofDrawRectangle(390, 50, 420, 320);
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
-	ofDrawBitmapString("Load bin", 30, 100);
+	ofDrawBitmapString("Load embedding file", 30, 100);
 	ofDrawBitmapString("Load subtitle", 30, 130);
 	ofDrawBitmapString("Load movie", 30, 160);
 	ofDrawBitmapString("Play", 30, 190);
@@ -332,3 +333,4 @@ void ofApp::draw() {
 		videoPlayer.getTexture() -> draw(400, 60 + 150 - 200 * (videoPlayer.getHeight() / videoPlayer.getWidth()), 400, 400 * (videoPlayer.getHeight() / videoPlayer.getWidth()));
 	}
 }
+
