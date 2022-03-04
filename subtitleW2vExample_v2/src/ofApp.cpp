@@ -147,7 +147,7 @@ EMSCRIPTEN_BINDINGS(Module) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e){
 	subIndex.clear();
-	if (e && videoPlayer.isLoaded()) {
+	if (videoPlayer.isLoaded()) {
 		for (int i = 1; i < sub.size(); ++i) {
 			subIndex.push_back(i);
 		}
