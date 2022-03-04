@@ -145,7 +145,7 @@ EMSCRIPTEN_BINDINGS(Module) {
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_4onMousePressed(bool & e){
+void ofApp::bang_4onMousePressed(bool & e) {
 	subIndex.clear();
 	if (videoPlayer.isLoaded()) {
 		for (int i = 1; i < sub.size(); ++i) {
@@ -166,7 +166,7 @@ void ofApp::bang_4onMousePressed(bool & e){
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_1onMousePressed(bool & e){
+void ofApp::toggle_1onMousePressed(bool & e) {
 	if (e && videoPlayer.isLoaded()) {
 		videoPlayer.setPaused(true);
 	} else {
@@ -175,17 +175,17 @@ void ofApp::toggle_1onMousePressed(bool & e){
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_2onMousePressed(bool & e){
+void ofApp::toggle_2onMousePressed(bool & e) {
 	randomStart = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::number_1onMousePressed(float & e){
+void ofApp::number_1onMousePressed(float & e) {
 	vectorWords = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_1onMousePressed(float & e){
+void ofApp::hSlider_1onMousePressed(float & e) {
 	videoPlayer.setVolume(e);
 }
 
@@ -315,10 +315,10 @@ void ofApp::draw() {
 	ofDrawBitmapString("Random start", 30, 250);
 	ofDrawBitmapString("Word2Vec words", 30, 280);
 	ofDrawBitmapString("Volume", 30, 310);
-	for(int i=0; i<NBANGS; i++){
+	for(int i=0; i<NBANGS; i++) {
 		groupOfBangs[i].draw();
 	}
-	for(int i=0; i<NTOGGLES; i++){
+	for(int i=0; i<NTOGGLES; i++) {
 		groupOfToggles[i].draw();
 	}
 	number_1.draw();
