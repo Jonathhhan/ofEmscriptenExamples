@@ -219,8 +219,8 @@ void ofApp::setup() {
 	number_1.setup(190, 260 + 5, 80, 20, 1, 1000);
 	number_1.value = 50;
 	hSlider_1.setup(190, 290 + 5, 80, 20, 0, 1);
-	hSlider_1.value = 1;
-	hSlider_1.slider = 1;
+	hSlider_1.value = 0.5;
+	hSlider_1.slider = 0.5;
 }
 
 //--------------------------------------------------------------
