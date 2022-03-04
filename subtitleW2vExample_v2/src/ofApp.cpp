@@ -107,6 +107,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 	// to get subtitles
 	sub = parser -> getSubtitles();
 	std::cout << "Subtitles: " << sub.size() << std::endl;
+	subIndex.clear();
 	for (int i = 1; i < sub.size(); ++i) {
 		subIndex.push_back(i);
 	}
@@ -146,8 +147,8 @@ EMSCRIPTEN_BINDINGS(Module) {
 
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e) {
-	subIndex.clear();
 	if (videoPlayer.isLoaded()) {
+		subIndex.clear();
 		for (int i = 1; i < sub.size(); ++i) {
 			subIndex.push_back(i);
 		}
