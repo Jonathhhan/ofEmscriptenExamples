@@ -147,25 +147,27 @@ EMSCRIPTEN_BINDINGS(Module) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e){
 	subIndex.clear();
-	for (int i = 1; i < sub.size(); ++i) {
-		subIndex.push_back(i);
+	if (e && videoPlayer.isLoaded()) {
+		for (int i = 1; i < sub.size(); ++i) {
+			subIndex.push_back(i);
+		}
+		if (randomStart && sub.size() > 0) {
+			selectSubtitle = rand() % sub.size();
+			videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
+			drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
+		} else {
+			selectSubtitle = 0;
+			videoPlayer.setPosition(0);
+			drawSubtitleDialogue = sub[0] -> getDialogue();
+		}
+		videoPlayer.play();
+		groupOfToggles[0].value = 0;
 	}
-	if (randomStart) {
-		selectSubtitle = rand() % sub.size();
-		videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
-		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
-	} else {
-		selectSubtitle = 0;
-		videoPlayer.setPosition(0);
-		drawSubtitleDialogue = sub[0] -> getDialogue();
-	}
-	videoPlayer.play();
-	groupOfToggles[0].value = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::toggle_1onMousePressed(bool & e){
-	if(e){
+	if (e && videoPlayer.isLoaded()) {
 		videoPlayer.setPaused(true);
 	} else {
 		videoPlayer.setPaused(false);	
