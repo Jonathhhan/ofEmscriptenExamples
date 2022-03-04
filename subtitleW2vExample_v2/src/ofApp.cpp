@@ -226,40 +226,6 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update() {
 	videoPlayer.update();
-}
-
-//--------------------------------------------------------------
-void ofApp::draw() {
-	ofSetColor(100);
-	ofDrawRectangle(10, 10, 880, 430);
-	ofSetColor(200);
-	ofDrawRectangle(290, 10, 10, 430);
-	ofDrawRectangle(390, 50, 420, 320);
-	ofSetColor(255, 200, 200);
-	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
-	ofDrawBitmapString("Load bin", 30, 100);
-	ofDrawBitmapString("Load subtitle", 30, 130);
-	ofDrawBitmapString("Load movie", 30, 160);
-	ofDrawBitmapString("Play", 30, 190);
-	ofDrawBitmapString("Pause", 30, 220);
-	ofDrawBitmapString("Random start", 30, 250);
-	ofDrawBitmapString("Word2Vec words", 30, 280);
-	ofDrawBitmapString("Volume", 30, 310);
-	for(int i=0; i<NBANGS; i++){
-		groupOfBangs[i].draw();
-	}
-	for(int i=0; i<NTOGGLES; i++){
-		groupOfToggles[i].draw();
-	}
-	number_1.draw();
-	hSlider_1.draw();
-	if (sub[selectSubtitle] -> getStartTime() <= videoPlayer.getPosition() * 1000 && sub[selectSubtitle] -> getEndTime() >= videoPlayer.getPosition() * 1000) {
-		ofDrawBitmapString(drawSubtitleDialogue, 600 - drawSubtitleDialogue.size() * 4, 400);
-	} 
-	ofSetColor(255);
-	if (videoPlayer.getTexture() -> isAllocated()) {
-		videoPlayer.getTexture() -> draw(400, 60 + 150 - 200 * (videoPlayer.getHeight() / videoPlayer.getWidth()), 400, 400 * (videoPlayer.getHeight() / videoPlayer.getWidth()));
-	}
 	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && subIndex.size() > 0) {
 		mapWordWeight.clear();
 		multimapSubWeight.clear();
@@ -327,5 +293,39 @@ void ofApp::draw() {
 		// exclude choosen subtitle
 		std::remove(subIndex.begin(), subIndex.end(), selectSubtitle);
 		subIndex.pop_back();
+	}
+}
+
+//--------------------------------------------------------------
+void ofApp::draw() {
+	ofSetColor(100);
+	ofDrawRectangle(10, 10, 880, 430);
+	ofSetColor(200);
+	ofDrawRectangle(290, 10, 10, 430);
+	ofDrawRectangle(390, 50, 420, 320);
+	ofSetColor(255, 200, 200);
+	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
+	ofDrawBitmapString("Load bin", 30, 100);
+	ofDrawBitmapString("Load subtitle", 30, 130);
+	ofDrawBitmapString("Load movie", 30, 160);
+	ofDrawBitmapString("Play", 30, 190);
+	ofDrawBitmapString("Pause", 30, 220);
+	ofDrawBitmapString("Random start", 30, 250);
+	ofDrawBitmapString("Word2Vec words", 30, 280);
+	ofDrawBitmapString("Volume", 30, 310);
+	for(int i=0; i<NBANGS; i++){
+		groupOfBangs[i].draw();
+	}
+	for(int i=0; i<NTOGGLES; i++){
+		groupOfToggles[i].draw();
+	}
+	number_1.draw();
+	hSlider_1.draw();
+	if (sub[selectSubtitle] -> getStartTime() <= videoPlayer.getPosition() * 1000 && sub[selectSubtitle] -> getEndTime() >= videoPlayer.getPosition() * 1000) {
+		ofDrawBitmapString(drawSubtitleDialogue, 600 - drawSubtitleDialogue.size() * 4, 400);
+	} 
+	ofSetColor(255);
+	if (videoPlayer.getTexture() -> isAllocated()) {
+		videoPlayer.getTexture() -> draw(400, 60 + 150 - 200 * (videoPlayer.getHeight() / videoPlayer.getWidth()), 400, 400 * (videoPlayer.getHeight() / videoPlayer.getWidth()));
 	}
 }
