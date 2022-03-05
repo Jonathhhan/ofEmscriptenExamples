@@ -239,7 +239,7 @@ void ofApp::update() {
 		lowerCurrentDialogue = ofToLower(currentDialogue);
 		ofStringReplace(lowerCurrentDialogue, "'", " ");
 		ofStringReplace(lowerCurrentDialogue, "-", " ");
-		char chars[] = ".,!:?;";
+		char chars[] = "0123456789.,!:?;";
 		for (int i = 0; i < strlen(chars); ++i) {
 			ofStringReplace(lowerCurrentDialogue, ofToString(chars[i]), "");
 		}
