@@ -204,7 +204,7 @@ void ofApp::setup() {
 	title = "Montageautomat 3";
 	
 	// exclude those words from subtitles
-	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "o", "m", "lsn", "from", "out", "alphaville", "outlands", "tokyorama", "pekingville", "eckel", "vonbraun"};
+	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "o", "m", "lsn", "from", "out", "alphaville", "outlands", "tokyorama", "pekingville", "eckel", "vonbraun", "jeckel"};
 
 	groupOfBangs[0].setup(190, 80 + 5, 20);
 	groupOfBangs[1].setup(190, 110 + 5, 20);
@@ -247,7 +247,7 @@ void ofApp::update() {
 		}
 
 		// set new video position and subtitle
-		videoPlayer.setPosition(sub[selectSubtitle - 1] -> getEndTime() / 1000 / videoPlayer.getDuration());
+		videoPlayer.setPosition((sub[selectSubtitle - 2] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
 }
