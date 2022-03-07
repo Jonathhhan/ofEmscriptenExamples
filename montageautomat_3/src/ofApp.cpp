@@ -220,7 +220,7 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update() {
 	videoPlayer.update();
-	if (sub[selectSubtitle] -> getEndTime() <= videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
+	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
 		multimapWeightSub.clear();
 		choosenSubs.clear();
 
@@ -247,7 +247,7 @@ void ofApp::update() {
 		}
 
 		// set new video position and subtitle
-		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000) / videoPlayer.getDuration());
+		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000) / videoPlayer.getDuration() + 1000);
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
 }
