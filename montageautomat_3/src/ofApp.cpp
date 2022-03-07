@@ -247,7 +247,7 @@ void ofApp::update() {
 		}
 
 		// set new video position and subtitle
-		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000) / videoPlayer.getDuration() + 1000);
+		videoPlayer.setPosition(sub[selectSubtitle - 1] -> getEndTime() / 1000 / videoPlayer.getDuration());
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
 }
