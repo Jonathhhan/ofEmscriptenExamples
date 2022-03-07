@@ -224,12 +224,12 @@ void ofApp::update() {
 		multimapWeightSub.clear();
 		choosenSubs.clear();
 
-		// process current subtitle
+		// get vector similarities
 		Vec = mapSubVectorCopy[selectSubtitle];
 		mapSubVectorCopy.erase(selectSubtitle);
 		for (auto it = mapSubVectorCopy.begin(); it != mapSubVectorCopy.end(); ++it){
 			multimapWeightSub.insert(std::make_pair(Vec.dist_cosine_optimized(it -> second), it -> first));
-			}
+		}
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
@@ -246,7 +246,7 @@ void ofApp::update() {
 			selectSubtitle = random;
 		}
 
-		// set new time
+		// set new video position and subtitle
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000) / videoPlayer.getDuration());
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
