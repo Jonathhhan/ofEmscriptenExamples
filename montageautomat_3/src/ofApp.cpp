@@ -95,25 +95,25 @@ void ofApp::loadSubtitleX(std::string & file) {
 	mapSubVector.clear();
 	for (int i = 0; i < sub.size(); ++i) {
 		
-	// process current subtitle
-	currentDialogue = sub[i] -> getDialogue();
-	lowerCurrentDialogue = ofToLower(currentDialogue);
-	ofStringReplace(lowerCurrentDialogue, "'", " ");
-	ofStringReplace(lowerCurrentDialogue, "-", " ");
-	char chars[] = "0123456789.,!:?;";
-	for (int i = 0; i < strlen(chars); ++i) {
-		ofStringReplace(lowerCurrentDialogue, ofToString(chars[i]), "");
-	}
-	lowerCurrentDialogue.insert(0, " ");
-	lowerCurrentDialogue += " ";
-	for (int i = 0; i < stopWords.size(); i++) {
-		ofStringReplace(lowerCurrentDialogue, " " + stopWords[i] + " ", " ");
-	}
-	if (lowerCurrentDialogue.length() > 1) {
-		lowerCurrentDialogue.erase(0, 1);
-		lowerCurrentDialogue.pop_back();
-	}
-	mapSubVector[i] = embed.words_to_vec(lowerCurrentDialogue, &used_indices);
+		// process subtitles
+		currentDialogue = sub[i] -> getDialogue();
+		lowerCurrentDialogue = ofToLower(currentDialogue);
+		ofStringReplace(lowerCurrentDialogue, "'", " ");
+		ofStringReplace(lowerCurrentDialogue, "-", " ");
+		char chars[] = "0123456789.,!:?;";
+		for (int i = 0; i < strlen(chars); ++i) {
+			ofStringReplace(lowerCurrentDialogue, ofToString(chars[i]), "");
+		}
+		lowerCurrentDialogue.insert(0, " ");
+		lowerCurrentDialogue += " ";
+		for (int i = 0; i < stopWords.size(); i++) {
+			ofStringReplace(lowerCurrentDialogue, " " + stopWords[i] + " ", " ");
+		}
+		if (lowerCurrentDialogue.length() > 1) {
+			lowerCurrentDialogue.erase(0, 1);
+			lowerCurrentDialogue.pop_back();
+		}
+		mapSubVector[i] = embed.words_to_vec(lowerCurrentDialogue, &used_indices);
 	}
 }
 
