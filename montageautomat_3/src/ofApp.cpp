@@ -233,17 +233,17 @@ void ofApp::update() {
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
-		if (it -> first <= 1 && it -> first > 0) {
+		if (it -> first > 0 && it -> first <= 1) {
 			auto range = multimapWeightSub.equal_range(it -> first);
 			for (auto it = range.first; it != range.second; ++it) {
 				std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second  << ", Dialogue: " << sub[it -> second ] -> getDialogue() << std::endl; 
 				choosenSubs.push_back(it -> second);
 			}
 			random = rand() % choosenSubs.size();
-			selectSubtitle = choosenSubs[random] - 1;
+			selectSubtitle = choosenSubs[random];
 		} else {		
 			random = rand() % mapSubVector.size();
-			selectSubtitle = random - 1;
+			selectSubtitle = random;
 		}
 
 		// set new time
