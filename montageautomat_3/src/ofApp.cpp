@@ -241,10 +241,14 @@ void ofApp::update() {
 			}
 			random = rand() % choosenSubs.size();
 			selectSubtitle = choosenSubs[random];
-		} else {		
+		} else if (mapSubVectorCopy.size() > 0) {		
 			auto it = mapSubVectorCopy.begin();
 			std::advance(it, rand() % mapSubVectorCopy.size());
 			selectSubtitle = it -> first;
+		} else {
+			mapSubVectorCopy = mapSubVector;
+			random = rand() % sub.size();
+			selectSubtitle = random;
 		}
 
 		// set new video position and subtitle
