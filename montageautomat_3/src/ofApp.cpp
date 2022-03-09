@@ -90,31 +90,32 @@ void ofApp::loadSubtitleX(std::string & file) {
 
 	// to get subtitles
 	sub = parser -> getSubtitles();
-	std::cout << "Subtitles: " << sub.size() << std::endl;
 	EM_ASM(FS.unlink("/data/" + UTF8ToString($0)), file.c_str());
 	mapSubVector.clear();
 	for (int i = 0; i < sub.size(); ++i) {
 		
 		// process subtitles
-		currentDialogue = sub[i] -> getDialogue();
-		lowerCurrentDialogue = ofToLower(currentDialogue);
-		ofStringReplace(lowerCurrentDialogue, "'", " ");
-		ofStringReplace(lowerCurrentDialogue, "-", " ");
-		char chars[] = "0123456789.,!:?;";
-		for (int i = 0; i < strlen(chars); ++i) {
-			ofStringReplace(lowerCurrentDialogue, ofToString(chars[i]), "");
+		currentWords = sub[i] -> getIndividualWords();
+		tempCurrentWords.clear();
+		for (std::string element : currentWords) {
+			currentWord = ofToLower(element);	
+			ofStringReplace(currentWord, "'", " ");
+			ofStringReplace(currentWord, "-", " ");
+			char chars[] = "0123456789.,!:?;";
+			for (int i = 0; i < strlen(chars); ++i) {
+				ofStringReplace(currentWord, ofToString(chars[i]), "");
+			}
+			splitWords = ofSplitString(currentWord, " ");
+			for (std::string element : splitWords) {
+				if (element.length() > 0 && embed.find_case_sensitive(element) != -1) { 	
+					tempCurrentWords.push_back(element);
+				}
+			}	
 		}
-		lowerCurrentDialogue.insert(0, " ");
-		lowerCurrentDialogue += " ";
-		for (int i = 0; i < stopWords.size(); i++) {
-			ofStringReplace(lowerCurrentDialogue, " " + stopWords[i] + " ", " ");
-		}
-		if (lowerCurrentDialogue.length() > 1) {
-			lowerCurrentDialogue.erase(0, 1);
-			lowerCurrentDialogue.pop_back();
-		}
-		mapSubVector[i] = embed.words_to_vec(lowerCurrentDialogue, &used_indices);
+		currentDialogue = ofJoinString(tempCurrentWords, " ");
+		mapSubVector[i] = embed.words_to_vec(currentDialogue, &used_indices);
 	}
+	std::cout << "Subtitles: " << sub.size() << std::endl;
 }
 
 //--------------------------------------------------------------
@@ -202,9 +203,6 @@ void ofApp::setup() {
 	videoPlayer.setUsePixels(false);
 	ofSetBackgroundColor(200);
 	title = "Montageautomat 3";
-	
-	// exclude those words from subtitles
-	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "o", "m", "lsn", "from", "out", "alphaville", "outlands", "tokyorama", "pekingville", "eckel", "vonbraun", "jeckel"};
 
 	groupOfBangs[0].setup(190, 80 + 5, 20);
 	groupOfBangs[1].setup(190, 110 + 5, 20);
@@ -239,16 +237,14 @@ void ofApp::update() {
 				std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second  << ", Dialogue: " << sub[it -> second ] -> getDialogue() << std::endl; 
 				choosenSubs.push_back(it -> second);
 			}
-			random = rand() % choosenSubs.size();
-			selectSubtitle = choosenSubs[random];
+			selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
 		} else if (mapSubVectorCopy.size() > 0) {		
 			auto it = mapSubVectorCopy.begin();
 			std::advance(it, rand() % mapSubVectorCopy.size());
 			selectSubtitle = it -> first;
 		} else {
 			mapSubVectorCopy = mapSubVector;
-			random = rand() % sub.size();
-			selectSubtitle = random;
+			selectSubtitle = rand() % sub.size();
 		}
 
 		// set new video position and subtitle

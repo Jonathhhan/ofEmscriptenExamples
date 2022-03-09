@@ -29,7 +29,6 @@ class ofApp : public ofBaseApp{
 		vector<ofxWord2VecSorterItem> match;
 		
 		int selectSubtitle;
-		int random;
 		bool randomStart;
 		std::map<int, ofxWord2VecVector> mapSubVector;
 		std::map<int, ofxWord2VecVector> mapSubVectorCopy;
@@ -39,9 +38,11 @@ class ofApp : public ofBaseApp{
 		std::string title;
 		std::string fileName;
 		std::string drawSubtitleDialogue;
+		std::vector<std::string> currentWords;
+		std::string currentWord;
+		std::vector<std::string> splitWords;
+		std::vector<std::string> tempCurrentWords;
 		std::string currentDialogue;
-		std::string lowerCurrentDialogue;
-		std::vector<std::string> stopWords;
 		
 		void bang_1onMousePressed(bool & e);
 		void bang_2onMousePressed(bool & e);
