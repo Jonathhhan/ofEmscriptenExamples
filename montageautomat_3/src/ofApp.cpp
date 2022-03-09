@@ -238,7 +238,7 @@ void ofApp::update() {
 			choosenSubs.push_back(it -> second);
 		}
 		selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
-		if (mapSubVectorCopy.size() == 0) {		
+		if (mapSubVectorCopy.size() == 1) {		
 			mapSubVectorCopy = mapSubVector;
 			selectSubtitle = rand() % sub.size();
 		}
