@@ -32,7 +32,7 @@ class ofApp : public ofBaseApp{
 		bool randomStart;
 		std::map<int, ofxWord2VecVector> mapSubVector;
 		std::map<int, ofxWord2VecVector> mapSubVectorCopy;
-		std::map<double, int> multimapWeightSub;
+		std::multimap<double, int> multimapWeightSub;
 		std::vector<int> used_indices;
 		std::vector<int> choosenSubs;
 		std::string title;
@@ -43,6 +43,7 @@ class ofApp : public ofBaseApp{
 		std::vector<std::string> splitWords;
 		std::vector<std::string> tempCurrentWords;
 		std::string currentDialogue;
+		std::vector<std::string> stopWords;
 		
 		void bang_1onMousePressed(bool & e);
 		void bang_2onMousePressed(bool & e);

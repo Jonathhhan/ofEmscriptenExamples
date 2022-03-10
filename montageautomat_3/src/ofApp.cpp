@@ -110,11 +110,15 @@ void ofApp::loadSubtitleX(std::string & file) {
 				if (element.length() > 0 && embed.find_case_sensitive(element) != -1) { 	
 					tempCurrentWords.push_back(element);
 				}
+			}
+			for (std::string element : stopWords) {
+				tempCurrentWords.erase(std::remove(tempCurrentWords.begin(), tempCurrentWords.end(), element), tempCurrentWords.end());
 			}	
 		}
 		currentDialogue = ofJoinString(tempCurrentWords, " ");
-		if (currentDialogue.length() > 0)
+		if (currentDialogue.length() > 0){
 			mapSubVector[i] = embed.words_to_vec(currentDialogue, &used_indices);
+			}
 	}
 	std::cout << "Subtitles: " << sub.size() << std::endl;
 }
@@ -214,38 +218,42 @@ void ofApp::setup() {
 	hSlider_1.setup(190, 290 + 5, 80, 20, 0, 1);
 	hSlider_1.value = 0.5;
 	hSlider_1.slider = 0.5;
+	
+	// exclude those words
+	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "to", "o", "m", "lsn", "from", "out"};
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	videoPlayer.update();
 	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
-		multimapWeightSub.clear();
-		choosenSubs.clear();
 
 		// get vector similarities
 		Vec = mapSubVectorCopy[selectSubtitle];
 		mapSubVectorCopy.erase(selectSubtitle);
-		for (auto it = mapSubVectorCopy.begin(); it != mapSubVectorCopy.end(); ++it){
-			multimapWeightSub.insert(std::make_pair(Vec.dist_cosine_optimized(it -> second), it -> first));
+		for (auto element : mapSubVectorCopy){
+			multimapWeightSub.insert(std::make_pair(Vec.dist_cosine_optimized(element.second), element.first));
 		}
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
-		if (it -> first > 0) {
+		if (it -> first != 0) {
 			auto range = multimapWeightSub.equal_range(it -> first);
 			for (auto it = range.first; it != range.second; ++it) {
-				std::cout << "Weight: " << it -> first << ", Subtitle: " << it -> second  << ", Dialogue: " << sub[it -> second ] -> getDialogue() << std::endl; 
 				choosenSubs.push_back(it -> second);
 			}
 			selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
+			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		} else {
-			selectSubtitle = rand() % subs.size();
+			selectSubtitle = rand() % sub.size();
+			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		}
 		if (mapSubVectorCopy.size() == 1) {		
 			mapSubVectorCopy = mapSubVector;
 			selectSubtitle = rand() % sub.size();
 		}
+		multimapWeightSub.clear();
+		choosenSubs.clear();
 
 		// set new video position and subtitle
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
