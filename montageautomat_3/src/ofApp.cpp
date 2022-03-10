@@ -249,15 +249,18 @@ void ofApp::update() {
 			selectSubtitle = rand() % sub.size();
 			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		}
+		
+		// reload subtitles
 		if (mapSubVectorCopy.size() == 1) {		
 			mapSubVectorCopy = mapSubVector;
 			selectSubtitle = rand() % sub.size();
 		}
+		
 		multimapWeightSub.clear();
 		choosenSubs.clear();
 
 		// set new video position and subtitle
-		if ((sub[selectSubtitle] -> getStartTime() / 1000) / videoPlayer.getDuration() < (sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration()) {
+		if (sub[selectSubtitle] -> getStartTime() < sub[selectSubtitle - 1] -> getEndTime() + 1000) {
 		videoPlayer.setPosition((sub[selectSubtitle] -> getStartTime() / 1000) / videoPlayer.getDuration());
 		} else {
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
