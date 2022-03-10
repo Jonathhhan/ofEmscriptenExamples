@@ -244,7 +244,7 @@ void ofApp::update() {
 				choosenSubs.push_back(it -> second);
 			}
 			selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
-			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
+			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		} else {
 			selectSubtitle = rand() % sub.size();
 			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
@@ -257,7 +257,11 @@ void ofApp::update() {
 		choosenSubs.clear();
 
 		// set new video position and subtitle
+		if ((sub[selectSubtitle] -> getStartTime() / 1000) / videoPlayer.getDuration() < (sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration()) {
+		videoPlayer.setPosition((sub[selectSubtitle] -> getStartTime() / 1000) / videoPlayer.getDuration());
+		} else {
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
+		}
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
 }
