@@ -87,6 +87,7 @@ void loadSubtitle(std::string file) {
 void ofApp::loadSubtitleX(std::string & file) {
 	subParserFactory = new SubtitleParserFactory(ofToDataPath(file));
 	parser = subParserFactory->getParser();
+	mapSubVectorCopy.clear();
 
 	// to get subtitles
 	sub = parser -> getSubtitles();
@@ -256,8 +257,8 @@ void ofApp::update() {
 		choosenSubs.clear();
 
 		// set new video position and subtitle
-		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
-		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue(1);
+		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 2) / videoPlayer.getDuration());
+		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
 }
 
