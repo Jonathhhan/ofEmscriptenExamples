@@ -116,9 +116,9 @@ void ofApp::loadSubtitleX(std::string & file) {
 			}	
 		}
 		currentDialogue = ofJoinString(tempCurrentWords, " ");
-		if (currentDialogue.length() > 0){
+		if (currentDialogue.length() > 0) {
 			mapSubVector[i] = embed.words_to_vec(currentDialogue, &used_indices);
-			}
+		}
 	}
 	std::cout << "Subtitles: " << sub.size() << std::endl;
 }
