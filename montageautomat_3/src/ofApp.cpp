@@ -232,7 +232,7 @@ void ofApp::update() {
 		// get vector similarities
 		Vec = mapSubVectorCopy[selectSubtitle];
 		mapSubVectorCopy.erase(selectSubtitle);
-		for (auto element : mapSubVectorCopy){
+		for (auto element : mapSubVectorCopy) {
 			multimapWeightSub.insert(std::make_pair(Vec.dist_cosine_optimized(element.second), element.first));
 		}
 		
