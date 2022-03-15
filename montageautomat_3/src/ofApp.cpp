@@ -229,12 +229,12 @@ void ofApp::update() {
 	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
 
 		// get vector similarities	
-		for (auto element : mapSubVector) {
+		for (auto element : mapSubVectorCopy) {
 			if (element.first != selectSubtitle + 1) {
 				multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle + 1].dist_cosine_optimized(element.second), element.first));
 			}
 		}
-		mapSubVector.erase(selectSubtitle + 1);
+		mapSubVectorCopy.erase(selectSubtitle + 1);
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
