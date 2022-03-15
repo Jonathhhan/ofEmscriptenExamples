@@ -87,16 +87,15 @@ void loadSubtitle(std::string file) {
 void ofApp::loadSubtitleX(std::string & file) {
 	subParserFactory = new SubtitleParserFactory(ofToDataPath(file));
 	parser = subParserFactory->getParser();
-	mapSubVectorCopy.clear();
 
 	// to get subtitles
 	sub = parser -> getSubtitles();
 	EM_ASM(FS.unlink("/data/" + UTF8ToString($0)), file.c_str());
 	mapSubVector.clear();
-	for (int i = 0; i < sub.size(); ++i) {
+	for (auto sub_element : sub) {
 		
 		// process subtitles
-		currentWords = sub[i] -> getIndividualWords();
+		currentWords = sub_element -> getIndividualWords();
 		tempCurrentWords.clear();
 		for (std::string element : currentWords) {
 			currentWord = ofToLower(element);	
@@ -117,9 +116,9 @@ void ofApp::loadSubtitleX(std::string & file) {
 			}	
 		}
 		currentDialogue = ofJoinString(tempCurrentWords, " ");
-		if (currentDialogue.length() > 0) {
-			mapSubVector[i] = embed.words_to_vec(currentDialogue, &used_indices);
-		}
+		if (currentDialogue.length() > 0){
+			mapSubVector[sub_element -> getSubNo()] = embed.words_to_vec(currentDialogue, &used_indices);
+			}
 	}
 	std::cout << "Subtitles: " << sub.size() << std::endl;
 }
@@ -229,12 +228,13 @@ void ofApp::update() {
 	videoPlayer.update();
 	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
 
-		// get vector similarities
-		Vec = mapSubVectorCopy[selectSubtitle];
-		mapSubVectorCopy.erase(selectSubtitle);
-		for (auto element : mapSubVectorCopy) {
-			multimapWeightSub.insert(std::make_pair(Vec.dist_cosine_optimized(element.second), element.first));
+		// get vector similarities	
+		for (auto element : mapSubVector) {
+			if (element.first != selectSubtitle + 1) {
+				multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle + 1].dist_cosine_optimized(element.second), element.first));
+			}
 		}
+		mapSubVector.erase(selectSubtitle + 1);
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
@@ -243,29 +243,22 @@ void ofApp::update() {
 			for (auto it = range.first; it != range.second; ++it) {
 				choosenSubs.push_back(it -> second);
 			}
-			selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
-			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
+			selectSubtitle = choosenSubs[rand() % choosenSubs.size()] - 1;
+			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		} else {
 			selectSubtitle = rand() % sub.size();
 			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		}
-		
-		// reload subtitles
 		if (mapSubVectorCopy.size() == 1) {		
 			mapSubVectorCopy = mapSubVector;
 			selectSubtitle = rand() % sub.size();
 		}
-		
 		multimapWeightSub.clear();
 		choosenSubs.clear();
 
 		// set new video position and subtitle
-		if (sub[selectSubtitle] -> getStartTime() < sub[selectSubtitle - 1] -> getEndTime() + 1000) {
-		videoPlayer.setPosition((sub[selectSubtitle] -> getStartTime() / 1000) / videoPlayer.getDuration());
-		} else {
 		videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
-		}
-		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
+		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue(1);
 	}
 }
 
