@@ -214,7 +214,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			multimapWeightSub.clear();
 			choosenSubs.clear();
 		}
-		mapSubVectorCopy.erase(selectSubtitle + 1);
+		//mapSubVectorCopy.erase(selectSubtitle + 1);
 		videoPlayer.play();
 		groupOfToggles[0].value = 0;
 	}
