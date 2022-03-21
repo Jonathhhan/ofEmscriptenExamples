@@ -118,7 +118,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 		}
 		currentDialogue = ofJoinString(tempCurrentWords, " ");
 		if (currentDialogue.length() > 0){
-			mapSubVector[sub_element -> getSubNo()] = embed.words_to_vec(currentDialogue, &used_indices);
+			mapSubVector[sub_element -> getSubNo() - 1] = embed.words_to_vec(currentDialogue, &used_indices);
 			}
 	}
 	std::cout << "Subtitles: " << sub.size() << std::endl;
@@ -153,7 +153,7 @@ void ofApp::bang_5onMousePressed(bool & e) {
 	EM_ASM(
 	var title = prompt("Please enter custom words:");
 	if (title != null) {
-		Module.loadCustomWords(title.substring(0, 22));
+		Module.loadCustomWords(title);
 	}
 	);
 }
@@ -165,6 +165,16 @@ void loadCustomWords(std::string string) {
 void ofApp::loadCustomWordsX(std::string & string) {
 	customWords = ofToLower(string);
 	ofStringReplace(customWords, ",", "");
+	splitWords = ofSplitString(customWords, " ");
+	std::vector<std::string> joinedWords;
+	for (std::string element : splitWords) {
+		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
+			std::cout << "Word '" << element << "' does not exist!" << std::endl;
+		} else if (!element.empty()) {
+			joinedWords.push_back(element);
+		}
+	}
+	customWords = ofJoinString(joinedWords, " ");	
 }
 
 //--------------------------------------------------------------
@@ -179,15 +189,15 @@ EMSCRIPTEN_BINDINGS(Module) {
 void ofApp::bang_4onMousePressed(bool & e) {
 	if (videoPlayer.isLoaded()) {
 		mapSubVectorCopy = mapSubVector;
-		if (!bCustomWords && randomStart && sub.size() > 0) {
+		if ((!bCustomWords && randomStart && sub.size() > 0) || (randomStart && sub.size() > 0 && customWords.empty())) {
 			selectSubtitle = rand() % sub.size();
 			videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
 			drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
-		} else if (!bCustomWords && sub.size() > 0) {
+		} else if ((!bCustomWords && sub.size() > 0) || (sub.size() > 0 && customWords.empty())) {
 			selectSubtitle = 0;
 			videoPlayer.setPosition(0);
 			drawSubtitleDialogue = sub[0] -> getDialogue();
-		} else {
+		} else if (sub.size() > 0) {
 		
 			// get vector similarities	
 			for (auto element : mapSubVectorCopy) {
@@ -196,12 +206,12 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		
 			// choose a random subtitle with highest key
 			auto it = multimapWeightSub.rbegin();
-			if (it -> first != 0) {
+			if (it -> first != 0 && it -> first <= 1) {
 				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(it -> second);
 				}
-				selectSubtitle = choosenSubs[rand() % choosenSubs.size()] - 1;
+				selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
 				videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
 				drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 				std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
@@ -214,7 +224,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			multimapWeightSub.clear();
 			choosenSubs.clear();
 		}
-		//mapSubVectorCopy.erase(selectSubtitle + 1);
+		mapSubVectorCopy.erase(selectSubtitle);
 		videoPlayer.play();
 		groupOfToggles[0].value = 0;
 	}
@@ -240,6 +250,11 @@ void ofApp::toggle_3onMousePressed(bool & e) {
 }
 
 //--------------------------------------------------------------
+void ofApp::toggle_4onMousePressed(bool & e) {
+	bReadMe = e;
+}
+
+//--------------------------------------------------------------
 void ofApp::hSlider_1onMousePressed(float & e) {
 	videoPlayer.setVolume(e);
 }
@@ -254,6 +269,7 @@ void ofApp::setup() {
 	ofAddListener(groupOfToggles[0].onMousePressed, this, &ofApp::toggle_1onMousePressed);
 	ofAddListener(groupOfToggles[1].onMousePressed, this, &ofApp::toggle_2onMousePressed);
 	ofAddListener(groupOfToggles[2].onMousePressed, this, &ofApp::toggle_3onMousePressed);
+	ofAddListener(groupOfToggles[3].onMousePressed, this, &ofApp::toggle_4onMousePressed);
 	ofAddListener(hSlider_1.onMousePressed, this, &ofApp::hSlider_1onMousePressed);
 	ofAddListener(loadBinEvent, this, & ofApp::loadBinX);
 	ofAddListener(loadSubtitleEvent, this, & ofApp::loadSubtitleX);
@@ -265,17 +281,18 @@ void ofApp::setup() {
 	ofSetBackgroundColor(200);
 	title = "Montageautomat 3";
 
-	groupOfBangs[0].setup(190, 80 + 5, 20);
-	groupOfBangs[1].setup(190, 110 + 5, 20);
-	groupOfBangs[2].setup(190, 140 + 5, 20);
-	groupOfBangs[3].setup(190, 200 + 5, 20);
-	groupOfBangs[4].setup(190, 380 + 5, 20);
-	groupOfToggles[0].setup(190, 230 + 5, 20);
-	groupOfToggles[1].setup(190, 260 + 5, 20);
-	groupOfToggles[2].setup(190, 350 + 5, 20);
-	hSlider_1.setup(190, 290 + 5, 80, 20, 0, 1);
+	groupOfBangs[0].setup(190, 40 + 5, 20);
+	groupOfBangs[1].setup(190, 70 + 5, 20);
+	groupOfBangs[2].setup(190, 100 + 5, 20);
+	groupOfBangs[3].setup(190, 160 + 5, 20);
+	groupOfToggles[0].setup(190, 190 + 5, 20);
+	groupOfToggles[1].setup(190, 220 + 5, 20);
+	hSlider_1.setup(190, 250 + 5, 80, 20, 0, 1);
 	hSlider_1.value = 0.5;
 	hSlider_1.slider = 0.5;
+	groupOfToggles[2].setup(190, 300 + 5, 20);
+	groupOfBangs[4].setup(190, 330 + 5, 20);
+	groupOfToggles[3].setup(190, 380 + 5, 20);
 	
 	// exclude those words
 	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "to", "o", "m", "lsn", "from", "out"};
@@ -288,26 +305,26 @@ void ofApp::update() {
 
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
-			if (!bCustomWords) {
-				if (element.first != selectSubtitle + 1) {
-					multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle + 1].dist_cosine_optimized(element.second), element.first));
+			if (!bCustomWords || customWords.empty()) {
+				if (element.first != selectSubtitle) {
+					multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
 				}
 			} else {
-				if (element.first != selectSubtitle + 1) {
+				if (element.first != selectSubtitle) {
 					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
 				}
 			}
 		}
-		mapSubVectorCopy.erase(selectSubtitle + 1);
+		mapSubVectorCopy.erase(selectSubtitle);
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
-		if (it -> first != 0) {
+		if (it -> first != 0 && it -> first <= 1) {
 			auto range = multimapWeightSub.equal_range(it -> first);
 			for (auto it = range.first; it != range.second; ++it) {
 				choosenSubs.push_back(it -> second);
 			}
-			selectSubtitle = choosenSubs[rand() % choosenSubs.size()] - 1;
+			selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
 			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		} else {
 			selectSubtitle = rand() % sub.size();
@@ -333,21 +350,21 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
 	ofSetColor(100);
-	ofDrawRectangle(10, 10, 880, 430);
+	ofDrawRectangle(10, 10, 290, 430);
+	ofDrawRectangle(310, 10, 580, 430);
 	ofSetColor(200);
-	ofDrawRectangle(290, 10, 10, 430);
 	ofDrawRectangle(390, 50, 420, 320);
 	ofSetColor(255, 200, 200);
-	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
-	ofDrawBitmapString("Load embedding file", 30, 100);
-	ofDrawBitmapString("Load subtitle", 30, 130);
-	ofDrawBitmapString("Load movie", 30, 160);
-	ofDrawBitmapString("Play", 30, 220);
-	ofDrawBitmapString("Pause", 30, 250);
-	ofDrawBitmapString("Random start", 30, 280);
-	ofDrawBitmapString("Volume", 30, 310);
-	ofDrawBitmapString("Custom words", 30, 370);
-	ofDrawBitmapString("Choose custom words", 30, 400);
+	ofDrawBitmapString("Load embedding file", 30, 60);
+	ofDrawBitmapString("Load subtitle", 30, 90);
+	ofDrawBitmapString("Load movie", 30, 120);
+	ofDrawBitmapString("Play", 30, 180);
+	ofDrawBitmapString("Pause", 30, 210);
+	ofDrawBitmapString("Random start", 30, 240);
+	ofDrawBitmapString("Volume", 30, 270);
+	ofDrawBitmapString("Custom words", 30, 320);
+	ofDrawBitmapString("Choose custom words", 30, 350);
+	ofDrawBitmapString("Read me", 30, 400);
 	for(int i=0; i<NBANGS; i++) {
 		groupOfBangs[i].draw();
 	}
@@ -362,4 +379,17 @@ void ofApp::draw() {
 	if (videoPlayer.getTexture() -> isAllocated()) {
 		videoPlayer.getTexture() -> draw(400, 60 + 150 - 200 * (videoPlayer.getHeight() / videoPlayer.getWidth()), 400, 400 * (videoPlayer.getHeight() / videoPlayer.getWidth()));
 	}
+		if (bReadMe) {
+		ofSetColor(100);
+		ofDrawRectangle(310, 10, 580, 430);
+		ofSetColor(255, 200, 200);
+		ofDrawBitmapString("1. Load an embedding file, for example:", 330, 90);
+		ofDrawBitmapString("https://github.com/eyaler/word2vec-slim/", 330, 120);
+		ofDrawBitmapString("2. Load an .srt subtitle file", 330, 150);
+		ofDrawBitmapString("3. Load the corresponding video file", 330, 180);
+		ofDrawBitmapString("- Play also reloads the used subtitles", 330, 240);
+		ofDrawBitmapString("- Random start only works, if custom words is deselected", 330, 270);
+	}
+	ofSetColor(255, 200, 200);
+	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }

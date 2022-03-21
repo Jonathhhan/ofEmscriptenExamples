@@ -10,7 +10,7 @@
 #include "label.h"
 
 #define NBANGS 5
-#define NTOGGLES 3
+#define NTOGGLES 4
 
 class ofApp : public ofBaseApp{
 	public:
@@ -24,13 +24,12 @@ class ofApp : public ofBaseApp{
 		SubtitleParser* parser;
 		std::vector<SubtitleItem*> sub;
 
-		ofxWord2VecVector Vec;
 		ofxWord2VecEmbedding embed;
-		vector<ofxWord2VecSorterItem> match;
 		
 		int selectSubtitle;
 		bool randomStart;
 		bool bCustomWords;
+		bool bReadMe;
 		std::map<int, ofxWord2VecVector> mapSubVector;
 		std::map<int, ofxWord2VecVector> mapSubVectorCopy;
 		std::multimap<double, int> multimapWeightSub;
@@ -54,7 +53,8 @@ class ofApp : public ofBaseApp{
 		void bang_5onMousePressed(bool & e);	
 		void toggle_1onMousePressed(bool & e);
 		void toggle_2onMousePressed(bool & e);
-		void toggle_3onMousePressed(bool & e);	
+		void toggle_3onMousePressed(bool & e);
+		void toggle_4onMousePressed(bool & e);	
 		void hSlider_1onMousePressed(float & e);	
 		
 		void loadBinX(std::string & file);
