@@ -332,8 +332,8 @@ void ofApp::update() {
 		} else {
 			videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
 		}
-		std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
+		std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 	}
 }
 
