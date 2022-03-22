@@ -144,7 +144,6 @@ void loadVideo(std::string url) {
 
 void ofApp::loadVideoX(std::string & url) {
 	videoPlayer.load(url);
-	
 }
 
 //--------------------------------------------------------------
