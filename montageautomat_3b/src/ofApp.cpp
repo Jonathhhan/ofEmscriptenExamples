@@ -86,29 +86,29 @@ void loadSubtitle(std::string file) {
 }
 
 void ofApp::loadSubtitleX(std::string & file) {
+	mapSubVector.clear();
 	subParserFactory = new SubtitleParserFactory(ofToDataPath(file));
 	parser = subParserFactory->getParser();
 
 	// to get subtitles
 	sub = parser -> getSubtitles();
 	EM_ASM(FS.unlink("/data/" + UTF8ToString($0)), file.c_str());
-	mapSubVector.clear();
 	for (auto sub_element : sub) {
 		
 		// process subtitles
-		currentWords = sub_element -> getIndividualWords();
 		tempCurrentWords.clear();
+		currentWords = sub_element -> getIndividualWords();
 		for (std::string element : currentWords) {
 			currentWord = ofToLower(element);	
 			ofStringReplace(currentWord, "'", " ");
 			ofStringReplace(currentWord, "-", " ");
-			char chars[] = "0123456789.,!:?;";
+			char chars[] = "0123456789.,!:?;()\"";
 			for (int i = 0; i < strlen(chars); ++i) {
 				ofStringReplace(currentWord, ofToString(chars[i]), "");
 			}
 			splitWords = ofSplitString(currentWord, " ");
 			for (std::string element : splitWords) {
-				if (element.length() > 0 && embed.find_case_sensitive(element) != -1) { 	
+				if (embed.find_case_sensitive(element) != -1) { 	
 					tempCurrentWords.push_back(element);
 				}
 			}
@@ -117,7 +117,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 			}	
 		}
 		currentDialogue = ofJoinString(tempCurrentWords, " ");
-		if (currentDialogue.length() > 0) {
+		if (!currentDialogue.empty()) {
 			mapSubVector[sub_element -> getSubNo() - 1] = embed.words_to_vec(currentDialogue, &used_indices);
 		}
 	}
@@ -200,6 +200,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			drawSubtitleDialogue = sub[0] -> getDialogue();
 			std::cout << "Weight: " << 0 << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		} else if (sub.size() > 0) {
+			multimapWeightSub.clear();
 		
 			// get vector similarities	
 			for (auto element : mapSubVectorCopy) {
@@ -209,6 +210,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			// choose a random subtitle with highest key
 			auto it = multimapWeightSub.rbegin();
 			if (it -> first != 0) {
+				choosenSubs.clear();
 				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(it -> second);
@@ -223,8 +225,6 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 				std::cout << "Weight: " << it -> first << ", Subtitle55: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 			}
-			multimapWeightSub.clear();
-			choosenSubs.clear();
 		}
 		mapSubVectorCopy.erase(selectSubtitle);
 		videoPlayer.play();
@@ -304,6 +304,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	videoPlayer.update();
 	if (sub[selectSubtitle] -> getEndTime() + 1000 <= videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
+		multimapWeightSub.clear();
 
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
@@ -320,6 +321,7 @@ void ofApp::update() {
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
 		if (it -> first != 0) {
+			choosenSubs.clear();
 			auto range = multimapWeightSub.equal_range(it -> first);
 			for (auto it = range.first; it != range.second; ++it) {
 				choosenSubs.push_back(it -> second);
@@ -334,8 +336,6 @@ void ofApp::update() {
 			mapSubVectorCopy = mapSubVector;
 			selectSubtitle = rand() % sub.size();
 		}
-		multimapWeightSub.clear();
-		choosenSubs.clear();
 
 		// set new video position and subtitle
 		if (sub[selectSubtitle] -> getStartTime() < sub[selectSubtitle - 1] -> getEndTime() + 1000) {
@@ -387,7 +387,10 @@ void ofApp::draw() {
 		ofDrawBitmapString("https://github.com/eyaler/word2vec-slim/", 330, 120);
 		ofDrawBitmapString("2. Load an .srt subtitle file", 330, 150);
 		ofDrawBitmapString("3. Load the corresponding video file", 330, 180);
+		ofDrawBitmapString("- \"Play\" also reloads the used subtitles", 330, 240);
+		ofDrawBitmapString("- \"Random start\" only works, if custom words is deselected", 330, 270);
 	}
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
