@@ -96,27 +96,26 @@ void ofApp::loadSubtitleX(std::string & file) {
 	for (auto sub_element : sub) {
 		
 		// process subtitles
-		tempCurrentWords.clear();
-		currentWords = sub_element -> getIndividualWords();
-		for (std::string element : currentWords) {
-			currentWord = ofToLower(element);	
-			ofStringReplace(currentWord, "'", " ");
-			ofStringReplace(currentWord, "-", " ");
+		currentWords.clear();
+		for (std::string element : sub_element -> getIndividualWords()) {
+			ofToLower(element);	
+			ofStringReplace(element, "'", " ");
+			ofStringReplace(element, "-", " ");
 			char chars[] = "0123456789.,!:?;()\"";
 			for (int i = 0; i < strlen(chars); ++i) {
-				ofStringReplace(currentWord, ofToString(chars[i]), "");
+				ofStringReplace(element, ofToString(chars[i]), "");
 			}
-			splitWords = ofSplitString(currentWord, " ");
+			splitWords = ofSplitString(element, " ");
 			for (std::string element : splitWords) {
 				if (embed.find_case_sensitive(element) != -1) { 	
-					tempCurrentWords.push_back(element);
+					currentWords.push_back(element);
 				}
 			}
 			for (std::string element : stopWords) {
-				tempCurrentWords.erase(std::remove(tempCurrentWords.begin(), tempCurrentWords.end(), element), tempCurrentWords.end());
+				currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
 			}	
 		}
-		currentDialogue = ofJoinString(tempCurrentWords, " ");
+		currentDialogue = ofJoinString(currentWords, " ");
 		if (!currentDialogue.empty()) {
 			mapSubVector[sub_element -> getSubNo() - 1] = embed.words_to_vec(currentDialogue, &used_indices);
 		}
@@ -164,9 +163,9 @@ void loadCustomWords(std::string string) {
 
 void ofApp::loadCustomWordsX(std::string & string) {
 	joinedWords.clear();
-	tempString = ofToLower(string);
-	ofStringReplace(tempString, ",", "");
-	splitWords = ofSplitString(tempString, " ");
+	ofToLower(string);
+	ofStringReplace(string, ",", "");
+	splitWords = ofSplitString(string, " ");
 	for (std::string element : splitWords) {
 		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
