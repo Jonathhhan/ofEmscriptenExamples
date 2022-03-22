@@ -174,8 +174,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 			joinedWords.push_back(element);
 		}
 	}
-	customWords = ofJoinString(joinedWords, " ");	
-	mapSubVectorCopy = mapSubVector;
+	customWords = ofJoinString(joinedWords, " ");
 }
 
 //--------------------------------------------------------------
