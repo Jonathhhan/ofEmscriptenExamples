@@ -308,10 +308,12 @@ void ofApp::update() {
 
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
-			if ((!bCustomWords && element.first != selectSubtitle) || (customWords.empty() && element.first != selectSubtitle)) {
-				multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
-			} else if (element.first != selectSubtitle) {
-				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
+			if (!element.second.empty() && element.first != selectSubtitle) {
+				if (!bCustomWords) || (customWords.empty()) {
+					multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
+				} else {
+					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
+				}
 			}
 		}
 		mapSubVectorCopy.erase(selectSubtitle);
@@ -378,7 +380,7 @@ void ofApp::draw() {
 	if (videoPlayer.getTexture() -> isAllocated()) {
 		videoPlayer.getTexture() -> draw(400, 60 + 150 - 200 * (videoPlayer.getHeight() / videoPlayer.getWidth()), 400, 400 * (videoPlayer.getHeight() / videoPlayer.getWidth()));
 	}
-		if (bReadMe) {
+	if (bReadMe) {
 		ofSetColor(100);
 		ofDrawRectangle(310, 10, 580, 430);
 		ofSetColor(255, 200, 200);
