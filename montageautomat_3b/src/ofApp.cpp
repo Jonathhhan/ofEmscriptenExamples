@@ -191,14 +191,8 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		mapSubVectorCopy = mapSubVector;
 		if ((!bCustomWords && randomStart && sub.size() > 0) || (randomStart && sub.size() > 0 && customWords.empty())) {
 			selectSubtitle = rand() % sub.size();
-			videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
-			drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
-			std::cout << "Weight: " << 0 << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		} else if ((!bCustomWords && sub.size() > 0) || (sub.size() > 0 && customWords.empty())) {
 			selectSubtitle = 0;
-			videoPlayer.setPosition(0);
-			drawSubtitleDialogue = sub[0] -> getDialogue();
-			std::cout << "Weight: " << 0 << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		} else if (sub.size() > 0) {
 			multimapWeightSub.clear();
 		
@@ -216,16 +210,13 @@ void ofApp::bang_4onMousePressed(bool & e) {
 					choosenSubs.push_back(it -> second);
 				}
 				selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
-				videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
-				drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
-				std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 			} else {
 				selectSubtitle = rand() % sub.size();
-				videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
-				drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
-				std::cout << "Weight: " << it -> first << ", Subtitle55: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 			}
 		}
+		videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
+		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
+		std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		mapSubVectorCopy.erase(selectSubtitle);
 		videoPlayer.play();
 		groupOfToggles[0].value = 0;
@@ -326,11 +317,9 @@ void ofApp::update() {
 			for (auto it = range.first; it != range.second; ++it) {
 				choosenSubs.push_back(it -> second);
 			}
-			selectSubtitle = choosenSubs[rand() % choosenSubs.size()];
-			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
+			selectSubtitle = choosenSubs[rand() % choosenSubs.size()]; 
 		} else {
 			selectSubtitle = rand() % sub.size();
-			std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 		}
 		if (mapSubVectorCopy.size() == 1) {		
 			mapSubVectorCopy = mapSubVector;
@@ -343,6 +332,7 @@ void ofApp::update() {
 		} else {
 			videoPlayer.setPosition((sub[selectSubtitle - 1] -> getEndTime() / 1000 + 1) / videoPlayer.getDuration());
 		}
+		std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 	}
 }
