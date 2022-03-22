@@ -169,7 +169,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	std::vector<std::string> joinedWords;
 	for (std::string element : splitWords) {
 		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
-			std::cout << "Word '" << element << "' does not exist!" << std::endl;
+			std::cout << "Word '" << element << "' does not exist! Choose another word." << std::endl;
 		} else if (!element.empty()) {
 			joinedWords.push_back(element);
 		}
