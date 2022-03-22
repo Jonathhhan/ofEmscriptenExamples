@@ -37,6 +37,7 @@ class ofApp : public ofBaseApp{
 		std::vector<int> choosenSubs;
 		std::string title;
 		std::string fileName;
+		std::string tempString;
 		std::string drawSubtitleDialogue;
 		std::vector<std::string> currentWords;
 		std::vector<std::string> joinedWords;
