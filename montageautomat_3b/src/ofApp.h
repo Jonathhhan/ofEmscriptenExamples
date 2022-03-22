@@ -39,6 +39,7 @@ class ofApp : public ofBaseApp{
 		std::string fileName;
 		std::string drawSubtitleDialogue;
 		std::vector<std::string> currentWords;
+		std::vector<std::string> joinedWords;
 		std::string currentWord;
 		std::string customWords;
 		std::vector<std::string> splitWords;
