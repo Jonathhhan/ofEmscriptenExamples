@@ -394,4 +394,3 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
-
