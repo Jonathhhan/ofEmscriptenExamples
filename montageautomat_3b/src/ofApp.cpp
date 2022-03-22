@@ -308,7 +308,7 @@ void ofApp::update() {
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
 			if (!element.second.empty() && element.first != selectSubtitle) {
-				if (!bCustomWords) || (customWords.empty()) {
+				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
 				} else {
 					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
