@@ -117,9 +117,9 @@ void ofApp::loadSubtitleX(std::string & file) {
 			}	
 		}
 		currentDialogue = ofJoinString(tempCurrentWords, " ");
-		if (currentDialogue.length() > 0){
+		if (currentDialogue.length() > 0) {
 			mapSubVector[sub_element -> getSubNo() - 1] = embed.words_to_vec(currentDialogue, &used_indices);
-			}
+		}
 	}
 	std::cout << "Subtitles: " << sub.size() << std::endl;
 }
@@ -151,9 +151,9 @@ void ofApp::loadVideoX(std::string & url) {
 //--------------------------------------------------------------
 void ofApp::bang_5onMousePressed(bool & e) {
 	EM_ASM(
-	var title = prompt("Please enter custom words:");
-	if (title != null) {
-		Module.loadCustomWords(title);
+	var customWords = prompt("Please enter custom words:");
+	if (customWords != null) {
+		Module.loadCustomWords(customWords);
 	}
 	);
 }
@@ -175,6 +175,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 		}
 	}
 	customWords = ofJoinString(joinedWords, " ");	
+	mapSubVectorCopy = mapSubVector;
 }
 
 //--------------------------------------------------------------
@@ -193,20 +194,22 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			selectSubtitle = rand() % sub.size();
 			videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
 			drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
+			std::cout << "Weight: " << 0 << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		} else if ((!bCustomWords && sub.size() > 0) || (sub.size() > 0 && customWords.empty())) {
 			selectSubtitle = 0;
 			videoPlayer.setPosition(0);
 			drawSubtitleDialogue = sub[0] -> getDialogue();
+			std::cout << "Weight: " << 0 << ", Subtitle: " << selectSubtitle  << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		} else if (sub.size() > 0) {
 		
 			// get vector similarities	
 			for (auto element : mapSubVectorCopy) {
 				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
 			}
-		
+			
 			// choose a random subtitle with highest key
 			auto it = multimapWeightSub.rbegin();
-			if (it -> first != 0 && it -> first <= 1) {
+			if (it -> first != 0) {
 				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(it -> second);
@@ -219,7 +222,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				selectSubtitle = rand() % sub.size();
 				videoPlayer.setPosition(sub[selectSubtitle] -> getStartTime() / 1000 / videoPlayer.getDuration());
 				drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
-				std::cout << "Weight: " << it -> first << ", Subtitle: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
+				std::cout << "Weight: " << it -> first << ", Subtitle55: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl; 
 			}
 			multimapWeightSub.clear();
 			choosenSubs.clear();
@@ -305,21 +308,17 @@ void ofApp::update() {
 
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
-			if (!bCustomWords || customWords.empty()) {
-				if (element.first != selectSubtitle) {
-					multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
-				}
-			} else {
-				if (element.first != selectSubtitle) {
-					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
-				}
+			if ((!bCustomWords && element.first != selectSubtitle) || (customWords.empty() && element.first != selectSubtitle)) {
+				multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
+			} else if (element.first != selectSubtitle) {
+				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
 			}
 		}
 		mapSubVectorCopy.erase(selectSubtitle);
 		
 		// choose a random subtitle with highest key
 		auto it = multimapWeightSub.rbegin();
-		if (it -> first != 0 && it -> first <= 1) {
+		if (it -> first != 0) {
 			auto range = multimapWeightSub.equal_range(it -> first);
 			for (auto it = range.first; it != range.second; ++it) {
 				choosenSubs.push_back(it -> second);
@@ -387,8 +386,6 @@ void ofApp::draw() {
 		ofDrawBitmapString("https://github.com/eyaler/word2vec-slim/", 330, 120);
 		ofDrawBitmapString("2. Load an .srt subtitle file", 330, 150);
 		ofDrawBitmapString("3. Load the corresponding video file", 330, 180);
-		ofDrawBitmapString("- Play also reloads the used subtitles", 330, 240);
-		ofDrawBitmapString("- Random start only works, if custom words is deselected", 330, 270);
 	}
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
