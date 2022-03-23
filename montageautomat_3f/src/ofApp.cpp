@@ -409,7 +409,7 @@ void ofApp::draw() {
 	}
 	hSlider_1.draw();
 	for (SubtitleItem* element : sub) {
-		if (element->getStartTime() <= videoPlayer.getPosition() * 1000 && element -> getEndTime() >= videoPlayer.getPosition() * 1000 && videoPlayer.getPosition() * 1000 >= sub[selectSubtitle] -> getStartTime()) {
+		if (element->getStartTime() <= videoPlayer.getPosition() * 1000 && element -> getEndTime() >= videoPlayer.getPosition() * 1000) {
 			ofDrawBitmapString(element->getDialogue(), 600 - (element->getDialogue()).size() * 4, 400);
 		} 
 	}
