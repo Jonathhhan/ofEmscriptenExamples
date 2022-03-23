@@ -86,7 +86,10 @@ void loadSubtitle(std::string file) {
 }
 
 void ofApp::loadSubtitleX(std::string & file) {
+	videoPlayer.setPaused(true);
+	selectSubtitle = 0;
 	mapSubVector.clear();
+	mapSubVectorCopy.clear();
 	subParserFactory = new SubtitleParserFactory(ofToDataPath(file));
 	parser = subParserFactory->getParser();
 
@@ -228,7 +231,6 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			drawSubtitleDialogue = sub[selectSubtitle] -> getDialogue();
 			std::cout << "Weight: " << it -> first << ", Subtitle55: " << selectSubtitle << ", Dialogue: " << sub[selectSubtitle] -> getDialogue() << std::endl;
 		}
-		mapSubVectorCopy.erase(selectSubtitle);
 		videoPlayer.play();
 		groupOfToggles[0].value = 0;
 	}
@@ -312,7 +314,7 @@ void ofApp::update() {
 		for (auto element : mapSubVectorCopy) {
 			if (!element.second.empty() && element.first != selectSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
-					multimapWeightSub.insert(std::make_pair(mapSubVector[selectSubtitle].dist_cosine_optimized(element.second), element.first));
+					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[selectSubtitle].dist_cosine_optimized(element.second), element.first));
 				} else {
 					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords, &used_indices).dist_cosine_optimized(element.second), element.first));
 				}
