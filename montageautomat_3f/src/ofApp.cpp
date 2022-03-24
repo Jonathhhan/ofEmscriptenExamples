@@ -213,7 +213,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			// set video position and subtitle
 			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 			words.clear();
-			for (int i = 0; i < counter2 + 1; i++) {
+			for (int i = 0; i <= counter2; i++) {
 				words.push_back(sub[selectSubtitle + i] -> getDialogue());
 			}
 			std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
@@ -249,7 +249,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			// set video position and subtitle
 			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 			words.clear();
-			for (int i = 0; i < counter2 + 1; i++) {
+			for (int i = 0; i <= counter2; i++) {
 				words.push_back(sub[selectSubtitle + i] -> getDialogue());
 			}
 			std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
@@ -376,7 +376,7 @@ void ofApp::update() {
 		// set video position and subtitle
 		videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 		words.clear();
-		for (int i = 0; i < counter2 + 1; i++) {
+		for (int i = 0; i <= counter2; i++) {
 			words.push_back(sub[selectSubtitle + i] -> getDialogue());
 		}
 		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
@@ -408,9 +408,9 @@ void ofApp::draw() {
 		groupOfToggles[i].draw();
 	}
 	hSlider_1.draw();
-	for (SubtitleItem* element : sub) {
-		if (element -> getStartTime() <= videoPlayer.getPosition() * 1000 - 40 && element -> getEndTime() >= videoPlayer.getPosition() * 1000 - 40) {
-			ofDrawBitmapString(element->getDialogue(), 600 - (element->getDialogue()).size() * 4, 400);
+	for (int i = selectSubtitle; i <= selectSubtitle + counter2; i++) {
+		if (sub[i] -> getStartTime() <= videoPlayer.getPosition() * 1000 - 40 && sub[i] -> getEndTime() >= videoPlayer.getPosition() * 1000 - 40) {
+			ofDrawBitmapString(sub[i] -> getDialogue(), 600 - (sub[i] -> getDialogue()).size() * 4, 400);
 		} 
 	}
 	ofSetColor(255);
