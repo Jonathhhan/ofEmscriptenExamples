@@ -182,7 +182,6 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	}
 	if (!joinedWords.empty()) {
 		customWords = ofJoinString(joinedWords, " ");
-		std::cout << customWords << std::endl;
 	}
 }
 
