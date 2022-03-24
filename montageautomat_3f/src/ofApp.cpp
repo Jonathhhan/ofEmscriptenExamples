@@ -101,14 +101,14 @@ void ofApp::loadSubtitleX(std::string & file) {
 		// process subtitles
 		counter++;
 		for (std::string element : sub_element -> getIndividualWords()) {
-			ofToLower(element);	
-			ofStringReplace(element, "'", " ");
-			ofStringReplace(element, "-", " ");
+			std::string lower = ofToLower(element);	
+			ofStringReplace(lower, "'", " ");
+			ofStringReplace(lower, "-", " ");
 			char chars[] = "0123456789.,!:?;()\"";
 			for (int i = 0; i < strlen(chars); ++i) {
-				ofStringReplace(element, ofToString(chars[i]), "");
+				ofStringReplace(lower, ofToString(chars[i]), "");
 			}
-			splitWords = ofSplitString(element, " ");
+			splitWords = ofSplitString(lower, " ");
 			for (std::string element : splitWords) {
 				if (embed.find_case_sensitive(element) != -1) { 	
 					currentWords.push_back(element);
@@ -170,9 +170,9 @@ void loadCustomWords(std::string string) {
 
 void ofApp::loadCustomWordsX(std::string & string) {
 	joinedWords.clear();
-	ofToLower(string);
-	ofStringReplace(string, ",", "");
-	splitWords = ofSplitString(string, " ");
+	std::string lower = ofToLower(string);
+	ofStringReplace(lower, ",", "");
+	splitWords = ofSplitString(lower, " ");
 	for (std::string element : splitWords) {
 		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
@@ -182,6 +182,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	}
 	if (!joinedWords.empty()) {
 		customWords = ofJoinString(joinedWords, " ");
+		std::cout << customWords << std::endl;
 	}
 }
 
@@ -424,3 +425,4 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
