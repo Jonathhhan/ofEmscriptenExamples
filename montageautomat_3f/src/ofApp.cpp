@@ -365,12 +365,14 @@ void ofApp::update() {
 				auto it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectSubtitle = it -> first;
+				counter2 = get<1>(it -> second);
 			}
 		} else {		
 			mapSubVectorCopy = mapSubVector;
 			auto it = mapSubVectorCopy.begin();
 			std::advance(it, rand() % mapSubVectorCopy.size());
 			selectSubtitle = it -> first;
+			counter2 = get<1>(it -> second);
 		}
 		
 		// set video position and subtitle
