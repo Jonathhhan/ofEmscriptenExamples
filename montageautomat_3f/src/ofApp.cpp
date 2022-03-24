@@ -203,11 +203,9 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectSubtitle = it -> first;
 				counter2 = get<1>(it -> second);
-				videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 			} else {
 				selectSubtitle = 0;
 				counter2 = get<1>(mapSubVectorCopy[0]);
-				videoPlayer.setPosition(0);
 			}
 			weight = 0;
 		} else if (sub.size() > 0) {
@@ -239,7 +237,11 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				counter2 = get<1>(it -> second);
 			}
 		}
-		videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
+		if (selectSubtitle > 0) {
+			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
+		} else {
+			videoPlayer.setPosition(0);
+		}
 		videoPlayer.play();
 		groupOfToggles[0].value = 0;
 		words.clear();
@@ -420,5 +422,3 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
-
-
