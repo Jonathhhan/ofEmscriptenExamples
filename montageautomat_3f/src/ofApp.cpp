@@ -209,14 +209,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				counter2 = get<1>(mapSubVectorCopy[0]);
 				videoPlayer.setPosition(0);
 			}
-			
-			// set video position and subtitle
-			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
-			words.clear();
-			for (int i = 0; i <= counter2; i++) {
-				words.push_back(sub[selectSubtitle + i] -> getDialogue());
-			}
-			std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
+			weight = 0;
 		} else if (sub.size() > 0) {
 			multimapWeightSub.clear();
 		
@@ -245,17 +238,15 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				selectSubtitle = it -> first;
 				counter2 = get<1>(it -> second);
 			}
-			
-			// set video position and subtitle
-			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
-			words.clear();
-			for (int i = 0; i <= counter2; i++) {
-				words.push_back(sub[selectSubtitle + i] -> getDialogue());
-			}
-			std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
 		}
+		videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 		videoPlayer.play();
 		groupOfToggles[0].value = 0;
+		words.clear();
+		for (int i = 0; i <= counter2; i++) {
+			words.push_back(sub[selectSubtitle + i] -> getDialogue());
+		}
+		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
 	}
 }
 
@@ -429,4 +420,5 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
 
