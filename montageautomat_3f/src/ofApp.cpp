@@ -203,7 +203,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectSubtitle = it -> first;
 				counter2 = get<1>(it -> second);
-				videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 100) / videoPlayer.getDuration() / 1000);
+				videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 			} else {
 				selectSubtitle = 0;
 				counter2 = get<1>(mapSubVectorCopy[0]);
@@ -211,7 +211,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			}
 			
 			// set video position and subtitle
-			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 100) / videoPlayer.getDuration() / 1000);
+			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 			words.clear();
 			for (int i = 0; i < counter2 + 1; i++) {
 				words.push_back(sub[selectSubtitle + i] -> getDialogue());
@@ -247,7 +247,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			}
 			
 			// set video position and subtitle
-			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 100) / videoPlayer.getDuration() / 1000);
+			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 			words.clear();
 			for (int i = 0; i < counter2 + 1; i++) {
 				words.push_back(sub[selectSubtitle + i] -> getDialogue());
@@ -374,7 +374,7 @@ void ofApp::update() {
 		}
 		
 		// set video position and subtitle
-		videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 100) / videoPlayer.getDuration() / 1000);
+		videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 		words.clear();
 		for (int i = 0; i < counter2 + 1; i++) {
 			words.push_back(sub[selectSubtitle + i] -> getDialogue());
@@ -409,7 +409,7 @@ void ofApp::draw() {
 	}
 	hSlider_1.draw();
 	for (SubtitleItem* element : sub) {
-		if (element -> getStartTime() <= videoPlayer.getPosition() * 1000 - 50 && element -> getEndTime() >= videoPlayer.getPosition() * 1000 - 50) {
+		if (element -> getStartTime() <= videoPlayer.getPosition() * 1000 - 40 && element -> getEndTime() >= videoPlayer.getPosition() * 1000 - 40) {
 			ofDrawBitmapString(element->getDialogue(), 600 - (element->getDialogue()).size() * 4, 400);
 		} 
 	}
