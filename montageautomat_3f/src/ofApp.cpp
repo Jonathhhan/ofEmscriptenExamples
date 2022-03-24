@@ -118,7 +118,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 				currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
 			}	
 		}
-		if (sub_element -> getDialogue().back() == '.' || sub_element -> getDialogue().back() == '?' || sub_element -> getDialogue().back() == '!' || sub_element -> getDialogue().back() == '"') {
+		if (sub_element -> getDialogue().back() == '.' || sub_element -> getDialogue().back() == '?' || sub_element -> getDialogue().back() == '!' || sub_element -> getDialogue().back() == '"' || sub_element -> getDialogue().back() == ''') {
 			currentDialogue = ofJoinString(currentWords, " ");
 			currentWords.clear();
 			if (!currentDialogue.empty()) {
