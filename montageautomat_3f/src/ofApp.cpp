@@ -373,6 +373,7 @@ void ofApp::update() {
 			std::advance(it, rand() % mapSubVectorCopy.size());
 			selectSubtitle = it -> first;
 			counter2 = get<1>(it -> second);
+			weight = 0;
 		}
 		
 		// set video position and subtitle
