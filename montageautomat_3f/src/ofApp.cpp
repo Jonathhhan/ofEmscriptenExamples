@@ -368,7 +368,6 @@ void ofApp::update() {
 			counter2 = get<1>(it -> second);
 			weight = 0;
 		}
-		
 		if (selectSubtitle > 0) {
 			videoPlayer.setPosition((sub[selectSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 		} else {
