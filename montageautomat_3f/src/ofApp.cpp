@@ -421,13 +421,9 @@ void ofApp::draw() {
 		ofSetColor(100);
 		ofDrawRectangle(310, 10, 580, 430);
 		ofSetColor(255, 200, 200);
-		ofDrawBitmapString("1. Load an embedding file, for example:", 330, 90);
-		ofDrawBitmapString("https://github.com/eyaler/word2vec-slim/", 330, 120);
-		ofDrawBitmapString("2. Load an .srt subtitle file", 330, 150);
-		ofDrawBitmapString("3. Load the corresponding video file", 330, 180);
-		ofDrawBitmapString("- \"Play\" also reloads the used subtitles", 330, 240);
-		ofDrawBitmapString("- \"Random start\" only works, if custom words is deselected", 330, 270);
+		ofDrawBitmapString("1. Load an embedding file, for example:\n\nhttps://github.com/eyaler/word2vec-slim/\n\n2. Load an .srt subtitle file\n\n3. Load the corresponding video file\n\n- \"Play\" also reloads the used subtitles\n\n- \"Random start\" only works, if \"Custom words\" is deselected", 370, 90);
 	}
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
