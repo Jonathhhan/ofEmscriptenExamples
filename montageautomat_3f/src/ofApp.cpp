@@ -412,7 +412,7 @@ void ofApp::draw() {
 	hSlider_1.draw();
 	for (int i = selectSubtitle; i <= selectSubtitle + counter2; i++) {
 		if (sub[i] -> getStartTime() <= videoPlayer.getPosition() * 1000 - 50 && sub[i] -> getEndTime() >= videoPlayer.getPosition() * 1000 - 50) {
-			ofDrawBitmapString(sub[i] -> getDialogue(), 400, 400);
+			ofDrawBitmapString(sub[i] -> getDialogue(), 400, 395);
 		} 
 	}
 	ofSetColor(255);
