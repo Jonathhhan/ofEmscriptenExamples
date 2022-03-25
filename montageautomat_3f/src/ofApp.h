@@ -41,6 +41,8 @@ class ofApp : public ofBaseApp{
 		std::vector<int> choosenLength;
 		std::string title;
 		std::string fileName;
+		std::string lowerString;
+		std::string joinedString;
 		std::string drawSubtitleDialogue;
 		std::vector<std::string> currentWords;
 		std::vector<std::string> joinedWords;

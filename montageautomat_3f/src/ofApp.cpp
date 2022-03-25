@@ -101,14 +101,14 @@ void ofApp::loadSubtitleX(std::string & file) {
 		// process subtitles
 		counter++;
 		for (std::string element : sub_element -> getIndividualWords()) {
-			std::string lower = ofToLower(element);	
-			ofStringReplace(lower, "'", " ");
-			ofStringReplace(lower, "-", " ");
+			lowerString = ofToLower(element);	
+			ofStringReplace(lowerString, "'", " ");
+			ofStringReplace(lowerString, "-", " ");
 			char chars[] = "0123456789.,!:?;()\"";
 			for (int i = 0; i < strlen(chars); ++i) {
-				ofStringReplace(lower, ofToString(chars[i]), "");
+				ofStringReplace(lowerString, ofToString(chars[i]), "");
 			}
-			splitWords = ofSplitString(lower, " ");
+			splitWords = ofSplitString(lowerString, " ");
 			for (std::string element : splitWords) {
 				if (embed.find_case_sensitive(element) != -1) { 	
 					currentWords.push_back(element);
@@ -170,9 +170,9 @@ void loadCustomWords(std::string string) {
 
 void ofApp::loadCustomWordsX(std::string & string) {
 	joinedWords.clear();
-	std::string lower = ofToLower(string);
-	ofStringReplace(lower, ",", "");
-	splitWords = ofSplitString(lower, " ");
+	lowerString = ofToLower(string);
+	ofStringReplace(lowerString, ",", "");
+	splitWords = ofSplitString(lowerString, " ");
 	for (std::string element : splitWords) {
 		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
@@ -246,7 +246,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		for (int i = 0; i <= counter2; i++) {
 			words.push_back(sub[selectSubtitle + i] -> getDialogue());
 		}
-		std::string joinedString = ofJoinString(words, " ");
+		joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
 		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << joinedString << std::endl;
 		groupOfToggles[0].value = 0;
@@ -379,7 +379,7 @@ void ofApp::update() {
 		for (int i = 0; i <= counter2; i++) {
 			words.push_back(sub[selectSubtitle + i] -> getDialogue());
 		}
-		std::string joinedString = ofJoinString(words, " ");
+		joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
 		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << joinedString << std::endl;
 	}
