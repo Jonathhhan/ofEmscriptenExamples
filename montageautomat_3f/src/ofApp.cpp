@@ -246,7 +246,9 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		for (int i = 0; i <= counter2; i++) {
 			words.push_back(sub[selectSubtitle + i] -> getDialogue());
 		}
-		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
+		std::string joinedString = ofJoinString(words, " ");
+		ofStringReplace(joinedString, "\n", " ");
+		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << joinedString << std::endl;
 		groupOfToggles[0].value = 0;
 		videoPlayer.play();
 	}
@@ -377,7 +379,9 @@ void ofApp::update() {
 		for (int i = 0; i <= counter2; i++) {
 			words.push_back(sub[selectSubtitle + i] -> getDialogue());
 		}
-		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << ofJoinString(words, " ") << std::endl;
+		std::string joinedString = ofJoinString(words, " ");
+		ofStringReplace(joinedString, "\n", " ");
+		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectSubtitle << " - " << selectSubtitle + counter2 << ", Dialogue: " << joinedString << std::endl;
 	}
 }
 
