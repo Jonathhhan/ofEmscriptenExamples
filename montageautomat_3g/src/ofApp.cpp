@@ -124,7 +124,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 			std::string currentDialogue = ofJoinString(currentWords, " ");
 			currentWords.clear();
 			if (!currentDialogue.empty()) {
-				mapSubVector[sub_element -> getSubNo() - counter - 1] = std::make_tuple(embed.words_to_vec(currentDialogue), counter);
+				mapSubVector[sub_element -> getSubNo() - counter - 1] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
 			}
 			counter = - 1;
 		}
@@ -205,18 +205,18 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				auto it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectedSubtitle = it -> first;
-				numberOfSubtitles = get<1>(it -> second);
+				numberOfSubtitles = it -> second.second;
 			} else {
 				selectedSubtitle = 0;
-				numberOfSubtitles = get<1>(mapSubVectorCopy[0]);
+				numberOfSubtitles = mapSubVectorCopy[0].second;
 			}
 			weight = 0;
 		} else if (sub.size() > 0) {
-			std::multimap<double, std::tuple<int, int>> multimapWeightSub;
+			std::multimap<double, std::pair<int, int>> multimapWeightSub;
 		
 			// get vector similarities	
 			for (auto element : mapSubVectorCopy) {
-				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first, get<1>(element.second))));
+				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_pair(element.first, get<1>(element.second))));
 			}
 			
 			// choose a random subtitle with highest key
@@ -226,16 +226,16 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				std::vector<std::pair<int, int>> choosenSubs;
 				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
-					choosenSubs.push_back(std::make_pair(get<0>(it->second), get<1>(it->second)));
+					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
-				selectedSubtitle = get<0>(choosenSubs[random]);
-				numberOfSubtitles = get<1>(choosenSubs[random]);
+				selectedSubtitle = choosenSubs[random].first;
+				numberOfSubtitles = choosenSubs[random].second;
 			} else {
 				auto it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectedSubtitle = it -> first;
-				numberOfSubtitles = get<1>(it -> second);
+				numberOfSubtitles = it -> second.second;
 			}
 		}
 		if (selectedSubtitle > 0) {
@@ -327,14 +327,14 @@ void ofApp::setup() {
 void ofApp::update() {
 	videoPlayer.update();
 	if (sub[selectedSubtitle + numberOfSubtitles] -> getEndTime() + 50 < videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
-		std::multimap<double, std::tuple<int, int>> multimapWeightSub;
+		std::multimap<double, std::pair<int, int>> multimapWeightSub;
 		double weight;
 
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
 			if (!get<0>(element.second).empty() && element.first != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
-					multimapWeightSub.insert(std::make_pair(get<0>(mapSubVectorCopy[selectedSubtitle]).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first, get<1>(element.second))));
+					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[selectedSubtitle].first.dist_cosine_optimized(element.second.first), std::make_pair(element.first, element.second.second)));
 				} else {
 					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first, get<1>(element.second))));
 				}
@@ -350,24 +350,24 @@ void ofApp::update() {
 				std::vector<std::pair<int, int>> choosenSubs;
 				auto range = multimapWeightSub.equal_range(it->first);
 				for (auto it = range.first; it != range.second; ++it) {
-					choosenSubs.push_back(std::make_pair(get<0>(it->second), get<1>(it->second)));
+					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
-				selectedSubtitle = get<0>(choosenSubs[random]);
-				numberOfSubtitles = get<1>(choosenSubs[random]);
+				selectedSubtitle = choosenSubs[random].first;
+				numberOfSubtitles = choosenSubs[random].second;
 			}
 			else {
 				auto it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectedSubtitle = it -> first;
-				numberOfSubtitles = get<1>(it -> second);
+				numberOfSubtitles = it -> second.second;
 			}
 		} else {		
 			mapSubVectorCopy = mapSubVector;
 			auto it = mapSubVectorCopy.begin();
 			std::advance(it, rand() % mapSubVectorCopy.size());
 			selectedSubtitle = it -> first;
-			numberOfSubtitles = get<1>(it -> second);
+			numberOfSubtitles = it -> second.second;
 			weight = 0;
 		}
 		if (selectedSubtitle > 0) {

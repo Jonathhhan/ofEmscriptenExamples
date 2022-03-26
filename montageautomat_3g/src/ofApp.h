@@ -23,8 +23,8 @@ class ofApp : public ofBaseApp{
 		std::vector<SubtitleItem*> sub;
 
 		ofxWord2VecEmbedding embed;
-		std::map<int, std::tuple<ofxWord2VecVector, int>> mapSubVector;
-		std::map<int, std::tuple<ofxWord2VecVector, int>> mapSubVectorCopy;
+		std::map<int, std::pair<ofxWord2VecVector, int>> mapSubVector;
+		std::map<int, std::pair<ofxWord2VecVector, int>> mapSubVectorCopy;
 		
 		int selectedSubtitle;
 		int numberOfSubtitles;
