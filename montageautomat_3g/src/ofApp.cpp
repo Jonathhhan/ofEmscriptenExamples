@@ -112,7 +112,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 			}
 			std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 			for (std::string element : splitWords) {
-				if (embed.find_case_sensitive(element) != -1) { 	
+				if (embed.find_case_sensitive(element) != - 1) { 	
 					currentWords.push_back(element);
 				}
 			}
@@ -176,7 +176,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	ofStringReplace(lowerString, ",", "");
 	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 	for (std::string element : splitWords) {
-		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
+		if (embed.find_case_sensitive(element) == - 1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
 		} else if (!element.empty()) {
 			joinedWords.push_back(element);
