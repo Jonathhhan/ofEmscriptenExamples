@@ -86,7 +86,7 @@ void loadSubtitle(std::string file) {
 }
 
 void ofApp::loadSubtitleX(std::string & file) {
-	int counter = - 1;
+	int counter = -1;
 	std::vector<std::string> currentWords;
 	videoPlayer.setPaused(true);
 	selectedSubtitle = 0;
@@ -98,33 +98,31 @@ void ofApp::loadSubtitleX(std::string & file) {
 	// to get subtitles
 	sub = parser -> getSubtitles();
 	EM_ASM(FS.unlink("/data/" + UTF8ToString($0)), file.c_str());
-	for (auto sub_element : sub) {
+	for (auto element : sub) {
 		
 		// process subtitles
 		counter++;
-		for (std::string element : sub_element -> getIndividualWords()) {
-			std::string lowerString = ofToLower(element);
-			ofStringReplace(lowerString, "'", " ");
-			ofStringReplace(lowerString, "-", " ");
-			char chars[] = "0123456789.,!:?;()\"";
-			for (int i = 0; i < strlen(chars); ++i) {
-				ofStringReplace(lowerString, ofToString(chars[i]), "");
-			}
-			std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-			for (std::string element : splitWords) {
-				if (embed.find_case_sensitive(element) != - 1) { 	
-					currentWords.push_back(element);
-				}
-			}
-			for (std::string element : stopWords) {
-				currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
-			}	
+		std::string lowerString = ofToLower(element -> getDialogue());
+		ofStringReplace(lowerString, "'", " ");
+		ofStringReplace(lowerString, "-", " ");
+		char chars[] = "0123456789.,!:?;()\"";
+		for (int i = 0; i < strlen(chars); ++i) {
+			ofStringReplace(lowerString, ofToString(chars[i]), "");
 		}
-		if (sub_element -> getDialogue().back() == '.' || sub_element -> getDialogue().back() == '?' || sub_element -> getDialogue().back() == '!' || sub_element -> getDialogue().back() == '"' || sub_element -> getDialogue().back() == '\'') {
+		std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
+		for (std::string element : splitWords) {
+			if (embed.find_case_sensitive(element) != -1) { 	
+				currentWords.push_back(element);
+			}
+		}
+		for (std::string element : stopWords) {
+			currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
+		}
+		if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'') {
 			std::string currentDialogue = ofJoinString(currentWords, " ");
 			currentWords.clear();
 			if (!currentDialogue.empty()) {
-				mapSubVector[sub_element -> getSubNo() - counter - 1] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+				mapSubVector[element -> getSubNo() - counter - 1] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
 			}
 			counter = - 1;
 		}
@@ -176,7 +174,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	ofStringReplace(lowerString, ",", "");
 	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 	for (std::string element : splitWords) {
-		if (embed.find_case_sensitive(element) == - 1 && !element.empty()) { 
+		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
 		} else if (!element.empty()) {
 			joinedWords.push_back(element);
