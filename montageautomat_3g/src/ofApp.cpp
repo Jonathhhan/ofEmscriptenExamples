@@ -103,28 +103,30 @@ void ofApp::loadSubtitleX(std::string & file) {
 		// process subtitles
 		counter++;
 		std::string lowerString = ofToLower(element -> getDialogue());
-		ofStringReplace(lowerString, "'", " ");
-		ofStringReplace(lowerString, "-", " ");
-		char chars[] = "0123456789.,!:?;()\"";
-		for (int i = 0; i < strlen(chars); ++i) {
-			ofStringReplace(lowerString, ofToString(chars[i]), "");
-		}
-		std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-		for (std::string element : splitWords) {
-			if (embed.find_case_sensitive(element) != - 1) { 	
-				currentWords.push_back(element);
+		if (!lowerString.empty()) {
+			ofStringReplace(lowerString, "'", " ");
+			ofStringReplace(lowerString, "-", " ");
+			char chars[] = "0123456789.,!:?;()\"";
+			for (int i = 0; i < strlen(chars); ++i) {
+				ofStringReplace(lowerString, ofToString(chars[i]), "");
 			}
-		}
-		for (std::string element : stopWords) {
-			currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
-		}
-		if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'') {
-			std::string currentDialogue = ofJoinString(currentWords, " ");
-			currentWords.clear();
-			if (!currentDialogue.empty()) {
-				mapSubVector[element -> getSubNo() - counter - 1] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+			std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
+			for (std::string element : splitWords) {
+				if (embed.find_case_sensitive(element) != - 1) { 	
+					currentWords.push_back(element);
+				}
 			}
-			counter = - 1;
+			for (std::string element : stopWords) {
+				currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
+			}
+			if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'') {
+				std::string currentDialogue = ofJoinString(currentWords, " ");
+				currentWords.clear();
+				if (!currentDialogue.empty()) {
+					mapSubVector[element -> getSubNo() - counter - 1] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+				}
+				counter = - 1;
+			}
 		}
 	}
 	std::cout << "Subtitles: " << file << ", Subtitle size: " << sub.size() << std::endl;
@@ -243,7 +245,9 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		}
 		std::vector<std::string> words;
 		for (int i = 0; i <= numberOfSubtitles; i++) {
-			words.push_back(sub[selectedSubtitle + i] -> getDialogue());
+			if (!sub[selectedSubtitle + i] -> getDialogue().empty()) {
+				words.push_back(sub[selectedSubtitle + i] -> getDialogue());
+			}
 		}
 		std::string joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
@@ -375,7 +379,9 @@ void ofApp::update() {
 		}
 		std::vector<std::string> words;
 		for (int i = 0; i <= numberOfSubtitles; i++) {
-			words.push_back(sub[selectedSubtitle + i] -> getDialogue());
+			if (!sub[selectedSubtitle + i] -> getDialogue().empty()) {
+				words.push_back(sub[selectedSubtitle + i] -> getDialogue());
+			}
 		}
 		std::string joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
@@ -426,3 +432,4 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
