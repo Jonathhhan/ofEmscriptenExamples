@@ -216,7 +216,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		
 			// get vector similarities	
 			for (auto element : mapSubVectorCopy) {
-				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_pair(element.first, get<1>(element.second))));
+				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_pair(element.first, element.second.second)));
 			}
 			
 			// choose a random subtitle with highest key
@@ -334,11 +334,11 @@ void ofApp::update() {
 
 		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
-			if (!get<0>(element.second).empty() && element.first != selectedSubtitle) {
+			if (!element.second.first.empty() && element.first != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[selectedSubtitle].first.dist_cosine_optimized(element.second.first), std::make_pair(element.first, element.second.second)));
 				} else {
-					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first, get<1>(element.second))));
+					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_tuple(element.first, element.second.second)));
 				}
 			}
 		}
@@ -350,7 +350,7 @@ void ofApp::update() {
 			weight = it -> first;
 			if (it->first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
-				auto range = multimapWeightSub.equal_range(it->first);
+				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
@@ -432,4 +432,3 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
-
