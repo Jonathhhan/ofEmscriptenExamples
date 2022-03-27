@@ -225,7 +225,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			if (it -> first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
 				auto range = multimapWeightSub.equal_range(it -> first);
-				for (auto it = range.first; it != range.second; ++it) {
+				for (auto it = range.first; it < range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
@@ -348,10 +348,10 @@ void ofApp::update() {
 		if (mapSubVectorCopy.size() > 0) {
 			auto it = multimapWeightSub.rbegin();
 			weight = it -> first;
-			if (it->first != 0) {
+			if (it -> first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
 				auto range = multimapWeightSub.equal_range(it -> first);
-				for (auto it = range.first; it != range.second; ++it) {
+				for (auto it = range.first; it < range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
@@ -407,10 +407,10 @@ void ofApp::draw() {
 	ofDrawBitmapString("Custom words", 30, 320);
 	ofDrawBitmapString("Choose custom words", 30, 350);
 	ofDrawBitmapString("Read me", 30, 400);
-	for(int i=0; i<NBANGS; i++) {
+	for(int i=0; i < NBANGS; i++) {
 		groupOfBangs[i].draw();
 	}
-	for(int i=0; i<NTOGGLES; i++) {
+	for(int i=0; i < NTOGGLES; i++) {
 		groupOfToggles[i].draw();
 	}
 	hSlider_1.draw();
