@@ -111,7 +111,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 		}
 		std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 		for (std::string element : splitWords) {
-			if (embed.find_case_sensitive(element) != - 1 && !element.empty) { 	
+			if (embed.find_case_sensitive(element) != - 1 && !element.empty()) { 	
 				currentWords.push_back(element);
 			}
 		}
