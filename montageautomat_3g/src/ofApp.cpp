@@ -1,5 +1,4 @@
 #include "ofApp.h"
-
 #include "emscripten.h"
 #include "emscripten/bind.h"
 
@@ -282,12 +281,10 @@ void ofApp::setup() {
 	ofAddListener(loadSubtitleEvent, this, & ofApp::loadSubtitleX);
 	ofAddListener(loadVideoEvent, this, & ofApp::loadVideoX);
 	ofAddListener(loadCustomWordsEvent, this, & ofApp::loadCustomWordsX);
-	
 	videoPlayer.setPixelFormat(OF_PIXELS_RGBA);
 	videoPlayer.setUsePixels(false);
 	ofSetBackgroundColor(200);
 	title = "Montageautomat 3";
-	
 	groupOfBangs[0].setup(190, 40 + 5, 20);
 	groupOfBangs[1].setup(190, 70 + 5, 20);
 	groupOfBangs[2].setup(190, 100 + 5, 20);
@@ -300,7 +297,6 @@ void ofApp::setup() {
 	groupOfToggles[2].setup(190, 300 + 5, 20);
 	groupOfBangs[4].setup(190, 330 + 5, 20);
 	groupOfToggles[3].setup(190, 380 + 5, 20);
-	
 	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "to", "o", "m", "lsn", "from", "out"};
 }
 
