@@ -98,7 +98,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 	// to get subtitles
 	sub = parser -> getSubtitles();
 	EM_ASM(FS.unlink("/data/" + UTF8ToString($0)), file.c_str());
-	for (auto element : sub) {
+	for (SubtitleItem* element : sub) {
 		
 		// process subtitles
 		counter++;
@@ -202,7 +202,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		mapSubVectorCopy = mapSubVector;
 		if ((sub.size() > 0 && !bCustomWords) || (sub.size() > 0 && customWords.empty())) {
 			if (bRandomStart) {
-				auto it = mapSubVectorCopy.begin();
+				std::map<int, std::pair<ofxWord2VecVector, int>> it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectedSubtitle = it -> first;
 				numberOfSubtitles = it -> second.second;
@@ -215,24 +215,24 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			std::multimap<double, std::pair<int, int>> multimapWeightSub;
 		
 			// get vector similarities	
-			for (auto element : mapSubVectorCopy) {
+			for (std::map<int, std::pair<ofxWord2VecVector, int>> element : mapSubVectorCopy) {
 				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_pair(element.first, element.second.second)));
 			}
 			
 			// choose a random subtitle with highest key
-			auto it = multimapWeightSub.rbegin();
+			std::map<int, std::pair<ofxWord2VecVector, int>> it = multimapWeightSub.rbegin();
 			weight = it -> first;
 			if (it -> first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
-				auto range = multimapWeightSub.equal_range(it -> first);
-				for (auto it = range.first; it != range.second; ++it) {
+				double range = multimapWeightSub.equal_range(it -> first);
+				for (double it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
 				selectedSubtitle = choosenSubs[random].first;
 				numberOfSubtitles = choosenSubs[random].second;
 			} else {
-				auto it = mapSubVectorCopy.begin();
+				std::map<int, std::pair<ofxWord2VecVector, int>> it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectedSubtitle = it -> first;
 				numberOfSubtitles = it -> second.second;
@@ -333,7 +333,7 @@ void ofApp::update() {
 		double weight;
 
 		// get vector similarities	
-		for (auto element : mapSubVectorCopy) {
+		for (std::map<int, std::pair<ofxWord2VecVector, int>> element : mapSubVectorCopy) {
 			if (!element.second.first.empty() && element.first != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[selectedSubtitle].first.dist_cosine_optimized(element.second.first), std::make_pair(element.first, element.second.second)));
@@ -346,12 +346,12 @@ void ofApp::update() {
 		
 		// choose a random subtitle with highest key
 		if (mapSubVectorCopy.size() > 0) {
-			auto it = multimapWeightSub.rbegin();
+			std::map<int, std::pair<ofxWord2VecVector, int>> it = multimapWeightSub.rbegin();
 			weight = it -> first;
 			if (it->first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
-				auto range = multimapWeightSub.equal_range(it -> first);
-				for (auto it = range.first; it != range.second; ++it) {
+				double range = multimapWeightSub.equal_range(it -> first);
+				for double it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
@@ -359,14 +359,14 @@ void ofApp::update() {
 				numberOfSubtitles = choosenSubs[random].second;
 			}
 			else {
-				auto it = mapSubVectorCopy.begin();
+				std::map<int, std::pair<ofxWord2VecVector, int>> it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				selectedSubtitle = it -> first;
 				numberOfSubtitles = it -> second.second;
 			}
 		} else {		
 			mapSubVectorCopy = mapSubVector;
-			auto it = mapSubVectorCopy.begin();
+			std::map<int, std::pair<ofxWord2VecVector, int>> it = mapSubVectorCopy.begin();
 			std::advance(it, rand() % mapSubVectorCopy.size());
 			selectedSubtitle = it -> first;
 			numberOfSubtitles = it -> second.second;
