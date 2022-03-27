@@ -16,15 +16,9 @@ void ofApp::bang_1onMousePressed(bool & e) {
 	input.type = 'file';
 	input.accept = '.bin';
 	input.onchange = function(e) {
-
-		// getting a hold of the file reference
 		var file = e.target.files[0]; 
-
-		// setting up the reader
 		var reader = new FileReader();
 		reader.readAsArrayBuffer(file);
-
-		// here we tell the reader what to do when it's done reading...
 		reader.onload = function() {
 			var arrayBuffer = reader.result;
 			var uint8View = new Uint8Array(arrayBuffer);	
@@ -58,15 +52,9 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	input.type = 'file';
 	input.accept = '.srt';
 	input.onchange = function(e) {
-
-		// getting a hold of the file reference
 		var file = e.target.files[0]; 
-
-		// setting up the reader
 		var reader = new FileReader();
 		reader.readAsArrayBuffer(file);
-
-		// here we tell the reader what to do when it's done reading...
 		reader.onload = function() {
 			var arrayBuffer = reader.result;
 			var uint8View = new Uint8Array(arrayBuffer);	
@@ -94,13 +82,9 @@ void ofApp::loadSubtitleX(std::string & file) {
 	mapSubVectorCopy.clear();
 	SubtitleParserFactory* subParserFactory = new SubtitleParserFactory(ofToDataPath(file));
 	SubtitleParser* parser = subParserFactory -> getParser();
-
-	// to get subtitles
 	sub = parser -> getSubtitles();
 	EM_ASM(FS.unlink("/data/" + UTF8ToString($0)), file.c_str());
 	for (auto element : sub) {
-		
-		// process subtitles
 		counter++;
 		std::string lowerString = ofToLower(element -> getDialogue());
 		if (!lowerString.empty()) {
@@ -213,13 +197,9 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			weight = 0;
 		} else if (sub.size() > 0) {
 			std::multimap<double, std::pair<int, int>> multimapWeightSub;
-		
-			// get vector similarities	
 			for (auto element : mapSubVectorCopy) {
 				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_pair(element.first, element.second.second)));
 			}
-			
-			// choose a random subtitle with highest key
 			auto it = multimapWeightSub.rbegin();
 			weight = it -> first;
 			if (it -> first != 0) {
@@ -307,7 +287,7 @@ void ofApp::setup() {
 	videoPlayer.setUsePixels(false);
 	ofSetBackgroundColor(200);
 	title = "Montageautomat 3";
-
+	
 	groupOfBangs[0].setup(190, 40 + 5, 20);
 	groupOfBangs[1].setup(190, 70 + 5, 20);
 	groupOfBangs[2].setup(190, 100 + 5, 20);
@@ -321,7 +301,6 @@ void ofApp::setup() {
 	groupOfBangs[4].setup(190, 330 + 5, 20);
 	groupOfToggles[3].setup(190, 380 + 5, 20);
 	
-	// exclude those words
 	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "to", "o", "m", "lsn", "from", "out"};
 }
 
@@ -331,8 +310,6 @@ void ofApp::update() {
 	if (sub[selectedSubtitle + numberOfSubtitles] -> getEndTime() + 50 < videoPlayer.getPosition() * 1000 && mapSubVectorCopy.size() > 0) {
 		std::multimap<double, std::pair<int, int>> multimapWeightSub;
 		double weight;
-
-		// get vector similarities	
 		for (auto element : mapSubVectorCopy) {
 			if (!element.second.first.empty() && element.first != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
@@ -343,8 +320,6 @@ void ofApp::update() {
 			}
 		}
 		mapSubVectorCopy.erase(selectedSubtitle);
-		
-		// choose a random subtitle with highest key
 		if (mapSubVectorCopy.size() > 0) {
 			auto it = multimapWeightSub.rbegin();
 			weight = it -> first;
