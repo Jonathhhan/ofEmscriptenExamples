@@ -127,7 +127,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 			counter = - 1;
 		}
 	}
-	std::cout << "Subtitles: " << sub.size() << std::endl;
+	std::cout << "Subtitles: " << file << ", Subtitle size: " << sub.size() << std::endl;
 }
 
 //--------------------------------------------------------------
