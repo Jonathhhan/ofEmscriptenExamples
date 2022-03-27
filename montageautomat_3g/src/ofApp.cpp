@@ -86,7 +86,7 @@ void loadSubtitle(std::string file) {
 }
 
 void ofApp::loadSubtitleX(std::string & file) {
-	int counter = -1;
+	int counter = - 1;
 	std::vector<std::string> currentWords;
 	videoPlayer.setPaused(true);
 	selectedSubtitle = 0;
@@ -111,7 +111,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 		}
 		std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 		for (std::string element : splitWords) {
-			if (embed.find_case_sensitive(element) != -1) { 	
+			if (embed.find_case_sensitive(element) != - 1) { 	
 				currentWords.push_back(element);
 			}
 		}
@@ -174,7 +174,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	ofStringReplace(lowerString, ",", "");
 	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 	for (std::string element : splitWords) {
-		if (embed.find_case_sensitive(element) == -1 && !element.empty()) { 
+		if (embed.find_case_sensitive(element) == - 1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
 		} else if (!element.empty()) {
 			joinedWords.push_back(element);
@@ -237,7 +237,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			}
 		}
 		if (selectedSubtitle > 0) {
-			videoPlayer.setPosition((sub[selectedSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
+			videoPlayer.setPosition((sub[selectedSubtitle - 1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 		} else {
 			videoPlayer.setPosition(0);
 		}
@@ -369,7 +369,7 @@ void ofApp::update() {
 			weight = 0;
 		}
 		if (selectedSubtitle > 0) {
-			videoPlayer.setPosition((sub[selectedSubtitle -1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
+			videoPlayer.setPosition((sub[selectedSubtitle - 1] -> getEndTime() + 50) / videoPlayer.getDuration() / 1000);
 		} else {
 			videoPlayer.setPosition(0);
 		}
