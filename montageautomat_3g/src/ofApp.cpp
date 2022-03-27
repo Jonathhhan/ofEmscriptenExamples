@@ -204,7 +204,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			if (it -> first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
 				auto range = multimapWeightSub.equal_range(it -> first);
-				for (auto it = range.first; it < range.second; ++it) {
+				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
@@ -322,7 +322,7 @@ void ofApp::update() {
 			if (it -> first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
 				auto range = multimapWeightSub.equal_range(it -> first);
-				for (auto it = range.first; it < range.second; ++it) {
+				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
@@ -403,3 +403,4 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
