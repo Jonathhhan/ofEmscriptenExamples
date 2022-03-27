@@ -111,12 +111,12 @@ void ofApp::loadSubtitleX(std::string & file) {
 				ofStringReplace(lowerString, ofToString(chars[i]), "");
 			}
 			std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-			for (std::string element : splitWords) {
+			for (auto element : splitWords) {
 				if (embed.find_case_sensitive(element) != - 1) { 	
 					currentWords.push_back(element);
 				}
 			}
-			for (std::string element : stopWords) {
+			for (auto element : stopWords) {
 				currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
 			}
 			if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'') {
@@ -175,7 +175,7 @@ void ofApp::loadCustomWordsX(std::string & string) {
 	std::string lowerString = ofToLower(string);
 	ofStringReplace(lowerString, ",", "");
 	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-	for (std::string element : splitWords) {
+	for (auto element : splitWords) {
 		if (embed.find_case_sensitive(element) == - 1 && !element.empty()) { 
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word." << std::endl;
 		} else if (!element.empty()) {
@@ -407,10 +407,10 @@ void ofApp::draw() {
 	ofDrawBitmapString("Custom words", 30, 320);
 	ofDrawBitmapString("Choose custom words", 30, 350);
 	ofDrawBitmapString("Read me", 30, 400);
-	for(int i=0; i < NBANGS; i++) {
+	for (int i = 0; i < NBANGS; i++) {
 		groupOfBangs[i].draw();
 	}
-	for(int i=0; i < NTOGGLES; i++) {
+	for (int i = 0; i < NTOGGLES; i++) {
 		groupOfToggles[i].draw();
 	}
 	hSlider_1.draw();
