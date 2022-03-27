@@ -351,7 +351,7 @@ void ofApp::update() {
 			if (it->first != 0) {
 				std::vector<std::pair<int, int>> choosenSubs;
 				double range = multimapWeightSub.equal_range(it -> first);
-				for double it = range.first; it != range.second; ++it) {
+				for (double it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_pair(it -> second.first, it -> second.second));
 				}
 				int random = rand() % choosenSubs.size();
