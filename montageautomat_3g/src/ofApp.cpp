@@ -75,6 +75,7 @@ void loadSubtitle(std::string file) {
 
 void ofApp::loadSubtitleX(std::string & file) {
 	int counter = - 1;
+	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
 	videoPlayer.setPaused(true);
 	mapSubVector.clear();
