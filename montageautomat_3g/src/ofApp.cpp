@@ -78,6 +78,7 @@ void ofApp::loadSubtitleX(std::string & file) {
 	std::vector<std::string> currentWords;
 	videoPlayer.setPaused(true);
 	mapSubVector.clear();
+	mapSubVectorCopy.clear();
 	SubtitleParserFactory* subParserFactory = new SubtitleParserFactory(ofToDataPath(file));
 	SubtitleParser* parser = subParserFactory -> getParser();
 	sub = parser -> getSubtitles();
