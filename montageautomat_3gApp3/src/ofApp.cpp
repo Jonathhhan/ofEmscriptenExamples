@@ -83,10 +83,10 @@ void ofApp::bang_5onMousePressed(bool & e) {
 
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e) {
-	if (videoPlayerVector[numberOfVideoPlayer]->isLoaded()) {
+	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
 		double weight;
 		for(int i = 0; i < videoPlayerVector.size(); i++){
-			videoPlayerVector[i]->setPaused(true);
+			videoPlayerVector[i] -> setPaused(true);
 		}
 		mapSubVectorCopy = mapSubVector;
 		if ((sub.size() > 0 && !bCustomWords) || (sub.size() > 0 && customWords.empty())) {
@@ -129,9 +129,9 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			}
 		}
 		if (selectedSubtitle > 0) {
-			videoPlayerVector[numberOfVideoPlayer]->setPosition((subVector[numberOfVideoPlayer][selectedSubtitle - 1] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer]->getDuration() / 1000);
+			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][selectedSubtitle - 1] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer]->getDuration() / 1000);
 		} else {
-			videoPlayerVector[numberOfVideoPlayer]->setPosition(0);
+			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
 		std::vector<std::string> words;
 		for (int i = 0; i <= numberOfSubtitles; i++) {
@@ -143,16 +143,16 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		ofStringReplace(joinedString, "\n", " ");
 		std::cout << "Subtitles left: " << mapSubVectorCopy.size() << ", Weight: " << weight << ", Subtitles: " << selectedSubtitle << " - " << selectedSubtitle + numberOfSubtitles << ", Video player: " << numberOfVideoPlayer << ", Dialogue: " << joinedString << std::endl;
 		groupOfToggles[0].value = 0;
-		videoPlayerVector[numberOfVideoPlayer]->play();
+		videoPlayerVector[numberOfVideoPlayer] -> play();
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::toggle_1onMousePressed(bool & e) {
-	if (e && videoPlayerVector[numberOfVideoPlayer]->isLoaded()) {
-		videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
+	if (e && videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
+		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 	} else {
-		videoPlayerVector[numberOfVideoPlayer]->setPaused(false);	
+		videoPlayerVector[numberOfVideoPlayer] -> setPaused(false);	
 	}
 }
 
@@ -216,7 +216,7 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	videoPlayerVector[numberOfVideoPlayer]->update();
+	videoPlayerVector[numberOfVideoPlayer] -> update();
 	if (!sub.empty() && subVector[numberOfVideoPlayer][selectedSubtitle + numberOfSubtitles] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
 		videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
