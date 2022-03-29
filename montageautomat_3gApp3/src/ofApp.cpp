@@ -23,40 +23,40 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	dir.listDir();
 	dir.sort();
 	for(int i = 0; i < dir.size(); i++){
-	SubtitleParserFactory* subParserFactory = new SubtitleParserFactory(dir.getPath(i));
-	SubtitleParser* parser = subParserFactory -> getParser();
-	sub = parser -> getSubtitles();
-	subVector.push_back(sub);
-	for (auto element : sub) {
-		counter++;
-		std::string lowerString = ofToLower(element -> getDialogue());
-		if (!lowerString.empty()) {
-			ofStringReplace(lowerString, "'", " ");
-			ofStringReplace(lowerString, "-", " ");
-			char chars[] = "0123456789.,!:?;()\"";
-			for (int j = 0; j < strlen(chars); ++j) {
-				ofStringReplace(lowerString, ofToString(chars[j]), "");
-			}
-			std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-			for (auto element : splitWords) {
-				if (embed.find_case_sensitive(element) != - 1) { 	
-					currentWords.push_back(element);
+		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory(dir.getPath(i));
+		SubtitleParser* parser = subParserFactory -> getParser();
+		sub = parser -> getSubtitles();
+		subVector.push_back(sub);
+		for (auto element : sub) {
+			counter++;
+			std::string lowerString = ofToLower(element -> getDialogue());
+			if (!lowerString.empty()) {
+				ofStringReplace(lowerString, "'", " ");
+				ofStringReplace(lowerString, "-", " ");
+				char chars[] = "0123456789.,!:?;()\"";
+				for (int j = 0; j < strlen(chars); ++j) {
+					ofStringReplace(lowerString, ofToString(chars[j]), "");
 				}
-			}
-			for (auto element : stopWords) {
-				currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
-			}
-			if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'') {
-				std::string currentDialogue = ofJoinString(currentWords, " ");
-				currentWords.clear();
-				if (!currentDialogue.empty()) {
-					mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
+				for (auto element : splitWords) {
+					if (embed.find_case_sensitive(element) != - 1) { 	
+						currentWords.push_back(element);
+					}
 				}
-				counter = - 1;
+				for (auto element : stopWords) {
+					currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
+				}
+				if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'') {
+					std::string currentDialogue = ofJoinString(currentWords, " ");
+					currentWords.clear();
+					if (!currentDialogue.empty()) {
+						mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+					}
+					counter = - 1;
+				}
 			}
 		}
-	}
-	std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << "  " << i << std::endl;
+		std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << "  " << i << std::endl;
 	}
 }
 
