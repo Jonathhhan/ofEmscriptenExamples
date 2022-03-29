@@ -56,7 +56,7 @@ void ofApp::bang_2onMousePressed(bool & e) {
 				}
 			}
 		}
-		std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << "  " << i << std::endl;
+		std::cout << "Subtitles: " << dir.getPath(i) << ", subtitle size: " << sub.size() << ", subtitle number: " << i << std::endl;
 	}
 }
 
@@ -72,7 +72,7 @@ void ofApp::bang_3onMousePressed(bool & e) {
 		movie = new ofVideoPlayer();
 		movie -> load(dir.getPath(i));  
 		videoPlayerVector.push_back(movie);
-		std::cout << "Video: " << dir.getPath(i) << std::endl;
+		std::cout << "Video: " << dir.getPath(i) << ", video number: " << i << std::endl;
 	}
 }
 
@@ -222,7 +222,7 @@ void ofApp::update() {
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 		double weight;
 		for (auto element : mapSubVectorCopy) {
-			if (!element.second.first.empty() && element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
+			if (element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
 				} else {
