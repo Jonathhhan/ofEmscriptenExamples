@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e) {
-	std::string file = "GoogleNews-vectors-negative300-SLIM.bin";
+	std::string file = "embedding file/GoogleNews-vectors-negative300-SLIM.bin";
 	std::cout << "Loading embeddings file: " << file << std::endl;
 	embed.load_binary(file, false);
 	std::cout << "Words in " << file << ": " << embed.words << std::endl;
@@ -336,7 +336,7 @@ void ofApp::draw() {
 		ofSetColor(100);
 		ofDrawRectangle(310, 10, 580, 430);
 		ofSetColor(255, 200, 200);
-		ofDrawBitmapString("1. Load an embedding file, for example:\n\nhttps://github.com/eyaler/word2vec-slim/\n\n2. Load an .srt subtitle file\n\n3. Load the corresponding video file\n\n- \"Play\" also reloads the used subtitles\n\n- \"Random start\" only works, if \"Custom words\" is deselected", 370, 90);
+		ofDrawBitmapString("1. Load an embedding file, for example:\n\nhttps://github.com/eyaler/word2vec-slim/\n\n2. Load .srt subtitle files\n\n3. Load the corresponding video files\n\n- \"Play\" also reloads the used subtitles\n\n- \"Random start\" only works, if \"Custom words\" is deselected", 370, 90);
 	}
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
