@@ -22,7 +22,7 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	dir.allowExt("srt");
 	dir.listDir();
 	dir.sort();
-	for(int i = 0; i < dir.size(); i++){
+	for(int i = 0; i < dir.size(); i++) {
 		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory(dir.getPath(i));
 		SubtitleParser* parser = subParserFactory -> getParser();
 		sub = parser -> getSubtitles();
@@ -68,7 +68,7 @@ void ofApp::bang_3onMousePressed(bool & e) {
 	dir.listDir();
 	dir.sort();
 	ofVideoPlayer *movie;   
-	for(int i = 0; i < dir.size(); i++){
+	for(int i = 0; i < dir.size(); i++) {
 		movie = new ofVideoPlayer();
 		movie -> load(dir.getPath(i));  
 		videoPlayerVector.push_back(movie);
@@ -99,8 +99,8 @@ void ofApp::bang_5onMousePressed(bool & e) {
 void ofApp::bang_4onMousePressed(bool & e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
 		double weight;
-		for(int i = 0; i < videoPlayerVector.size(); i++){
-			videoPlayerVector[i] -> setPaused(true);
+		for (auto element : videoPlayerVector) {
+			element -> setPaused(true);
 		}
 		mapSubVectorCopy = mapSubVector;
 		if ((sub.size() > 0 && !bCustomWords) || (sub.size() > 0 && customWords.empty())) {
@@ -187,7 +187,9 @@ void ofApp::toggle_4onMousePressed(bool & e) {
 
 //--------------------------------------------------------------
 void ofApp::hSlider_1onMousePressed(float & e) {
-	videoPlayerVector[numberOfVideoPlayer]->setVolume(e);
+	for (auto element : videoPlayerVector) {
+		element -> setVolume(e);
+	}
 }
 
 //--------------------------------------------------------------
@@ -312,19 +314,19 @@ void ofApp::draw() {
 	ofDrawBitmapString("Custom words", 30, 320);
 	ofDrawBitmapString("Choose custom words", 30, 350);
 	ofDrawBitmapString("Read me", 30, 400);
-	for (int i = 0; i < NBANGS; i++) {
-		groupOfBangs[i].draw();
+	for (auto element : groupOfBangs) {
+		element.draw();
 	}
-	for (int i = 0; i < NTOGGLES; i++) {
-		groupOfToggles[i].draw();
+	for (auto element : groupOfToggles) {
+		element.draw();
 	}
 	hSlider_1.draw();
-	if (!sub.empty()){
-	for (int i = selectedSubtitle; i <= selectedSubtitle + numberOfSubtitles; i++) {
-		if (subVector[numberOfVideoPlayer][i] -> getStartTime() <= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50 && subVector[numberOfVideoPlayer][i] -> getEndTime() >= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50) {
-			ofDrawBitmapString(subVector[numberOfVideoPlayer][i] -> getDialogue(), 400, 395);
-		} 
-	}
+	if (!sub.empty()) {
+		for (int i = selectedSubtitle; i <= selectedSubtitle + numberOfSubtitles; i++) {
+			if (subVector[numberOfVideoPlayer][i] -> getStartTime() <= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50 && subVector[numberOfVideoPlayer][i] -> getEndTime() >= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50) {
+				ofDrawBitmapString(subVector[numberOfVideoPlayer][i] -> getDialogue(), 400, 395);
+			} 
+		}
 	}
 	ofSetColor(255);
 	if (videoPlayerVector[numberOfVideoPlayer] -> getTexture().isAllocated()) {
@@ -339,4 +341,3 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
-

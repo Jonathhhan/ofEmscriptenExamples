@@ -9,9 +9,6 @@
 #include "toggle.h"
 #include "label.h"
 
-#define NBANGS 5
-#define NTOGGLES 4
-
 class ofApp : public ofBaseApp{
 	public:
 		void setup();
@@ -49,7 +46,7 @@ class ofApp : public ofBaseApp{
 		void toggle_4onMousePressed(bool & e);	
 		void hSlider_1onMousePressed(float & e);	
 		
-		bang groupOfBangs[NBANGS];
-		toggle groupOfToggles[NTOGGLES];
+		bang groupOfBangs[5];
+		toggle groupOfToggles[4];
 		hSlider hSlider_1;
 };
