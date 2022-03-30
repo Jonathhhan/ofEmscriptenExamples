@@ -14,11 +14,11 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	int counter = - 1;
 	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
-	videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
+	videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 	subVector.clear();
 	mapSubVector.clear();
 	mapSubVectorCopy.clear();
-	ofDirectory dir("data");
+	ofDirectory dir("data/subtitles");
 	dir.allowExt("srt");
 	dir.listDir();
 	dir.sort();
@@ -56,14 +56,14 @@ void ofApp::bang_2onMousePressed(bool & e) {
 				}
 			}
 		}
-		std::cout << "Subtitles: " << dir.getPath(i) << ", subtitle size: " << sub.size() << ", subtitle number: " << i << std::endl;
+		std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << ", Subtitle number: " << i << std::endl;
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_3onMousePressed(bool & e) {
 	videoPlayerVector.clear();
-	ofDirectory dir("data");
+	ofDirectory dir("data/videos");
 	dir.allowExt("mp4");
 	dir.listDir();
 	dir.sort();
@@ -72,13 +72,27 @@ void ofApp::bang_3onMousePressed(bool & e) {
 		movie = new ofVideoPlayer();
 		movie -> load(dir.getPath(i));  
 		videoPlayerVector.push_back(movie);
-		std::cout << "Video: " << dir.getPath(i) << ", video number: " << i << std::endl;
+		std::cout << "Video: " << dir.getPath(i) << ", Video number: " << i << std::endl;
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_5onMousePressed(bool & e) {
-
+	std::string string = ofSystemTextBoxDialog("Custom words:");
+	std::vector<std::string> joinedWords;
+	std::string lowerString = ofToLower(string);
+	ofStringReplace(lowerString, ",", "");
+	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
+	for (auto element : splitWords) {
+		if (embed.find_case_sensitive(element) == - 1 && !element.empty()) { 
+			std::cout << "Word \"" << element << "\" does not exist! Choose another word or load an embedding file." << std::endl;
+		} else if (!element.empty()) {
+			joinedWords.push_back(element);
+		}
+	}
+	if (!joinedWords.empty()) {
+		customWords = ofJoinString(joinedWords, " ");
+	}
 }
 
 //--------------------------------------------------------------
@@ -289,8 +303,8 @@ void ofApp::draw() {
 	ofDrawRectangle(390, 50, 420, 320);
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString("Load embedding file", 30, 60);
-	ofDrawBitmapString("Load subtitle", 30, 90);
-	ofDrawBitmapString("Load movie", 30, 120);
+	ofDrawBitmapString("Load subtitles", 30, 90);
+	ofDrawBitmapString("Load videos", 30, 120);
 	ofDrawBitmapString("Play", 30, 180);
 	ofDrawBitmapString("Pause", 30, 210);
 	ofDrawBitmapString("Random start", 30, 240);
