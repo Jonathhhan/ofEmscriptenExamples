@@ -222,7 +222,7 @@ void ofApp::update() {
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 		double weight;
 		for (auto element : mapSubVectorCopy) {
-			if (element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
+			if (element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
 				} else {
