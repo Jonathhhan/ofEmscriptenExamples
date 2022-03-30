@@ -1,5 +1,4 @@
 #include "ofApp.h"
-
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e) {
 	std::string file = "embedding file/GoogleNews-vectors-negative300-SLIM.bin";
@@ -18,12 +17,12 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	subVector.clear();
 	mapSubVector.clear();
 	mapSubVectorCopy.clear();
-	ofDirectory dir("data/subtitles");
+	ofDirectory dir("subtitles");
 	dir.allowExt("srt");
 	dir.listDir();
 	dir.sort();
 	for(int i = 0; i < dir.size(); i++) {
-		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory(dir.getPath(i));
+		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory("data/" + dir.getPath(i));
 		SubtitleParser* parser = subParserFactory -> getParser();
 		sub = parser -> getSubtitles();
 		subVector.push_back(sub);
@@ -63,14 +62,14 @@ void ofApp::bang_2onMousePressed(bool & e) {
 //--------------------------------------------------------------
 void ofApp::bang_3onMousePressed(bool & e) {
 	videoPlayerVector.clear();
-	ofDirectory dir("data/videos");
+	ofDirectory dir("videos");
 	dir.allowExt("mp4");
 	dir.listDir();
 	dir.sort();
 	ofVideoPlayer *movie;   
 	for(int i = 0; i < dir.size(); i++) {
 		movie = new ofVideoPlayer();
-		movie -> load(dir.getPath(i));  
+		movie -> load(dir.getPath(i));
 		videoPlayerVector.push_back(movie);
 		std::cout << "Video: " << dir.getPath(i) << ", Video number: " << i << std::endl;
 	}
@@ -341,3 +340,4 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
+
