@@ -234,7 +234,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	videoPlayerVector[numberOfVideoPlayer] -> update();
 	if (!sub.empty() && subVector[numberOfVideoPlayer][selectedSubtitle + numberOfSubtitles] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
-		videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
+		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 		double weight;
 		for (auto element : mapSubVectorCopy) {
