@@ -259,7 +259,6 @@ void ofApp::update() {
 				numberOfVideoPlayer = get<0>(choosenSubs[random]);
 				selectedSubtitle = get<1>(choosenSubs[random]);
 				numberOfSubtitles = get<2>(choosenSubs[random]);
-				
 			}
 			else {
 				auto it = mapSubVectorCopy.begin();
@@ -340,4 +339,3 @@ void ofApp::draw() {
 	ofSetColor(255, 200, 200);
 	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
-
