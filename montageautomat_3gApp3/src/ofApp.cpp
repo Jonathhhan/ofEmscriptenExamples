@@ -1,4 +1,5 @@
 #include "ofApp.h"
+
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e) {
 	std::string file = "embedding file/GoogleNews-vectors-negative300-SLIM.bin";
