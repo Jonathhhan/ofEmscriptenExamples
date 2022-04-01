@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp{
 		bool bRandomStart;
 		bool bCustomWords;
 		bool bReadMe;
+		double weight;
 		std::string title;
 		std::string customWords;
 		std::vector<std::string> stopWords;

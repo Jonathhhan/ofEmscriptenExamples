@@ -98,7 +98,6 @@ void ofApp::bang_5onMousePressed(bool & e) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
-		double weight;
 		for (auto element : videoPlayerVector) {
 			element -> setPaused(true);
 		}
@@ -239,7 +238,6 @@ void ofApp::update() {
 	if (!sub.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
 		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
-		double weight;
 		for (auto element : mapSubVectorCopy) {
 			if (element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
