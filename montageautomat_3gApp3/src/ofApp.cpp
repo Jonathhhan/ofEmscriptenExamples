@@ -98,7 +98,7 @@ void ofApp::bang_5onMousePressed(bool & e) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
-		double weight;
+		double weight = 0;
 		for (auto element : videoPlayerVector) {
 			element -> setPaused(true);
 		}
@@ -144,7 +144,7 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		}
 		if (selectedSubtitle > 0) {
 			int subtitle = selectedSubtitle - 1;
-			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer]->getDuration() / 1000);
+			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
 		} else {
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
