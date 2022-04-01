@@ -143,14 +143,16 @@ void ofApp::bang_4onMousePressed(bool & e) {
 			}
 		}
 		if (selectedSubtitle > 0) {
-			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][selectedSubtitle - 1] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer]->getDuration() / 1000);
+			int subtitle = selectedSubtitle - 1;
+			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer]->getDuration() / 1000);
 		} else {
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
 		std::vector<std::string> words;
 		for (int i = 0; i <= numberOfSubtitles; i++) {
-			if (!subVector[numberOfVideoPlayer][selectedSubtitle + i] -> getDialogue().empty()) {
-				words.push_back(subVector[numberOfVideoPlayer][selectedSubtitle + i] -> getDialogue());
+			int subtitle = selectedSubtitle + i;
+			if (!subVector[numberOfVideoPlayer][subtitle] -> getDialogue().empty()) {
+				words.push_back(subVector[numberOfVideoPlayer][subtitle] -> getDialogue());
 			}
 		}
 		std::string joinedString = ofJoinString(words, " ");
@@ -233,7 +235,8 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update() {
 	videoPlayerVector[numberOfVideoPlayer] -> update();
-	if (!sub.empty() && subVector[numberOfVideoPlayer][selectedSubtitle + numberOfSubtitles] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
+	int subtitle = selectedSubtitle + numberOfSubtitles;
+	if (!sub.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
 		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 		double weight;
@@ -278,15 +281,17 @@ void ofApp::update() {
 			weight = 0;
 		}
 		if (selectedSubtitle > 0) {
-			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][selectedSubtitle - (int)1] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
+			int subtitle = selectedSubtitle - 1;
+			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
 		} else {
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
 		videoPlayerVector[numberOfVideoPlayer] -> play();
 		std::vector<std::string> words;
 		for (int i = 0; i <= numberOfSubtitles; i++) {
-			if (!subVector[numberOfVideoPlayer][selectedSubtitle + i] -> getDialogue().empty()) {
-				words.push_back(subVector[numberOfVideoPlayer][selectedSubtitle + i] -> getDialogue());
+			int subtitle = selectedSubtitle + i;
+			if (!subVector[numberOfVideoPlayer][subtitle] -> getDialogue().empty()) {
+				words.push_back(subVector[numberOfVideoPlayer][subtitle] -> getDialogue());
 			}
 		}
 		std::string joinedString = ofJoinString(words, " ");
