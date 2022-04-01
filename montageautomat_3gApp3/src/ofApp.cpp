@@ -98,7 +98,7 @@ void ofApp::bang_5onMousePressed(bool & e) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool & e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
-		double weight = 0;
+		double weight;
 		for (auto element : videoPlayerVector) {
 			element -> setPaused(true);
 		}
