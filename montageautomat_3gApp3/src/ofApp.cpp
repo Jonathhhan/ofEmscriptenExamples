@@ -278,7 +278,7 @@ void ofApp::update() {
 			weight = 0;
 		}
 		if (selectedSubtitle > 0) {
-			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][selectedSubtitle - 1] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
+			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][selectedSubtitle - (int)1] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
 		} else {
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
