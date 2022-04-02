@@ -11,7 +11,7 @@ void ofApp::bang_1onMousePressed(bool& e) {
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
-	int counter = -1;
+	int counter = - 1;
 	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
 	videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
@@ -24,12 +24,12 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	dir.sort();
 	for (int i = 0; i < dir.size(); i++) {
 		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory("data/" + dir.getPath(i));
-		SubtitleParser* parser = subParserFactory->getParser();
-		sub = parser->getSubtitles();
+		SubtitleParser* parser = subParserFactory -> getParser();
+		sub = parser -> getSubtitles();
 		subVector.push_back(sub);
 		for (auto element : sub) {
 			counter++;
-			std::string lowerString = ofToLower(element->getDialogue());
+			std::string lowerString = ofToLower(element -> getDialogue());
 			if (!lowerString.empty()) {
 				ofStringReplace(lowerString, "'", " ");
 				ofStringReplace(lowerString, "-", " ");
@@ -38,21 +38,21 @@ void ofApp::bang_2onMousePressed(bool& e) {
 					ofStringReplace(lowerString, ofToString(chars[j]), "");
 				}
 				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-				for (auto element : splitWords) {
+				for (auto &element : splitWords) {
 					if (embed.find_case_sensitive(element) != -1 && currentWords.size() <= 20) {
 						currentWords.push_back(element);
 					}
 				}
-				for (auto element : stopWords) {
+				for (auto &element : stopWords) {
 					currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
 				}
-				if (element->getDialogue().back() == '.' || element->getDialogue().back() == '?' || element->getDialogue().back() == '!' || element->getDialogue().back() == '"' || element->getDialogue().back() == '\'' || element->getDialogue().back() == ';') {
+				if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element -> getDialogue().back() == ';') {
 					std::string currentDialogue = ofJoinString(currentWords, " ");
 					currentWords.clear();
 					if (!currentDialogue.empty()) {
-						mapSubVector[{i, element->getSubNo() - counter - 1}] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+						mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
 					}
-					counter = -1;
+					counter = - 1;
 				}
 			}
 		}
@@ -83,7 +83,7 @@ void ofApp::bang_5onMousePressed(bool& e) {
 	std::string lowerString = ofToLower(string);
 	ofStringReplace(lowerString, ",", "");
 	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-	for (auto element : splitWords) {
+	for (auto &element : splitWords) {
 		if (embed.find_case_sensitive(element) == -1 && !element.empty()) {
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word or load an embedding file." << std::endl;
 		}
@@ -120,7 +120,7 @@ void ofApp::bang_4onMousePressed(bool& e) {
 		}
 		else if (subVector.size() > 0) {
 			std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
-			for (auto element : mapSubVectorCopy) {
+			for (auto &element : mapSubVectorCopy) {
 				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first.first, element.first.second, element.second.second)));
 			}
 			auto it = multimapWeightSub.rbegin();
@@ -244,7 +244,7 @@ void ofApp::update() {
 	if (!sub.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
 		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
-		for (auto element : mapSubVectorCopy) {
+		for (auto &element : mapSubVectorCopy) {
 			if (element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
