@@ -39,7 +39,7 @@ void ofApp::bang_2onMousePressed(bool & e) {
 				}
 				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 				for (auto element : splitWords) {
-					if (embed.find_case_sensitive(element) != - 1 && currentWords.size() <= 50) {
+					if (embed.find_case_sensitive(element) != - 1 && currentWords.size() <= 20) {
 						currentWords.push_back(element);
 					}
 				}
