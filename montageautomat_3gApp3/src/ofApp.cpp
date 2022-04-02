@@ -1,20 +1,20 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::bang_1onMousePressed(bool & e) {
+void ofApp::bang_1onMousePressed(bool& e) {
 	std::string file = "embedding file/GoogleNews-vectors-negative300-SLIM.bin";
 	std::cout << "Loading embeddings file: " << file << std::endl;
 	embed.load_binary(file, false);
 	std::cout << "Words in " << file << ": " << embed.words << std::endl;
-	std::cout << "Dimensions in " << file << ": " <<  embed.size << std::endl;
+	std::cout << "Dimensions in " << file << ": " << embed.size << std::endl;
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e) {
-	int counter = - 1;
+void ofApp::bang_2onMousePressed(bool& e) {
+	int counter = -1;
 	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
-	videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
+	videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
 	subVector.clear();
 	mapSubVector.clear();
 	mapSubVectorCopy.clear();
@@ -22,14 +22,14 @@ void ofApp::bang_2onMousePressed(bool & e) {
 	dir.allowExt("srt");
 	dir.listDir();
 	dir.sort();
-	for(int i = 0; i < dir.size(); i++) {
+	for (int i = 0; i < dir.size(); i++) {
 		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory("data/" + dir.getPath(i));
-		SubtitleParser* parser = subParserFactory -> getParser();
-		sub = parser -> getSubtitles();
+		SubtitleParser* parser = subParserFactory->getParser();
+		sub = parser->getSubtitles();
 		subVector.push_back(sub);
 		for (auto element : sub) {
 			counter++;
-			std::string lowerString = ofToLower(element -> getDialogue());
+			std::string lowerString = ofToLower(element->getDialogue());
 			if (!lowerString.empty()) {
 				ofStringReplace(lowerString, "'", " ");
 				ofStringReplace(lowerString, "-", " ");
@@ -39,20 +39,20 @@ void ofApp::bang_2onMousePressed(bool & e) {
 				}
 				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 				for (auto element : splitWords) {
-					if (embed.find_case_sensitive(element) != - 1 && currentWords.size() <= 20) {
+					if (embed.find_case_sensitive(element) != -1 && currentWords.size() <= 20) {
 						currentWords.push_back(element);
 					}
 				}
 				for (auto element : stopWords) {
 					currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
 				}
-				if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element->getDialogue().back() == ';') {
+				if (element->getDialogue().back() == '.' || element->getDialogue().back() == '?' || element->getDialogue().back() == '!' || element->getDialogue().back() == '"' || element->getDialogue().back() == '\'' || element->getDialogue().back() == ';') {
 					std::string currentDialogue = ofJoinString(currentWords, " ");
 					currentWords.clear();
 					if (!currentDialogue.empty()) {
-						mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
+						mapSubVector[{i, element->getSubNo() - counter - 1}] = std::make_pair(embed.words_to_vec(currentDialogue), counter);
 					}
-					counter = - 1;
+					counter = -1;
 				}
 			}
 		}
@@ -61,14 +61,14 @@ void ofApp::bang_2onMousePressed(bool & e) {
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e) {
+void ofApp::bang_3onMousePressed(bool& e) {
 	videoPlayerVector.clear();
 	ofDirectory dir("videos");
 	dir.allowExt("mp4");
 	dir.listDir();
 	dir.sort();
-	ofVideoPlayer *movie;   
-	for(int i = 0; i < dir.size(); i++) {
+	ofVideoPlayer* movie;
+	for (int i = 0; i < dir.size(); i++) {
 		movie = new ofVideoPlayer();
 		movie -> load(dir.getPath(i));
 		videoPlayerVector.push_back(movie);
@@ -77,16 +77,17 @@ void ofApp::bang_3onMousePressed(bool & e) {
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_5onMousePressed(bool & e) {
+void ofApp::bang_5onMousePressed(bool& e) {
 	std::string string = ofSystemTextBoxDialog("Custom words:");
 	std::vector<std::string> joinedWords;
 	std::string lowerString = ofToLower(string);
 	ofStringReplace(lowerString, ",", "");
 	std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 	for (auto element : splitWords) {
-		if (embed.find_case_sensitive(element) == - 1 && !element.empty()) { 
+		if (embed.find_case_sensitive(element) == -1 && !element.empty()) {
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word or load an embedding file." << std::endl;
-		} else if (!element.empty()) {
+		}
+		else if (!element.empty()) {
 			joinedWords.push_back(element);
 		}
 	}
@@ -96,26 +97,28 @@ void ofApp::bang_5onMousePressed(bool & e) {
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_4onMousePressed(bool & e) {
+void ofApp::bang_4onMousePressed(bool& e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
 		for (auto element : videoPlayerVector) {
 			element -> setPaused(true);
 		}
 		mapSubVectorCopy = mapSubVector;
-		if ((sub.size() > 0 && !bCustomWords) || (sub.size() > 0 && customWords.empty())) {
+		if ((subVector.size() > 0 && !bCustomWords) || (subVector.size() > 0 && customWords.empty())) {
 			if (bRandomStart) {
 				auto it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				numberOfVideoPlayer = it -> first.first;
 				selectedSubtitle = it -> first.second;
 				numberOfSubtitles = it -> second.second;
-			} else {
+			}
+			else {
 				numberOfVideoPlayer = 0;
 				selectedSubtitle = 0;
 				numberOfSubtitles = mapSubVectorCopy[{0, 0}].second;
 			}
 			weight = 0;
-		} else if (sub.size() > 0) {
+		}
+		else if (subVector.size() > 0) {
 			std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 			for (auto element : mapSubVectorCopy) {
 				multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first.first, element.first.second, element.second.second)));
@@ -132,8 +135,9 @@ void ofApp::bang_4onMousePressed(bool & e) {
 				numberOfVideoPlayer = get<0>(choosenSubs[random]);
 				selectedSubtitle = get<1>(choosenSubs[random]);
 				numberOfSubtitles = get<2>(choosenSubs[random]);
-				
-			} else {
+
+			}
+			else {
 				auto it = mapSubVectorCopy.begin();
 				std::advance(it, rand() % mapSubVectorCopy.size());
 				numberOfVideoPlayer = it -> first.first;
@@ -144,7 +148,8 @@ void ofApp::bang_4onMousePressed(bool & e) {
 		if (selectedSubtitle > 0) {
 			int subtitle = selectedSubtitle - 1;
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
-		} else {
+		}
+		else {
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
 		std::vector<std::string> words;
@@ -163,31 +168,32 @@ void ofApp::bang_4onMousePressed(bool & e) {
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_1onMousePressed(bool & e) {
+void ofApp::toggle_1onMousePressed(bool& e) {
 	if (e && videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
 		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
-	} else {
-		videoPlayerVector[numberOfVideoPlayer] -> setPaused(false);	
+	}
+	else {
+		videoPlayerVector[numberOfVideoPlayer] -> setPaused(false);
 	}
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_2onMousePressed(bool & e) {
+void ofApp::toggle_2onMousePressed(bool& e) {
 	bRandomStart = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_3onMousePressed(bool & e) {
+void ofApp::toggle_3onMousePressed(bool& e) {
 	bCustomWords = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_4onMousePressed(bool & e) {
+void ofApp::toggle_4onMousePressed(bool& e) {
 	bReadMe = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::hSlider_1onMousePressed(float & e) {
+void ofApp::hSlider_1onMousePressed(float& e) {
 	for (auto element : videoPlayerVector) {
 		element -> setVolume(e);
 	}
@@ -205,16 +211,16 @@ void ofApp::setup() {
 	ofAddListener(groupOfToggles[2].onMousePressed, this, &ofApp::toggle_3onMousePressed);
 	ofAddListener(groupOfToggles[3].onMousePressed, this, &ofApp::toggle_4onMousePressed);
 	ofAddListener(hSlider_1.onMousePressed, this, &ofApp::hSlider_1onMousePressed);
-	
+
 	ofSetBackgroundColor(200);
 	title = "Montageautomat 3";
 	selectedSubtitle = 0;
 	numberOfSubtitles = 0;
 	numberOfVideoPlayer = 0;
-	ofVideoPlayer *movie;   
-	movie = new ofVideoPlayer(); 
+	ofVideoPlayer* movie;
+	movie = new ofVideoPlayer();
 	videoPlayerVector.push_back(movie);
-	
+
 	groupOfBangs[0].setup(190, 40 + 5, 20);
 	groupOfBangs[1].setup(190, 70 + 5, 20);
 	groupOfBangs[2].setup(190, 100 + 5, 20);
@@ -227,8 +233,8 @@ void ofApp::setup() {
 	groupOfToggles[2].setup(190, 300 + 5, 20);
 	groupOfBangs[4].setup(190, 330 + 5, 20);
 	groupOfToggles[3].setup(190, 380 + 5, 20);
-	
-	stopWords = {"i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "to", "o", "m", "lsn", "from", "out"};
+
+	stopWords = { "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "d", "do", "m", "re", "ll", "didn", "doesn", "hasn", "hadn", "cannot", "mustn", "isn", "wasn", "couldn", "wouldn", "mr", "ve", "l", "y", "to", "o", "m", "lsn", "from", "out" };
 }
 
 //--------------------------------------------------------------
@@ -242,12 +248,13 @@ void ofApp::update() {
 			if (element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
-				} else {
+				}
+				else {
 					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
 				}
 			}
 		}
-		mapSubVectorCopy.erase({numberOfVideoPlayer, selectedSubtitle});
+		mapSubVectorCopy.erase({numberOfVideoPlayer, selectedSubtitle });
 		if (mapSubVectorCopy.size() > 0) {
 			auto it = multimapWeightSub.rbegin();
 			weight = it -> first;
@@ -269,7 +276,8 @@ void ofApp::update() {
 				selectedSubtitle = it -> first.second;
 				numberOfSubtitles = it -> second.second;
 			}
-		} else {		
+		}
+		else {
 			mapSubVectorCopy = mapSubVector;
 			auto it = mapSubVectorCopy.begin();
 			std::advance(it, rand() % mapSubVectorCopy.size());
@@ -281,7 +289,8 @@ void ofApp::update() {
 		if (selectedSubtitle > 0) {
 			int subtitle = selectedSubtitle - 1;
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition((subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[numberOfVideoPlayer] -> getDuration() / 1000);
-		} else {
+		}
+		else {
 			videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
 		}
 		videoPlayerVector[numberOfVideoPlayer] -> play();
@@ -316,18 +325,18 @@ void ofApp::draw() {
 	ofDrawBitmapString("Custom words", 30, 320);
 	ofDrawBitmapString("Choose custom words", 30, 350);
 	ofDrawBitmapString("Read me", 30, 400);
-	for (auto element : groupOfBangs) {
+	for (auto &element : groupOfBangs) {
 		element.draw();
 	}
-	for (auto element : groupOfToggles) {
+	for (auto &element : groupOfToggles) {
 		element.draw();
 	}
 	hSlider_1.draw();
 	if (!sub.empty()) {
 		for (int i = selectedSubtitle; i <= selectedSubtitle + numberOfSubtitles; i++) {
 			if (subVector[numberOfVideoPlayer][i] -> getStartTime() <= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50 && subVector[numberOfVideoPlayer][i] -> getEndTime() >= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50) {
-				ofDrawBitmapString(subVector[numberOfVideoPlayer][i] -> getDialogue(), 400, 395);
-			} 
+				ofDrawBitmapString(subVector[numberOfVideoPlayer][i]->getDialogue(), 400, 395);
+			}
 		}
 	}
 	ofSetColor(255);
