@@ -99,9 +99,7 @@ void ofApp::bang_5onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool& e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
-		for (auto element : videoPlayerVector) {
-			element -> setPaused(true);
-		}
+
 		mapSubVectorCopy = mapSubVector;
 		if ((subVector.size() > 0 && !bCustomWords) || (subVector.size() > 0 && customWords.empty())) {
 			if (bRandomStart) {
@@ -213,10 +211,10 @@ void ofApp::setup() {
 	ofAddListener(hSlider_1.onMousePressed, this, &ofApp::hSlider_1onMousePressed);
 
 	ofSetBackgroundColor(200);
-	title = "Montageautomat 3";
 	selectedSubtitle = 0;
 	numberOfSubtitles = 0;
 	numberOfVideoPlayer = 0;
+	ofSetWindowTitle("Montageautomat 3");
 	ofVideoPlayer* movie;
 	movie = new ofVideoPlayer();
 	videoPlayerVector.push_back(movie);
@@ -241,11 +239,11 @@ void ofApp::setup() {
 void ofApp::update() {
 	videoPlayerVector[numberOfVideoPlayer] -> update();
 	int subtitle = selectedSubtitle + numberOfSubtitles;
-	if (!sub.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
+	if (!mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
 		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 		for (auto &element : mapSubVectorCopy) {
-			if (element.first.first != numberOfVideoPlayer && element.first.second != selectedSubtitle) {
+			if (element.first.first != numberOfVideoPlayer || element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
 					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
 				}
@@ -254,7 +252,7 @@ void ofApp::update() {
 				}
 			}
 		}
-		mapSubVectorCopy.erase({numberOfVideoPlayer, selectedSubtitle });
+		mapSubVectorCopy.erase({numberOfVideoPlayer, selectedSubtitle});
 		if (mapSubVectorCopy.size() > 0) {
 			auto it = multimapWeightSub.rbegin();
 			weight = it -> first;
@@ -349,6 +347,4 @@ void ofApp::draw() {
 		ofSetColor(255, 200, 200);
 		ofDrawBitmapString("1. Load an embedding file, for example:\n\nhttps://github.com/eyaler/word2vec-slim/\n\n2. Load .srt subtitle files\n\n3. Load the corresponding video files\n\n- \"Play\" also reloads the used subtitles\n\n- \"Random start\" only works, if \"Custom words\" is deselected", 370, 90);
 	}
-	ofSetColor(255, 200, 200);
-	ofDrawBitmapString(title, 600 - title.size() * 4, 30);
 }
