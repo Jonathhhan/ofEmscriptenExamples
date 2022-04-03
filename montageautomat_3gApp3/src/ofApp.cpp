@@ -99,6 +99,7 @@ void ofApp::bang_5onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool& e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
+		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 		mapSubVectorCopy = mapSubVector;
 		if ((subVector.size() > 0 && !bCustomWords) || (subVector.size() > 0 && customWords.empty())) {
 			if (bRandomStart) {
