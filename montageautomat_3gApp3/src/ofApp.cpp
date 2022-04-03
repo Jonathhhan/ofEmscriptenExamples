@@ -14,7 +14,8 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	int counter = - 1;
 	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
-	videoPlayerVector[numberOfVideoPlayer]->setPaused(true);
+	videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
+	videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 	subVector.clear();
 	mapSubVector.clear();
 	mapSubVectorCopy.clear();
@@ -77,6 +78,8 @@ void ofApp::bang_3onMousePressed(bool& e) {
 		videoPlayerVector.push_back(movie);
 		std::cout << "Video: " << dir.getPath(i) << ", Video number: " << i << std::endl;
 	}
+	videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
+	videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
 }
 
 //--------------------------------------------------------------
