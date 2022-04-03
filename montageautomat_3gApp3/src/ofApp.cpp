@@ -132,7 +132,6 @@ void ofApp::bang_4onMousePressed(bool& e) {
 				numberOfVideoPlayer = get<0>(choosenSubs[random]);
 				selectedSubtitle = get<1>(choosenSubs[random]);
 				numberOfSubtitles = get<2>(choosenSubs[random]);
-
 			}
 			else {
 				auto it = mapSubVectorCopy.begin();
@@ -332,7 +331,7 @@ void ofApp::draw() {
 	if (!sub.empty()) {
 		for (int i = selectedSubtitle; i <= selectedSubtitle + numberOfSubtitles; i++) {
 			if (subVector[numberOfVideoPlayer][i] -> getStartTime() <= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50 && subVector[numberOfVideoPlayer][i] -> getEndTime() >= videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 - 50) {
-				ofDrawBitmapString(subVector[numberOfVideoPlayer][i]->getDialogue(), 400, 395);
+				ofDrawBitmapString(subVector[numberOfVideoPlayer][i] -> getDialogue(), 400, 395);
 			}
 		}
 	}
