@@ -62,6 +62,9 @@ void ofApp::bang_2onMousePressed(bool& e) {
 
 //--------------------------------------------------------------
 void ofApp::bang_3onMousePressed(bool& e) {
+	for (auto element : videoPlayerVector) {
+		element -> close();
+	}
 	videoPlayerVector.clear();
 	ofDirectory dir("videos");
 	dir.allowExt("mp4");
