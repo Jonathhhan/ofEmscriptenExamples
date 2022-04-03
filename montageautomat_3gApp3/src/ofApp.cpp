@@ -209,11 +209,11 @@ void ofApp::setup() {
 	ofAddListener(groupOfToggles[3].onMousePressed, this, &ofApp::toggle_4onMousePressed);
 	ofAddListener(hSlider_1.onMousePressed, this, &ofApp::hSlider_1onMousePressed);
 
+	ofSetWindowTitle("Montageautomat 3");
 	ofSetBackgroundColor(200);
 	selectedSubtitle = 0;
 	numberOfSubtitles = 0;
 	numberOfVideoPlayer = 0;
-	ofSetWindowTitle("Montageautomat 3");
 	ofVideoPlayer* movie;
 	movie = new ofVideoPlayer();
 	videoPlayerVector.push_back(movie);
