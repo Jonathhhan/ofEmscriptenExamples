@@ -14,8 +14,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	int counter = - 1;
 	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
-	videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
-	videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
+	videoPlayerVector[numberOfVideoPlayer] -> stop();
 	subVector.clear();
 	mapSubVector.clear();
 	mapSubVectorCopy.clear();
@@ -78,8 +77,7 @@ void ofApp::bang_3onMousePressed(bool& e) {
 		videoPlayerVector.push_back(movie);
 		std::cout << "Video: " << dir.getPath(i) << ", Video number: " << i << std::endl;
 	}
-	videoPlayerVector[numberOfVideoPlayer] -> setPosition(0);
-	videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
+	videoPlayerVector[numberOfVideoPlayer] -> stop();
 }
 
 //--------------------------------------------------------------
@@ -105,7 +103,7 @@ void ofApp::bang_5onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::bang_4onMousePressed(bool& e) {
 	if (videoPlayerVector[numberOfVideoPlayer] -> isLoaded()) {
-		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
+		videoPlayerVector[numberOfVideoPlayer] -> stop();
 		mapSubVectorCopy = mapSubVector;
 		if ((subVector.size() > 0 && !bCustomWords) || (subVector.size() > 0 && customWords.empty())) {
 			if (bRandomStart) {
@@ -245,7 +243,7 @@ void ofApp::update() {
 	videoPlayerVector[numberOfVideoPlayer] -> update();
 	int subtitle = selectedSubtitle + numberOfSubtitles;
 	if (!mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000 && mapSubVectorCopy.size() > 0) {
-		videoPlayerVector[numberOfVideoPlayer] -> setPaused(true);
+		videoPlayerVector[numberOfVideoPlayer] -> stop();
 		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
 		for (auto &element : mapSubVectorCopy) {
 			if (element.first.first != numberOfVideoPlayer || element.first.second != selectedSubtitle) {
