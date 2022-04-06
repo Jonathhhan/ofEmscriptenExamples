@@ -12,7 +12,6 @@ void ofApp::bang_1onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
 	int counter = - 1;
-	selectedSubtitle = 0;
 	std::vector<std::string> currentWords;
 	videoPlayerVector[numberOfVideoPlayer] -> stop();
 	subVector.clear();
