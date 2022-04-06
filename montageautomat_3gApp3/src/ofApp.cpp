@@ -97,6 +97,7 @@ void ofApp::bang_5onMousePressed(bool& e) {
 	}
 	if (!joinedWords.empty()) {
 		customWords = ofJoinString(joinedWords, " ");
+		std::cout << "Custom words: " << customWords << std::endl;
 	}
 }
 
