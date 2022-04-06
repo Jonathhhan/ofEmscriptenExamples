@@ -33,8 +33,8 @@ void ofApp::bang_2onMousePressed(bool& e) {
 				ofStringReplace(lowerString, "'", " ");
 				ofStringReplace(lowerString, "-", " ");
 				char chars[] = "0123456789.,!:?;()\"";
-				for (int j = 0; j < strlen(chars); ++j) {
-					ofStringReplace(lowerString, ofToString(chars[j]), "");
+				for (auto element : chars) {
+					ofStringReplace(lowerString, ofToString(element), "");
 				}
 				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 				for (auto &element : splitWords) {
