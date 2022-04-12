@@ -73,7 +73,7 @@ void ofApp::bang_3onMousePressed(bool& e) {
 	}
 	videoPlayerVector.clear();
 	ofDirectory dir("videos");
-	dir.allowExt("mp4");
+	dir.allowExt("3gp, asv, divx, dv, evo, flv, h264, mp4, m2ts, mka, mkv, mov, mpeg, mpg, mts, mxf, ogg, ogm, ogv, omv, ps, qt, ts, tsp, vob, webm, wma, wmv");
 	dir.listDir();
 	dir.sort();
 	ofVideoPlayer* movie;
