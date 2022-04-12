@@ -106,13 +106,16 @@ void ofApp::bang_4onMousePressed(bool& e) {
 		thread.mapSubVectorCopy = thread.mapSubVector;
 		if ((subVector.size() > 0 && !thread.bCustomWords) || (subVector.size() > 0 && thread.customWords.empty())) {
 			if (bRandomStart) {
+				thread.possibilities = thread.mapSubVectorCopy.size();
 				auto it = thread.mapSubVectorCopy.begin();
-				std::advance(it, rand() % thread.mapSubVectorCopy.size());
+				srand(ofGetElapsedTimeMillis());
+				std::advance(it, rand() % thread.possibilities);
 				thread.numberOfVideoPlayer = it -> first.first;
 				thread.selectedSubtitle = it -> first.second;
 				thread.numberOfSubtitles = it -> second.second;
 			}
 			else {
+				thread.possibilities = 1;
 				thread.numberOfVideoPlayer = 0;
 				thread.selectedSubtitle = 0;
 				thread.numberOfSubtitles = thread.mapSubVectorCopy[{0, 0}].second;
@@ -132,14 +135,18 @@ void ofApp::bang_4onMousePressed(bool& e) {
 				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_tuple(get<0>(it -> second), get<1>(it -> second), get<2>(it -> second)));
 				}
-				int random = rand() % choosenSubs.size();
+				thread.possibilities = choosenSubs.size();
+				srand(ofGetElapsedTimeMillis());
+				int random = rand() % thread.possibilities;
 				thread.numberOfVideoPlayer = get<0>(choosenSubs[random]);
 				thread.selectedSubtitle = get<1>(choosenSubs[random]);
 				thread.numberOfSubtitles = get<2>(choosenSubs[random]);
 			}
 			else {
+				thread.possibilities = thread.mapSubVectorCopy.size();
 				auto it = thread.mapSubVectorCopy.begin();
-				std::advance(it, rand() % thread.mapSubVectorCopy.size());
+				srand(ofGetElapsedTimeMillis());
+				std::advance(it, rand() % thread.possibilities);
 				thread.numberOfVideoPlayer = it -> first.first;
 				thread.selectedSubtitle = it -> first.second;
 				thread.numberOfSubtitles = it -> second.second;
@@ -161,7 +168,7 @@ void ofApp::bang_4onMousePressed(bool& e) {
 		}
 		std::string joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
-		std::cout << "Subtitles left: " << thread.mapSubVectorCopy.size() - 1 << ", Weight: " << thread.weight << ", Subtitles: " << thread.selectedSubtitle << " - " << thread.selectedSubtitle + thread.numberOfSubtitles << ", Video player: " << thread.numberOfVideoPlayer << ", Dialogue: " << joinedString << std::endl;
+		std::cout << "Subtitles left: " << thread.mapSubVectorCopy.size() - 1 << ", Weight: " << thread.weight << ", Possibilities: " << thread.possibilities << ", Subtitles: " << thread.selectedSubtitle << " - " << thread.selectedSubtitle + thread.numberOfSubtitles << ", Video player: " << thread.numberOfVideoPlayer << ", Dialogue: " << joinedString << std::endl;
 		groupOfToggles[0].value = 0;
 		videoPlayerVector[thread.numberOfVideoPlayer] -> play();
 		numberOfVideoPlayer = thread.numberOfVideoPlayer;
@@ -265,7 +272,7 @@ void ofApp::update() {
 		}
 		std::string joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
-		std::cout << "Subtitles left: " << thread.mapSubVectorCopy.size() - 1 << ", Weight: " << thread.weight << ", Subtitles: " << thread.selectedSubtitle << " - " << thread.selectedSubtitle + thread.numberOfSubtitles << ", Video player: " << thread.numberOfVideoPlayer << ", Dialogue: " << joinedString << std::endl;
+		std::cout << "Subtitles left: " << thread.mapSubVectorCopy.size() - 1 << ", Weight: " << thread.weight << ", Possibilities: " << thread.possibilities << ", Subtitles: " << thread.selectedSubtitle << " - " << thread.selectedSubtitle + thread.numberOfSubtitles << ", Video player: " << thread.numberOfVideoPlayer << ", Dialogue: " << joinedString << std::endl;
 		numberOfVideoPlayer = thread.numberOfVideoPlayer;
 		selectedSubtitle = thread.selectedSubtitle;
 		numberOfSubtitles = thread.numberOfSubtitles;

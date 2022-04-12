@@ -11,6 +11,7 @@ public:
 	int selectedSubtitle;
 	int numberOfVideoPlayer;
 	int numberOfSubtitles;
+	int possibilities;
 	double weight;
 
 	void threads::threadedFunction() {
@@ -28,34 +29,40 @@ public:
 		mapSubVectorCopy.erase({ numberOfVideoPlayer, selectedSubtitle });
 		if (mapSubVectorCopy.size() > 0) {
 			auto it = multimapWeightSub.rbegin();
-			weight = it->first;
-			if (it->first != 0) {
+			weight = it -> first;
+			if (it -> first != 0) {
 				std::vector<std::tuple<int, int, int>> choosenSubs;
-				auto range = multimapWeightSub.equal_range(it->first);
+				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
-					choosenSubs.push_back(std::make_tuple(get<0>(it->second), get<1>(it->second), get<2>(it->second)));
+					choosenSubs.push_back(std::make_tuple(get<0>(it -> second), get<1>(it -> second), get<2>(it -> second)));
 				}
+				possibilities = choosenSubs.size();
+				srand(ofGetElapsedTimeMillis());
 				int random = rand() % choosenSubs.size();
 				numberOfVideoPlayer = get<0>(choosenSubs[random]);
 				selectedSubtitle = get<1>(choosenSubs[random]);
 				numberOfSubtitles = get<2>(choosenSubs[random]);
 			}
 			else {
+				possibilities = mapSubVectorCopy.size();
 				auto it = mapSubVectorCopy.begin();
-				std::advance(it, rand() % mapSubVectorCopy.size());
-				numberOfVideoPlayer = it->first.first;
-				selectedSubtitle = it->first.second;
-				numberOfSubtitles = it->second.second;
+				srand(ofGetElapsedTimeMillis());
+				std::advance(it, rand() % possibilities);
+				numberOfVideoPlayer = it -> first.first;
+				selectedSubtitle = it -> first.second;
+				numberOfSubtitles = it -> second.second;
 			}
 		}
 		else {
 			mapSubVectorCopy = mapSubVector;
-			auto it = mapSubVectorCopy.begin();
-			std::advance(it, rand() % mapSubVectorCopy.size());
-			numberOfVideoPlayer = it->first.first;
-			selectedSubtitle = it->first.second;
-			numberOfSubtitles = it->second.second;
 			weight = 0;
+			possibilities = mapSubVectorCopy.size();		
+			auto it = mapSubVectorCopy.begin();
+			srand(ofGetElapsedTimeMillis());
+			std::advance(it, rand() % possibilities);
+			numberOfVideoPlayer = it -> first.first;
+			selectedSubtitle = it -> first.second;
+			numberOfSubtitles = it -> second.second;
 		}
 	}
 };
