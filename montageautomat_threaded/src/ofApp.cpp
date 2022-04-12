@@ -248,9 +248,6 @@ void ofApp::setup() {
 
 	ofSetWindowTitle("Montageautomat 3");
 	ofSetBackgroundColor(200);
-	thread.selectedSubtitle = 0;
-	thread.numberOfSubtitles = 0;
-	thread.numberOfVideoPlayer = 0;
 	ofVideoPlayer* movie;
 	movie = new ofVideoPlayer();
 	videoPlayerVector.push_back(movie);
