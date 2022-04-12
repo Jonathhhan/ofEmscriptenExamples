@@ -112,8 +112,7 @@ void ofApp::bang_5onMousePressed(bool& e) {
 	for (auto &element : splitWords) {
 		if (thread.embed.find_case_sensitive(element) == - 1 && !element.empty()) {
 			std::cout << "Word \"" << element << "\" does not exist! Choose another word or load an embedding file." << std::endl;
-		}
-		else if (!element.empty()) {
+		} else {
 			joinedWords.push_back(element);
 		}
 	}
