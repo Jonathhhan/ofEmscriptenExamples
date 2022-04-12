@@ -2,11 +2,14 @@
 
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool& e) {
-	std::string file = "embedding file/model.bin";
-	std::cout << "Loading embeddings file: " << file << std::endl;
-	thread.embed.load_binary(file, false);
-	std::cout << "Words in " << file << ": " << thread.embed.words << std::endl;
-	std::cout << "Dimensions in " << file << ": " << thread.embed.size << std::endl;
+	ofDirectory dir("embedding file");
+	dir.allowExt("bin");
+	dir.listDir();
+	dir.sort();
+	std::cout << "Loading embeddings file: " << dir.getPath(0) << std::endl;
+	thread.embed.load_binary(dir.getPath(0), false);
+	std::cout << "Words in " << dir.getPath(0) << ": " << thread.embed.words << std::endl;
+	std::cout << "Dimensions in " << dir.getPath(0) << ": " << thread.embed.size << std::endl;
 }
 
 //--------------------------------------------------------------
