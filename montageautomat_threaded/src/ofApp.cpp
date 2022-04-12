@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool& e) {
-	std::string file = "embedding file/GoogleNews-vectors-negative300-SLIM.bin";
+	std::string file = "embedding file/model.bin";
 	std::cout << "Loading embeddings file: " << file << std::endl;
 	thread.embed.load_binary(file, false);
 	std::cout << "Words in " << file << ": " << thread.embed.words << std::endl;
@@ -11,51 +11,55 @@ void ofApp::bang_1onMousePressed(bool& e) {
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
-	int counter = - 1;
-	std::vector<std::string> currentWords;
-	videoPlayerVector[numberOfVideoPlayer] -> stop();
-	subVector.clear();
-	thread.mapSubVector.clear();
-	thread.mapSubVectorCopy.clear();
-	ofDirectory dir("subtitles");
-	dir.allowExt("srt");
-	dir.listDir();
-	dir.sort();
-	for (int i = 0; i < dir.size(); i++) {
-		SubtitleParserFactory* subParserFactory = new SubtitleParserFactory("data/" + dir.getPath(i));
-		SubtitleParser* parser = subParserFactory -> getParser();
-		sub = parser -> getSubtitles();
-		subVector.push_back(sub);
-		for (auto element : sub) {
-			counter++;
-			std::string lowerString = ofToLower(element -> getDialogue());
-			if (!lowerString.empty()) {
-				ofStringReplace(lowerString, "'", " ");
-				ofStringReplace(lowerString, "-", " ");
-				char chars[] = "0123456789.,!:?;()\"";
-				for (auto element : chars) {
-					ofStringReplace(lowerString, ofToString(element), "");
-				}
-				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-				for (auto &element : splitWords) {
-					if (thread.embed.find_case_sensitive(element) != - 1) {
-						currentWords.push_back(element);
+	if (thread.embed.words > 0) {
+		int counter = -1;
+		std::vector<std::string> currentWords;
+		videoPlayerVector[numberOfVideoPlayer]->stop();
+		subVector.clear();
+		thread.mapSubVector.clear();
+		thread.mapSubVectorCopy.clear();
+		ofDirectory dir("subtitles");
+		dir.allowExt("srt");
+		dir.listDir();
+		dir.sort();
+		for (int i = 0; i < dir.size(); i++) {
+			SubtitleParserFactory* subParserFactory = new SubtitleParserFactory("data/" + dir.getPath(i));
+			SubtitleParser* parser = subParserFactory->getParser();
+			sub = parser->getSubtitles();
+			subVector.push_back(sub);
+			for (auto element : sub) {
+				counter++;
+				std::string lowerString = ofToLower(element->getDialogue());
+				if (!lowerString.empty()) {
+					ofStringReplace(lowerString, "'", " ");
+					ofStringReplace(lowerString, "-", " ");
+					char chars[] = "0123456789.,!:?;()\"";
+					for (auto element : chars) {
+						ofStringReplace(lowerString, ofToString(element), "");
 					}
-				}
-				for (auto &element : stopWords) {
-					currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
-				}
-				if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element -> getDialogue().back() == ';') {
-					std::string currentDialogue = ofJoinString(currentWords, " ");
-					currentWords.clear();
-					if (!currentDialogue.empty()) {
-						thread.mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(thread.embed.words_to_vec(currentDialogue), counter);
+					std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
+					for (auto& element : splitWords) {
+						if (thread.embed.find_case_sensitive(element) != -1) {
+							currentWords.push_back(element);
+						}
 					}
-					counter = - 1;
+					//for (auto &element : stopWords) {
+						//currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
+					//}
+					if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element -> getDialogue().back() == ';') {
+						std::string currentDialogue = ofJoinString(currentWords, " ");
+						currentWords.clear();
+						if (!currentDialogue.empty()) {
+							thread.mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(thread.embed.words_to_vec(currentDialogue), counter);
+						}
+						counter = -1;
+					}
 				}
 			}
+			std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << ", Subtitle number: " << i << std::endl;
 		}
-		std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << ", Subtitle number: " << i << std::endl;
+	} else {
+		std::cout << "Please load an embedding file first!" << std::endl;
 	}
 }
 
