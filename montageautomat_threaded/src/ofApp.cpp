@@ -15,7 +15,7 @@ void ofApp::bang_1onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
 	if (thread.embed.words > 0) {
-		int counter = -1;
+		int counter = - 1;
 		std::vector<std::string> currentWords;
 		videoPlayerVector[numberOfVideoPlayer]->stop();
 		subVector.clear();
@@ -42,7 +42,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 					}
 					std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
 					for (auto& element : splitWords) {
-						if (thread.embed.find_case_sensitive(element) != -1) {
+						if (thread.embed.find_case_sensitive(element) != - 1) {
 							currentWords.push_back(element);
 						}
 					}
@@ -55,7 +55,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 						if (!currentDialogue.empty()) {
 							thread.mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(thread.embed.words_to_vec(currentDialogue), counter);
 						}
-						counter = -1;
+						counter = - 1;
 					}
 				}
 			}
