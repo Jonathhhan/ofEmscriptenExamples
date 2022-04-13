@@ -177,7 +177,7 @@ void ofApp::bang_4onMousePressed(bool& e) {
 		}
 		if (thread.selectedSubtitle > 0) {
 			int subtitle = thread.selectedSubtitle - 1;
-			if (subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() > subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 5000) {
+			if (subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() > subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 5000 && selectedSubtitle + 1 != thread.selectedSubtitle) {
 				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() - 5000 + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
 			}
 			else {
@@ -283,7 +283,7 @@ void ofApp::update() {
 		videoPlayerVector[numberOfVideoPlayer]->stop();
 		if (thread.selectedSubtitle > 0) {
 			int subtitle = thread.selectedSubtitle - 1;
-			if (subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() > subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 5000) {
+			if (subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() > subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 5000 && selectedSubtitle + 1 != thread.selectedSubtitle) {
 				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() - 5000 + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
 			} else {
 				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
