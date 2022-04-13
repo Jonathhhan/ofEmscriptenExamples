@@ -279,7 +279,7 @@ void ofApp::update() {
 	int subtitle = selectedSubtitle + numberOfSubtitles;
 	int subtitle2 = selectedSubtitle + numberOfSubtitles + 1;
 	if ((!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 5000 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000) || 
-		(!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle2] -> getStartTime() - 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000)) {
+	(!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle2] -> getStartTime() - 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000)) {
 		videoPlayerVector[numberOfVideoPlayer]->stop();
 		if (thread.selectedSubtitle > 0) {
 			int subtitle = thread.selectedSubtitle - 1;
