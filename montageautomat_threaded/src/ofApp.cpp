@@ -46,9 +46,9 @@ void ofApp::bang_2onMousePressed(bool& e) {
 							currentWords.push_back(element);
 						}
 					}
-					//for (auto &element : stopWords) {
-						//currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
-					//}
+					for (auto &element : stopWords) {
+						currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
+					}
 					if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element -> getDialogue().back() == ';') {
 						std::string currentDialogue = ofJoinString(currentWords, " ");
 						currentWords.clear();
