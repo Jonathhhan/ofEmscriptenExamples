@@ -97,6 +97,7 @@ void ofApp::bang_3onMousePressed(bool& e) {
 	for (int i = 0; i < dir.size(); i++) {
 		movie = new ofVideoPlayer();
 		movie -> load(dir.getPath(i));
+		movie->setLoopState(OF_LOOP_NONE);
 		videoPlayerVector.push_back(movie);
 		std::cout << "Video: " << dir.getPath(i) << ", Video number: " << i << std::endl;
 	}
@@ -176,29 +177,26 @@ void ofApp::bang_4onMousePressed(bool& e) {
 			}
 		}
 		if (thread.selectedSubtitle > 0) {
-			int subtitle = thread.selectedSubtitle - 1;
-			if (subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() > subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 5000) {
-				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() - 5000 + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
+			if (thread.selectedSubtitle > 0) {
+				float diff = (static_cast<float>(subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime()) - subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle - 1] -> getEndTime()) / 2;
+				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle - 1] -> getEndTime() + diff) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
 			}
 			else {
-				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
+				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition(0);
 			}
-		}
-		else {
-			videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition(0);
+			videoPlayerVector[thread.numberOfVideoPlayer] -> play();
+			videoPlayerVector[thread.numberOfVideoPlayer] -> update();
 		}
 		std::vector<std::string> words;
 		for (int i = 0; i <= thread.numberOfSubtitles; i++) {
-			int subtitle = thread.selectedSubtitle + i;
-			if (!subVector[thread.numberOfVideoPlayer][subtitle] -> getDialogue().empty()) {
-				words.push_back(subVector[thread.numberOfVideoPlayer][subtitle] -> getDialogue());
+			if (!subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle + i] -> getDialogue().empty()) {
+				words.push_back(subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle + i] -> getDialogue());
 			}
 		}
 		std::string joinedString = ofJoinString(words, " ");
 		ofStringReplace(joinedString, "\n", " ");
 		std::cout << "Subtitles left: " << thread.mapSubVectorCopy.size() - 1 << ", Weight: " << thread.weight << ", Possibilities: " << thread.possibilities << ", Subtitles: " << thread.selectedSubtitle << " - " << thread.selectedSubtitle + thread.numberOfSubtitles << ", Video player: " << thread.numberOfVideoPlayer << ", Dialogue: " << joinedString << std::endl;
 		groupOfToggles[0].value = 0;
-		videoPlayerVector[thread.numberOfVideoPlayer] -> play();
 		numberOfVideoPlayer = thread.numberOfVideoPlayer;
 		selectedSubtitle = thread.selectedSubtitle;
 		numberOfSubtitles = thread.numberOfSubtitles;
@@ -276,18 +274,12 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update() {
 	videoPlayerVector[numberOfVideoPlayer] -> update();
-	int subtitle = selectedSubtitle + numberOfSubtitles;
-	int subtitle2 = selectedSubtitle + numberOfSubtitles + 1;
-	if ((!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle] -> getEndTime() + 5000 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000) 
-	|| (!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][subtitle2] -> getStartTime() - 50 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000)) {
+	if ((!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && subVector[numberOfVideoPlayer][(size_t)selectedSubtitle + numberOfSubtitles] -> getEndTime() + (static_cast<float>(subVector[numberOfVideoPlayer][(size_t)selectedSubtitle + numberOfSubtitles + 1] -> getStartTime()) - subVector[numberOfVideoPlayer][(size_t)selectedSubtitle + numberOfSubtitles] -> getEndTime()) / 2 < videoPlayerVector[numberOfVideoPlayer] -> getPosition() * videoPlayerVector[numberOfVideoPlayer] -> getDuration() * 1000)
+	|| (!thread.isThreadRunning() && !thread.mapSubVectorCopy.empty() && videoPlayerVector[numberOfVideoPlayer] -> getIsMovieDone())) {
 		videoPlayerVector[numberOfVideoPlayer]->stop();
 		if (thread.selectedSubtitle > 0) {
-			int subtitle = thread.selectedSubtitle - 1;
-			if (subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() > subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 5000) {
-				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime() - 5000 + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
-			} else {
-				videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][subtitle] -> getEndTime() + 50) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
-			}
+			float diff = (static_cast<float>(subVector[thread.numberOfVideoPlayer][thread.selectedSubtitle] -> getStartTime()) - subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle - 1] -> getEndTime()) / 2;
+			videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition((subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle - 1] -> getEndTime() + diff) / videoPlayerVector[thread.numberOfVideoPlayer] -> getDuration() / 1000);
 		}
 		else {
 			videoPlayerVector[thread.numberOfVideoPlayer] -> setPosition(0);
@@ -296,9 +288,8 @@ void ofApp::update() {
 		videoPlayerVector[thread.numberOfVideoPlayer] -> update();
 		std::vector<std::string> words;
 		for (int i = 0; i <= thread.numberOfSubtitles; i++) {
-			int subtitle = thread.selectedSubtitle + i;
-			if (!subVector[thread.numberOfVideoPlayer][subtitle] -> getDialogue().empty()) {
-				words.push_back(subVector[thread.numberOfVideoPlayer][subtitle] -> getDialogue());
+			if (!subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle + i] -> getDialogue().empty()) {
+				words.push_back(subVector[thread.numberOfVideoPlayer][(size_t)thread.selectedSubtitle + i] -> getDialogue());
 			}
 		}
 		std::string joinedString = ofJoinString(words, " ");
