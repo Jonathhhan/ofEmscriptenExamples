@@ -97,7 +97,7 @@ void ofApp::bang_3onMousePressed(bool& e) {
 	for (int i = 0; i < dir.size(); i++) {
 		movie = new ofVideoPlayer();
 		movie -> load(dir.getPath(i));
-		movie->setLoopState(OF_LOOP_NONE);
+		movie -> setLoopState(OF_LOOP_NONE);
 		videoPlayerVector.push_back(movie);
 		std::cout << "Video: " << dir.getPath(i) << ", Video number: " << i << std::endl;
 	}
