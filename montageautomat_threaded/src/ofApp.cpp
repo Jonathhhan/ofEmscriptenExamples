@@ -17,7 +17,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	if (thread.embed.words > 0) {
 		int counter = - 1;
 		std::vector<std::string> currentWords;
-		videoPlayerVector[numberOfVideoPlayer]->stop();
+		videoPlayerVector[numberOfVideoPlayer] -> stop();
 		subVector.clear();
 		thread.mapSubVector.clear();
 		thread.mapSubVectorCopy.clear();
