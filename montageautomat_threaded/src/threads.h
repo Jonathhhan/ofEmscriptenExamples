@@ -37,8 +37,8 @@ public:
 					choosenSubs.push_back(std::make_tuple(get<0>(it -> second), get<1>(it -> second), get<2>(it -> second)));
 				}
 				possibilities = choosenSubs.size();
-				srand(ofGetElapsedTimeMillis());
-				int random = rand() % choosenSubs.size();
+				ofSeedRandom();
+				int random = ofRandom(choosenSubs.size());
 				numberOfVideoPlayer = get<0>(choosenSubs[random]);
 				selectedSubtitle = get<1>(choosenSubs[random]);
 				numberOfSubtitles = get<2>(choosenSubs[random]);
@@ -46,8 +46,8 @@ public:
 			else {
 				possibilities = mapSubVectorCopy.size();
 				auto it = mapSubVectorCopy.begin();
-				srand(ofGetElapsedTimeMillis());
-				std::advance(it, rand() % possibilities);
+				ofSeedRandom();
+				std::advance(it, ofRandom(possibilities));
 				numberOfVideoPlayer = it -> first.first;
 				selectedSubtitle = it -> first.second;
 				numberOfSubtitles = it -> second.second;
@@ -58,8 +58,8 @@ public:
 			weight = 0;
 			possibilities = mapSubVectorCopy.size();		
 			auto it = mapSubVectorCopy.begin();
-			srand(ofGetElapsedTimeMillis());
-			std::advance(it, rand() % possibilities);
+			ofSeedRandom();
+			std::advance(it, ofRandom(possibilities));
 			numberOfVideoPlayer = it -> first.first;
 			selectedSubtitle = it -> first.second;
 			numberOfSubtitles = it -> second.second;

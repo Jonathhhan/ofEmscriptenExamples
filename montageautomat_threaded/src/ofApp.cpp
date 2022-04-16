@@ -132,8 +132,8 @@ void ofApp::bang_4onMousePressed(bool& e) {
 			if (bRandomStart) {
 				thread.possibilities = thread.mapSubVectorCopy.size();
 				auto it = thread.mapSubVectorCopy.begin();
-				srand(ofGetElapsedTimeMillis());
-				std::advance(it, rand() % thread.possibilities);
+				ofSeedRandom();
+				std::advance(it, ofRandom(thread.possibilities));
 				thread.numberOfVideoPlayer = it -> first.first;
 				thread.selectedSubtitle = it -> first.second;
 				thread.numberOfSubtitles = it -> second.second;
@@ -169,8 +169,8 @@ void ofApp::bang_4onMousePressed(bool& e) {
 			else {
 				thread.possibilities = thread.mapSubVectorCopy.size();
 				auto it = thread.mapSubVectorCopy.begin();
-				srand(ofGetElapsedTimeMillis());
-				std::advance(it, rand() % thread.possibilities);
+				ofSeedRandom();
+				std::advance(it, ofRandom(thread.possibilities));
 				thread.numberOfVideoPlayer = it -> first.first;
 				thread.selectedSubtitle = it -> first.second;
 				thread.numberOfSubtitles = it -> second.second;
