@@ -53,7 +53,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 						std::string currentDialogue = ofJoinString(currentWords, " ");
 						currentWords.clear();
 						if (!currentDialogue.empty()) {
-							thread.mapSubVector[{i, element -> getSubNo() - counter - 1}] = std::make_pair(thread.embed.words_to_vec(currentDialogue), counter);
+							thread.mapSubVector.insert(std::make_pair(std::make_pair(i, element->getSubNo() - counter - 1 ), std::make_pair(thread.embed.words_to_vec(currentDialogue), counter)));
 						}
 						counter = - 1;
 					}
