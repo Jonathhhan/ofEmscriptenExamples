@@ -5,6 +5,8 @@ class threads : public ofThread {
 public:
 	std::map<std::pair<int, int>, std::pair<ofxWord2VecVector, int>> mapSubVector;
 	std::map<std::pair<int, int>, std::pair<ofxWord2VecVector, int>> mapSubVectorCopy;
+	std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
+	std::vector<std::tuple<int, int, int>> choosenSubs;
 	ofxWord2VecEmbedding embed;
 	std::string customWords;
 	bool bCustomWords;
@@ -15,14 +17,14 @@ public:
 	double weight;
 
 	void threads::threadedFunction() {
-		std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
+		multimapWeightSub.clear();
 		for (auto& element : mapSubVectorCopy) {
 			if (element.first.first != numberOfVideoPlayer || element.first.second != selectedSubtitle) {
 				if (!bCustomWords || customWords.empty()) {
-					multimapWeightSub.insert(std::make_pair(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
+					multimapWeightSub.emplace(mapSubVectorCopy[{numberOfVideoPlayer, selectedSubtitle}].first.dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second));
 				}
 				else {
-					multimapWeightSub.insert(std::make_pair(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second)));
+					multimapWeightSub.emplace(embed.words_to_vec(customWords).dist_cosine_optimized(element.second.first), std::make_tuple(element.first.first, element.first.second, element.second.second));
 				}
 			}
 		}
@@ -31,7 +33,7 @@ public:
 			auto it = multimapWeightSub.rbegin();
 			weight = it -> first;
 			if (it -> first != 0) {
-				std::vector<std::tuple<int, int, int>> choosenSubs;
+				choosenSubs.clear();
 				auto range = multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
 					choosenSubs.push_back(std::make_tuple(get<0>(it -> second), get<1>(it -> second), get<2>(it -> second)));

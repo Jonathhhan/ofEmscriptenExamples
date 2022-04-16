@@ -15,50 +15,48 @@ void ofApp::bang_1onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
 	if (thread.embed.words > 0) {
-		int counter = - 1;
+		int counter = 0;
 		std::vector<std::string> currentWords;
-		videoPlayerVector[numberOfVideoPlayer] -> stop();
-		subVector.clear();
-		thread.mapSubVector.clear();
-		thread.mapSubVectorCopy.clear();
 		ofDirectory dir("subtitles");
 		dir.allowExt("srt");
 		dir.listDir();
 		dir.sort();
+		subVector.clear();
+		thread.mapSubVector.clear();
+		thread.mapSubVectorCopy.clear();
+		videoPlayerVector[numberOfVideoPlayer] -> stop();
 		for (int i = 0; i < dir.size(); i++) {
 			SubtitleParserFactory* subParserFactory = new SubtitleParserFactory("data/" + dir.getPath(i));
-			SubtitleParser* parser = subParserFactory->getParser();
-			sub = parser->getSubtitles();
+			SubtitleParser* parser = subParserFactory -> getParser();
+			sub = parser -> getSubtitles();
 			subVector.push_back(sub);
 			for (auto element : sub) {
-				counter++;
-				std::string lowerString = ofToLower(element->getDialogue());
-				if (!lowerString.empty()) {
-					ofStringReplace(lowerString, "'", " ");
-					ofStringReplace(lowerString, "-", " ");
-					char chars[] = "0123456789.,!:?;()\"";
-					for (auto element : chars) {
-						ofStringReplace(lowerString, ofToString(element), "");
-					}
-					std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
-					for (auto& element : splitWords) {
-						if (thread.embed.find_case_sensitive(element) != - 1) {
-							currentWords.push_back(element);
-						}
-					}
-					for (auto &element : stopWords) {
-						currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
-					}
-					if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element -> getDialogue().back() == ';') {
-						std::string currentDialogue = ofJoinString(currentWords, " ");
-						currentWords.clear();
-						if (!currentDialogue.empty()) {
-							thread.mapSubVector.insert(std::make_pair(std::make_pair(i, element->getSubNo() - counter - 1 ), std::make_pair(thread.embed.words_to_vec(currentDialogue), counter)));
-						}
-						counter = - 1;
+				std::string lowerString = ofToLower(element -> getDialogue());
+				ofStringReplace(lowerString, "'", " ");
+				ofStringReplace(lowerString, "-", " ");
+				char chars[] = "0123456789.,!:?;()\"";
+				for (auto element : chars) {
+					ofStringReplace(lowerString, ofToString(element), "");
+				}
+				std::vector<std::string> splitWords = ofSplitString(lowerString, " ");
+				for (auto& element : splitWords) {
+					if (thread.embed.find_case_sensitive(element) != - 1) {
+						currentWords.push_back(element);
 					}
 				}
-			}
+				for (auto &element : stopWords) {
+					currentWords.erase(std::remove(currentWords.begin(), currentWords.end(), element), currentWords.end());
+				}
+				if (element -> getDialogue().back() == '.' || element -> getDialogue().back() == '?' || element -> getDialogue().back() == '!' || element -> getDialogue().back() == '"' || element -> getDialogue().back() == '\'' || element -> getDialogue().back() == ';') {
+					std::string currentDialogue = ofJoinString(currentWords, " ");
+					currentWords.clear();
+					if (!currentDialogue.empty()) {
+						thread.mapSubVector.emplace(std::make_pair(i, element->getSubNo() - counter - 1), std::make_pair(thread.embed.words_to_vec(currentDialogue), counter));
+					}
+					counter = - 1;
+				}
+				counter ++;
+			}		
 			std::cout << "Subtitles: " << dir.getPath(i) << ", Subtitle size: " << sub.size() << ", Subtitle number: " << i << std::endl;
 		}
 	} else {
@@ -147,24 +145,24 @@ void ofApp::bang_4onMousePressed(bool& e) {
 			thread.weight = 0;
 		}
 		else if (subVector.size() > 0) {
-			std::multimap<double, std::tuple<int, int, int>> multimapWeightSub;
+			thread.multimapWeightSub.clear();
 			for (auto &element : thread.mapSubVectorCopy) {
-				multimapWeightSub.insert(std::make_pair(thread.embed.words_to_vec(thread.customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first.first, element.first.second, element.second.second)));
+				thread.multimapWeightSub.emplace(thread.embed.words_to_vec(thread.customWords).dist_cosine_optimized(get<0>(element.second)), std::make_tuple(element.first.first, element.first.second, element.second.second));
 			}
-			auto it = multimapWeightSub.rbegin();
+			auto it = thread.multimapWeightSub.rbegin();
 			thread.weight = it -> first;
 			if (it -> first != 0) {
-				std::vector<std::tuple<int, int, int>> choosenSubs;
-				auto range = multimapWeightSub.equal_range(it -> first);
+				thread.choosenSubs.clear();
+				auto range = thread.multimapWeightSub.equal_range(it -> first);
 				for (auto it = range.first; it != range.second; ++it) {
-					choosenSubs.push_back(std::make_tuple(get<0>(it -> second), get<1>(it -> second), get<2>(it -> second)));
+					thread.choosenSubs.push_back(std::make_tuple(get<0>(it -> second), get<1>(it -> second), get<2>(it -> second)));
 				}
-				thread.possibilities = choosenSubs.size();
-				srand(ofGetElapsedTimeMillis());
-				int random = rand() % thread.possibilities;
-				thread.numberOfVideoPlayer = get<0>(choosenSubs[random]);
-				thread.selectedSubtitle = get<1>(choosenSubs[random]);
-				thread.numberOfSubtitles = get<2>(choosenSubs[random]);
+				thread.possibilities = thread.choosenSubs.size();
+				ofSeedRandom();
+				int random = ofRandom(thread.possibilities);
+				thread.numberOfVideoPlayer = get<0>(thread.choosenSubs[random]);
+				thread.selectedSubtitle = get<1>(thread.choosenSubs[random]);
+				thread.numberOfSubtitles = get<2>(thread.choosenSubs[random]);
 			}
 			else {
 				thread.possibilities = thread.mapSubVectorCopy.size();
