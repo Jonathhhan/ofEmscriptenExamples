@@ -268,7 +268,7 @@ void ofApp::setup() {
 	groupOfBangs[4].setup(190, 330 + 5, 20);
 	groupOfToggles[3].setup(190, 380 + 5, 20);
 
-	stopWords = {"ll", "re", "d", "m", "t", "s", "re", "yes"};
+	stopWords = {"ll", "re", "d", "m", "t", "s", "re"};
 }
 
 //--------------------------------------------------------------
