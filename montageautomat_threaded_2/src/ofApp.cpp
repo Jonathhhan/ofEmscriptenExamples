@@ -2,14 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool& e) {
-	embedLoaderThread.startThread();
+	if (!embedLoaderThread.isThreadRunning()){
+		embedLoaderThread.startThread();
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
 	if (vec2WordThread.embed.words > 0) {
-		videoPlayerVector[numberOfVideoPlayer] -> stop();
-		subtitleLoaderThread.startThread();
+		if (!subtitleLoaderThread.isThreadRunning()) {
+			videoPlayerVector[numberOfVideoPlayer] -> stop();
+			subtitleLoaderThread.startThread();
+		}
 	} else {
 		std::cout << "Please load an embedding file first!" << std::endl;
 	}
@@ -17,7 +21,9 @@ void ofApp::bang_2onMousePressed(bool& e) {
 
 //--------------------------------------------------------------
 void ofApp::bang_3onMousePressed(bool& e) {
-	videoLoaderThread.startThread();
+	if (!videoLoaderThread.isThreadRunning()) {
+		videoLoaderThread.startThread();
+	}
 }
 
 //--------------------------------------------------------------
