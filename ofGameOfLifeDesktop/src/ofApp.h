@@ -130,4 +130,3 @@ class ofApp : public ofBaseApp{
 		class label label_11;
 		class label label_12;
 };
-	
