@@ -11,6 +11,8 @@
 #include "hRadio.h"
 #include "label.h"
 
+constexpr auto NCELLS = 9;
+
 class ofApp : public ofBaseApp{
 	
 	public:
@@ -19,41 +21,10 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		
-		void keyPressed(ofKeyEventArgs & args);
-		void keyReleased(ofKeyEventArgs & args);
-		void mouseMoved(ofMouseEventArgs & args);
-		void mouseDragged(ofMouseEventArgs & args);
 		void mousePressed(ofMouseEventArgs & args);
-		void mouseReleased(ofMouseEventArgs & args);
-		void mouseEntered(ofMouseEventArgs & args);
-		void mouseExited(ofMouseEventArgs & args);
-		void touchMoved(ofTouchEventArgs & args);
-		void touchDown(ofTouchEventArgs & args);
-		void touchUp(ofTouchEventArgs & args);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
 		
 		void toggle_1onMousePressed(bool & e);
 		void toggle_2onMousePressed(bool & e);
-		void livingCell_1onMousePressed(bool & e);
-		void livingCell_2onMousePressed(bool & e);
-		void livingCell_3onMousePressed(bool & e);
-		void livingCell_4onMousePressed(bool & e);
-		void livingCell_5onMousePressed(bool & e);
-		void livingCell_6onMousePressed(bool & e);
-		void livingCell_7onMousePressed(bool & e);
-		void livingCell_8onMousePressed(bool & e);
-		void livingCell_9onMousePressed(bool & e);
-		void deadCell_1onMousePressed(bool & e);
-		void deadCell_2onMousePressed(bool & e);
-		void deadCell_3onMousePressed(bool & e);
-		void deadCell_4onMousePressed(bool & e);
-		void deadCell_5onMousePressed(bool & e);
-		void deadCell_6onMousePressed(bool & e);
-		void deadCell_7onMousePressed(bool & e);
-		void deadCell_8onMousePressed(bool & e);
-		void deadCell_9onMousePressed(bool & e);
 		void bang_1onMousePressed(bool & e);	
 		void bang_2onMousePressed(bool & e);
 		void bang_3onMousePressed(bool & e);
@@ -78,7 +49,6 @@ class ofApp : public ofBaseApp{
 		int gridNumY;
 		int oldGridNumX;
 		int oldGridNumY;
-		int cellArray[2][9];
 		
 		ofXml xml;
 		ofShader shaderGameOfLife;
@@ -95,24 +65,8 @@ class ofApp : public ofBaseApp{
 		class bang bang_5;
 		class toggle toggle_1;
 		class toggle toggle_2;
-		class toggle livingCell_1;
-		class toggle livingCell_2;
-		class toggle livingCell_3;
-		class toggle livingCell_4;
-		class toggle livingCell_5;
-		class toggle livingCell_6;
-		class toggle livingCell_7;
-		class toggle livingCell_8;
-		class toggle livingCell_9;
-		class toggle deadCell_1;
-		class toggle deadCell_2;
-		class toggle deadCell_3;
-		class toggle deadCell_4;
-		class toggle deadCell_5;
-		class toggle deadCell_6;
-		class toggle deadCell_7;
-		class toggle deadCell_8;
-		class toggle deadCell_9;
+		toggle groupOfLivingCells[NCELLS];
+		toggle groupOfDeadCells[NCELLS];
 		class number number_1;
 		class number number_2;
 		class number number_3;

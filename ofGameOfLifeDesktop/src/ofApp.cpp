@@ -19,24 +19,6 @@ void ofApp::setup() {
 	shaderRaster.load("Raster");
 	ofAddListener(toggle_1.onMousePressed, this, &ofApp::toggle_1onMousePressed);
 	ofAddListener(toggle_2.onMousePressed, this, &ofApp::toggle_2onMousePressed);
-	ofAddListener(livingCell_1.onMousePressed, this, &ofApp::livingCell_1onMousePressed);
-	ofAddListener(livingCell_2.onMousePressed, this, &ofApp::livingCell_2onMousePressed);
-	ofAddListener(livingCell_3.onMousePressed, this, &ofApp::livingCell_3onMousePressed);
-	ofAddListener(livingCell_4.onMousePressed, this, &ofApp::livingCell_4onMousePressed);
-	ofAddListener(livingCell_5.onMousePressed, this, &ofApp::livingCell_5onMousePressed);
-	ofAddListener(livingCell_6.onMousePressed, this, &ofApp::livingCell_6onMousePressed);
-	ofAddListener(livingCell_7.onMousePressed, this, &ofApp::livingCell_7onMousePressed);
-	ofAddListener(livingCell_8.onMousePressed, this, &ofApp::livingCell_8onMousePressed);
-	ofAddListener(livingCell_9.onMousePressed, this, &ofApp::livingCell_9onMousePressed);
-	ofAddListener(deadCell_1.onMousePressed, this, &ofApp::deadCell_1onMousePressed);
-	ofAddListener(deadCell_2.onMousePressed, this, &ofApp::deadCell_2onMousePressed);
-	ofAddListener(deadCell_3.onMousePressed, this, &ofApp::deadCell_3onMousePressed);
-	ofAddListener(deadCell_4.onMousePressed, this, &ofApp::deadCell_4onMousePressed);
-	ofAddListener(deadCell_5.onMousePressed, this, &ofApp::deadCell_5onMousePressed);
-	ofAddListener(deadCell_6.onMousePressed, this, &ofApp::deadCell_6onMousePressed);
-	ofAddListener(deadCell_7.onMousePressed, this, &ofApp::deadCell_7onMousePressed);
-	ofAddListener(deadCell_8.onMousePressed, this, &ofApp::deadCell_8onMousePressed);
-	ofAddListener(deadCell_9.onMousePressed, this, &ofApp::deadCell_9onMousePressed);
 	ofAddListener(bang_1.onMousePressed, this, &ofApp::bang_1onMousePressed);
 	ofAddListener(bang_2.onMousePressed, this, &ofApp::bang_2onMousePressed);
 	ofAddListener(bang_3.onMousePressed, this, &ofApp::bang_3onMousePressed);
@@ -62,27 +44,15 @@ void ofApp::setup() {
 	number_3.setup(550, 680, 100, 30, 1, 1000);
 	number_3.value = 200;
 	interval = 200;
-	livingCell_1.setup(210, 730, 30);
-	livingCell_2.setup(240, 730, 30);
-	livingCell_3.setup(270, 730, 30);
-	livingCell_3.value = true;
-	livingCell_4.setup(300, 730, 30);
-	livingCell_4.value = true;
-	livingCell_5.setup(330, 730, 30);
-	livingCell_6.setup(360, 730, 30);
-	livingCell_7.setup(390, 730, 30);
-	livingCell_8.setup(420, 730, 30);
-	livingCell_9.setup(450, 730, 30);
-	deadCell_1.setup(210, 760, 30);
-	deadCell_2.setup(240, 760, 30);
-	deadCell_3.setup(270, 760, 30);
-	deadCell_4.setup(300, 760, 30);
-	deadCell_4.value = true;
-	deadCell_5.setup(330, 760, 30);
-	deadCell_6.setup(360, 760, 30);
-	deadCell_7.setup(390, 760, 30);
-	deadCell_8.setup(420, 760, 30);
-	deadCell_9.setup(450, 760, 30);
+	for (int i = 0; i < NCELLS; i++) {
+		groupOfLivingCells[i].setup(i * 30 + 210, 730, 30);
+	}
+	groupOfLivingCells[2].value = true;
+	groupOfLivingCells[3].value = true;
+	for (int i = 0; i < NCELLS; i++) {
+		groupOfDeadCells[i].setup(i * 30 + 210, 760, 30);
+	}
+	groupOfDeadCells[3].value = true;
 	hRadio_1.setup(50, 600, 30, 16);
 	hRadio_1.value = 0;
 	float presetPattern = 0;
@@ -99,9 +69,6 @@ void ofApp::setup() {
 	label_10.setup(655, 680, 120, 30, "Interval");
 	label_11.setup(655, 720, 120, 30, "Iterate");
 	label_12.setup(655, 760, 120, 30, "Sequence");
-	cellArray[0][2] = 1;
-	cellArray[0][3] = 1;
-	cellArray[1][3] = 1;
 }
 
 //--------------------------------------------------------------
@@ -132,24 +99,12 @@ void ofApp::draw() {
 	bang_5.draw();
 	toggle_1.draw();
 	toggle_2.draw();
-	livingCell_1.draw();
-	livingCell_2.draw();
-	livingCell_3.draw();
-	livingCell_4.draw();
-	livingCell_5.draw();
-	livingCell_6.draw();
-	livingCell_7.draw();
-	livingCell_8.draw();
-	livingCell_9.draw();
-	deadCell_1.draw();
-	deadCell_2.draw();
-	deadCell_3.draw();
-	deadCell_4.draw();
-	deadCell_5.draw();
-	deadCell_6.draw();
-	deadCell_7.draw();
-	deadCell_8.draw();
-	deadCell_9.draw();
+	for (int i = 0; i < NCELLS; i++) {
+		groupOfLivingCells[i].draw();
+	}
+	for (int i = 0; i < NCELLS; i++) {
+		groupOfDeadCells[i].draw();
+	}
 	number_1.draw();
 	number_2.draw();
 	number_3.draw();
@@ -169,26 +124,6 @@ void ofApp::draw() {
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(ofKeyEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(ofKeyEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(ofMouseEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(ofMouseEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
 void ofApp::toggle_1onMousePressed(bool& e) {
 	sequence = e;
 }
@@ -196,96 +131,6 @@ void ofApp::toggle_1onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::toggle_2onMousePressed(bool& e) {
 	raster = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_1onMousePressed(bool& e) {
-	cellArray[0][0] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_2onMousePressed(bool& e) {
-	cellArray[0][1] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_3onMousePressed(bool& e) {
-	cellArray[0][2] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_4onMousePressed(bool& e) {
-	cellArray[0][3] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_5onMousePressed(bool& e) {
-	cellArray[0][4] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_6onMousePressed(bool& e) {
-	cellArray[0][5] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_7onMousePressed(bool& e) {
-	cellArray[0][6] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_8onMousePressed(bool& e) {
-	cellArray[0][7] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::livingCell_9onMousePressed(bool& e) {
-	cellArray[0][8] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_1onMousePressed(bool& e) {
-	cellArray[1][0] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_2onMousePressed(bool& e) {
-	cellArray[1][1] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_3onMousePressed(bool& e) {
-	cellArray[1][2] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_4onMousePressed(bool& e) {
-	cellArray[1][3] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_5onMousePressed(bool& e) {
-	cellArray[1][4] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_6onMousePressed(bool& e) {
-	cellArray[1][5] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_7onMousePressed(bool& e) {
-	cellArray[1][6] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_8onMousePressed(bool& e) {
-	cellArray[1][7] = e;
-}
-
-//--------------------------------------------------------------
-void ofApp::deadCell_9onMousePressed(bool& e) {
-	cellArray[1][8] = e;
 }
 
 //--------------------------------------------------------------
@@ -378,24 +223,24 @@ void ofApp::bang_5onMousePressed(bool& e) {
 	shaderGameOfLife.begin();
 	shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
 	shaderGameOfLife.setUniform2f("resolution", fboCells.getWidth(), fboCells.getHeight());
-	shaderGameOfLife.setUniform1f("lCell_0", cellArray[0][0]);
-	shaderGameOfLife.setUniform1f("lCell_1", cellArray[0][1]);
-	shaderGameOfLife.setUniform1f("lCell_2", cellArray[0][2]);
-	shaderGameOfLife.setUniform1f("lCell_3", cellArray[0][3]);
-	shaderGameOfLife.setUniform1f("lCell_4", cellArray[0][4]);
-	shaderGameOfLife.setUniform1f("lCell_5", cellArray[0][5]);
-	shaderGameOfLife.setUniform1f("lCell_6", cellArray[0][6]);
-	shaderGameOfLife.setUniform1f("lCell_7", cellArray[0][7]);
-	shaderGameOfLife.setUniform1f("lCell_8", cellArray[0][8]);
-	shaderGameOfLife.setUniform1f("dCell_0", cellArray[1][0]);
-	shaderGameOfLife.setUniform1f("dCell_1", cellArray[1][1]);
-	shaderGameOfLife.setUniform1f("dCell_2", cellArray[1][2]);
-	shaderGameOfLife.setUniform1f("dCell_3", cellArray[1][3]);
-	shaderGameOfLife.setUniform1f("dCell_4", cellArray[1][4]);
-	shaderGameOfLife.setUniform1f("dCell_5", cellArray[1][5]);
-	shaderGameOfLife.setUniform1f("dCell_6", cellArray[1][6]);
-	shaderGameOfLife.setUniform1f("dCell_7", cellArray[1][7]);
-	shaderGameOfLife.setUniform1f("dCell_8", cellArray[1][8]);
+	shaderGameOfLife.setUniform1f("lCell_0", groupOfLivingCells[0].value);
+	shaderGameOfLife.setUniform1f("lCell_1", groupOfLivingCells[1].value);
+	shaderGameOfLife.setUniform1f("lCell_2", groupOfLivingCells[2].value);
+	shaderGameOfLife.setUniform1f("lCell_3", groupOfLivingCells[3].value);
+	shaderGameOfLife.setUniform1f("lCell_4", groupOfLivingCells[4].value);
+	shaderGameOfLife.setUniform1f("lCell_5", groupOfLivingCells[5].value);
+	shaderGameOfLife.setUniform1f("lCell_6", groupOfLivingCells[6].value);
+	shaderGameOfLife.setUniform1f("lCell_7", groupOfLivingCells[7].value);
+	shaderGameOfLife.setUniform1f("lCell_8", groupOfLivingCells[8].value);
+	shaderGameOfLife.setUniform1f("dCell_0", groupOfDeadCells[0].value);
+	shaderGameOfLife.setUniform1f("dCell_1", groupOfDeadCells[1].value);
+	shaderGameOfLife.setUniform1f("dCell_2", groupOfDeadCells[2].value);
+	shaderGameOfLife.setUniform1f("dCell_3", groupOfDeadCells[3].value);
+	shaderGameOfLife.setUniform1f("dCell_4", groupOfDeadCells[4].value);
+	shaderGameOfLife.setUniform1f("dCell_5", groupOfDeadCells[5].value);
+	shaderGameOfLife.setUniform1f("dCell_6", groupOfDeadCells[6].value);
+	shaderGameOfLife.setUniform1f("dCell_7", groupOfDeadCells[7].value);
+	shaderGameOfLife.setUniform1f("dCell_8", groupOfDeadCells[8].value);
 	fboCellsCopy.begin();
 	ofClear(0);
 	ofDrawRectangle(0, 0, fboCells.getWidth(), fboCells.getHeight());
@@ -509,49 +354,4 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 		}
 		fboCells.end();
 	}
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(ofMouseEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(ofMouseEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(ofMouseEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::touchDown(ofTouchEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::touchMoved(ofTouchEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::touchUp(ofTouchEventArgs& args) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {
-
 }
