@@ -80,15 +80,21 @@ void ofApp::update() {
 	if (bang_copy.value) {
 		fboCells.readToPixels(pixels);
 		auto data = xml.getChild("data");
-		long long counter = 3;
+		long long counter = 0;
 		data.removeChild("copy");
 		auto copy = data.appendChild("copy");
 		copy.appendChild("a1").set(number_gridNumX.value);
 		copy.appendChild("a2").set(number_gridNumY.value);
+		for (int x = 0; x < NCELLS; x++) {
+			copy.appendChild("a" + ofToString(x + 3)).set(groupOfLivingCells[x].value);
+		}
+		for (int x = 0; x < NCELLS; x++) {
+			copy.appendChild("a" + ofToString(x + 3 + NCELLS)).set(groupOfDeadCells[x].value);
+		}
 		for (int x = 0; x < number_gridNumX.value; x++) {
 			for (int y = 0; y < number_gridNumY.value; y++) {
 				if (pixels.getColor(x, y).a == 255) {
-					copy.appendChild("a" + ofToString(counter)).set((long long)number_gridNumY.value * x + y - 1);
+					copy.appendChild("a" + ofToString(counter + 3 + NCELLS * 2.)).set((long long)number_gridNumY.value * x + y - 1);
 					counter++;
 				}
 			}
@@ -103,7 +109,6 @@ void ofApp::update() {
 		auto copy = data.getChild("copy");
 		number_gridNumX.value = copy.getChild("a1").getIntValue();
 		number_gridNumY.value = copy.getChild("a2").getIntValue();
-
 		if (number_gridNumX.value != oldGridNumX || number_gridNumY.value != oldGridNumY) {
 			fboCells.allocate(number_gridNumX.value, number_gridNumY.value);
 			fboCellsCopy.allocate(number_gridNumX.value, number_gridNumY.value);
@@ -119,13 +124,18 @@ void ofApp::update() {
 			oldGridNumX = number_gridNumX.value;
 			oldGridNumY = number_gridNumY.value;
 		}
-
+		for (int x = 0; x < NCELLS; x++) {
+			groupOfLivingCells[x].value = copy.getChild("a" + ofToString(x + 3)).getIntValue();
+		}
+		for (int x = 0; x < NCELLS; x++) {
+			groupOfDeadCells[x].value = copy.getChild("a" + ofToString(x + 3 + NCELLS)).getIntValue();
+		}
 		fboCells.begin();
 		ofClear(0);
 		ofSetColor(0, 0, 0, 255);
-		for (int i = 3; i < copy.getChild("a0").getIntValue(); i++) {
-			int x = copy.getChild("a" + ofToString(i)).getIntValue() / number_gridNumY.value + 1;
-			int y = copy.getChild("a" + ofToString(i)).getIntValue() % (int)number_gridNumY.value + 1;
+		for (int i = 0; i < copy.getChild("a0").getIntValue(); i++) {
+			int x = copy.getChild("a" + ofToString(i + 3 + NCELLS * 2)).getIntValue() / number_gridNumY.value + 1;
+			int y = copy.getChild("a" + ofToString(i + 3 + NCELLS * 2)).getIntValue() % (int)number_gridNumY.value + 1;
 			ofDrawRectangle(x * 1 - 1, y * 1, 1, 1);
 		}
 		fboCells.end();
@@ -133,7 +143,7 @@ void ofApp::update() {
 	}
 
 	if (bang_save.value) {
-		long long counter = 3;
+		long long counter = 0;
 		fboCells.readToPixels(pixels);
 		auto data = xml.getChild("data");
 		data.removeChild("pattern" + ofToString(hRadio_pattern.value));
@@ -149,7 +159,7 @@ void ofApp::update() {
 		for (int x = 0; x < number_gridNumX.value; x++) {
 			for (int y = 0; y < number_gridNumY.value; y++) {
 				if (pixels.getColor(x, y).a == 255) {
-					pattern.appendChild("a" + ofToString(NCELLS * 2. + counter)).set((long long)number_gridNumY.value * x + y - 1);
+					pattern.appendChild("a" + ofToString(counter + 3 + NCELLS * 2.)).set((long long)number_gridNumY.value * x + y - 1);
 					counter++;
 				}
 			}
