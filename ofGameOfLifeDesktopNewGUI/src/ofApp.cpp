@@ -1,5 +1,3 @@
-// Refer to the README.md in the example's root folder for more information on usage
-
 #include "ofApp.h"
 
 //--------------------------------------------------------------
@@ -50,7 +48,7 @@ void ofApp::setup() {
 	groupOfLabels[6].setup(315, 680, 120, 30, "Y");
 	groupOfLabels[7].setup(485, 730, 100, 60, "Cells");
 	groupOfLabels[8].setup(655, 640, 120, 30, "Grid");
-	groupOfLabels[9].setup(655, 680, 120, 30, "number_interval");
+	groupOfLabels[9].setup(655, 680, 120, 30, "Interval");
 	groupOfLabels[10].setup(655, 720, 120, 30, "Iterate");
 	groupOfLabels[11].setup(655, 760, 120, 30, "Sequence");
 }
