@@ -270,7 +270,7 @@ void ofApp::draw() {
 	bang_iterate.draw();
 	toggle_sequence.draw();
 	toggle_grid.draw();
-	for (auto& element : groupOfLivingCells) {
+	for (auto &element : groupOfLivingCells) {
 		element.draw();
 	}
 	for (auto &element : groupOfDeadCells) {
@@ -280,7 +280,7 @@ void ofApp::draw() {
 	number_gridNumY.draw();
 	number_interval.draw();
 	hRadio_pattern.draw();
-	for (auto& element : groupOfLabels) {
+	for (auto &element : groupOfLabels) {
 		element.draw();
 	}
 }
