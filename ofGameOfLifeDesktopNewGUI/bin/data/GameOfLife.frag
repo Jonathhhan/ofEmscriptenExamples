@@ -12,7 +12,7 @@ int get(int x, int y) {
 }
 
 void main() {
-int sum = 
+	int sum = 
 	get(-1, -1) +
 	get(-1,  0) +
 	get(-1,  1) +
