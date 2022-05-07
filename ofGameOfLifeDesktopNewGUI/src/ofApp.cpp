@@ -177,18 +177,29 @@ void ofApp::update() {
 	}
 
 	if (bang_iterate.value) {
+		float cells[18] = {
+		groupOfLivingCells[0].value,
+		groupOfDeadCells[0].value,
+		groupOfLivingCells[1].value,
+		groupOfDeadCells[1].value,
+		groupOfLivingCells[2].value,
+		groupOfDeadCells[2].value,
+		groupOfLivingCells[3].value,
+		groupOfDeadCells[3].value,
+		groupOfLivingCells[4].value,
+		groupOfDeadCells[4].value,
+		groupOfLivingCells[5].value,
+		groupOfDeadCells[5].value,
+		groupOfLivingCells[6].value,
+		groupOfDeadCells[6].value,
+		groupOfLivingCells[7].value,
+		groupOfDeadCells[7].value,
+		groupOfLivingCells[8].value,
+		groupOfDeadCells[8].value};
 		shaderGameOfLife.begin();
 		shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
 		shaderGameOfLife.setUniform2f("resolution", fboCells.getWidth(), fboCells.getHeight());
-		shaderGameOfLife.setUniform2f("cell_0", groupOfLivingCells[0].value, groupOfDeadCells[0].value);
-		shaderGameOfLife.setUniform2f("cell_1", groupOfLivingCells[1].value, groupOfDeadCells[1].value);
-		shaderGameOfLife.setUniform2f("cell_2", groupOfLivingCells[2].value, groupOfDeadCells[2].value);
-		shaderGameOfLife.setUniform2f("cell_3", groupOfLivingCells[3].value, groupOfDeadCells[3].value);
-		shaderGameOfLife.setUniform2f("cell_4", groupOfLivingCells[4].value, groupOfDeadCells[4].value);
-		shaderGameOfLife.setUniform2f("cell_5", groupOfLivingCells[5].value, groupOfDeadCells[5].value);
-		shaderGameOfLife.setUniform2f("cell_6", groupOfLivingCells[6].value, groupOfDeadCells[6].value);
-		shaderGameOfLife.setUniform2f("cell_7", groupOfLivingCells[7].value, groupOfDeadCells[7].value);
-		shaderGameOfLife.setUniform2f("cell_8", groupOfLivingCells[8].value, groupOfDeadCells[8].value);
+		shaderGameOfLife.setUniform2fv("cells", cells, 18);
 		fboCellsCopy.begin();
 		ofClear(0);
 		ofDrawRectangle(0, 0, fboCells.getWidth(), fboCells.getHeight());
