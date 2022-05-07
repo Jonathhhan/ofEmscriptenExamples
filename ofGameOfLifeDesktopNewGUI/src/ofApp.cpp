@@ -195,7 +195,8 @@ void ofApp::update() {
 		groupOfLivingCells[7].value,
 		groupOfDeadCells[7].value,
 		groupOfLivingCells[8].value,
-		groupOfDeadCells[8].value};
+		groupOfDeadCells[8].value
+		};
 		shaderGameOfLife.begin();
 		shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
 		shaderGameOfLife.setUniform2f("resolution", fboCells.getWidth(), fboCells.getHeight());
