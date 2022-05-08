@@ -24,8 +24,7 @@ void main() {
 	vec2 r = cells[sum];
 	if (get(0, 0) == 1) {
 		out_Color = vec4(0.0, 0.0, 0.0, r.x);
+	} else  {
+		out_Color = vec4(0.0, 0.0, 0.0, r.y);
 	}
-		else  {
-			out_Color = vec4(0.0, 0.0, 0.0, r.y);
-		}
 }
