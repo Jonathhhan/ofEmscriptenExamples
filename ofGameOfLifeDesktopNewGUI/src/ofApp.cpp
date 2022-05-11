@@ -206,10 +206,7 @@ void ofApp::update() {
 		ofDrawRectangle(0, 0, fboCells.getWidth(), fboCells.getHeight());
 		fboCellsCopy.end();
 		shaderGameOfLife.end();
-		fboCells.begin();
-		ofClear(0);
-		fboCellsCopy.draw(0, 0);
-		fboCells.end();
+		std::swap(fboCells, fboCellsCopy);
 		bang_iterate.value = false;
 	}
 
