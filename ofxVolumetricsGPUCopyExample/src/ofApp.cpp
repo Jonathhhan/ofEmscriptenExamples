@@ -11,7 +11,7 @@ void ofApp::setup()
 
     cout << "setting up volume data buffer at " << volWidth << "x" << volHeight << "x" << volDepth <<"\n";
 
-    myVolume.setup(volWidth, volHeight, volDepth, ofVec3f(1,1,2),true);
+    myVolume.setup(volWidth, volHeight, volDepth, ofVec3f(1,1,1),true);
     myVolume.setRenderSettings(1.0, 1.0, 0.75, 0.1);
     myVolume.setVolumeTextureFilterMode(GL_LINEAR);
     linearFilter = true;
