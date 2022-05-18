@@ -22,7 +22,7 @@ class ofApp : public ofBaseApp{
 		void draw();
 		
 		void mousePressed(ofMouseEventArgs & args);
-		int counter;
+
 		int pattern;
 		float now;
 		float width;
