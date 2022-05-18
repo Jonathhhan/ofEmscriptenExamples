@@ -2,8 +2,6 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	//texture3d.setVolumeTextureFilterMode(GL_NEAREST);
-	image.load("wald.jpg");
 	videoPlayer.load("Peanuts.mp4");
 	videoPlayer.play();
 	number_gridNumX.value = 10;

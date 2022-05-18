@@ -32,7 +32,6 @@ class ofApp : public ofBaseApp{
 		int oldGridNumZ;
 		
 		ofVideoPlayer videoPlayer;
-		ofImage image;
 		vector<ofFbo> fboArray;
 		ofXml xml;
 		ofShader shaderGameOfLife;
