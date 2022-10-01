@@ -1,0 +1,35 @@
+#N canvas 1349 90 431 196 10;
+#X obj 126 48 inlet;
+#X obj 126 132 outlet;
+#X obj 126 69 t b b;
+#X obj 153 111 outlet;
+#X msg 165 69 value \$1;
+#X obj 153 91 ofelia d -k \$0-vRadio;
+#A __set local c = ofCanvas(this) \; local args = c:getArgs() \; local
+xpos \, ypos \, number \, size = args[1] \, args[2] \, args[3] \, args[4]
+\; local value = 0 \; \; function M.new() \; ofWindow.addListener("mousePressed"
+\, this) \; end \; \; function M.free() \; ofWindow.removeListener("mousePressed"
+\, this) \; end \; \; function M.bang() \; ofPushMatrix() \; ofTranslate(xpos
+\, ypos) \; ofSetLineWidth(size / 10) \; ofFill() \; ofSetColor(0)
+\; ofDrawRectangle(0 \, 0 \, size \, size * number) \; ofSetColor(255)
+\; ofDrawRectangle(size / 10 \, size / 20 \, size -size / 5 \, size
+* number - size / 10) \; ofSetColor(0) \; for x = 1 \, number - 1 do
+\; ofDrawLine(0 \, size * x \, size \, size * x) \; end \; ofDrawRectangle(size
+/ 5 \, size * value + size / 5 \, size - size / 2.5 \, size - size
+/ 2.5) \; ofPopMatrix() \; end \; \; function M.mousePressed(e) \;
+if ofGetMouseY() > ypos and ofGetMouseY() < ypos + size * number and
+ofGetMouseX() > xpos and ofGetMouseX() < xpos + size then \; value
+= math.floor((ofGetMouseY() - ypos) / size) \; return value \; end
+\; end \; \; function M.value(float) \; if float < 0 then \; value
+= 0 \; elseif float >= number then \; value = number - 1 \; else \;
+value = float \; end \; return value \; end \; \;;
+#X f 22;
+#X obj 165 27 inlet;
+#X obj 165 48 int;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 2 1 5 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 4 0;
