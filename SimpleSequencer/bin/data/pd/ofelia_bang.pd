@@ -1,0 +1,30 @@
+#N canvas 1346 90 431 196 10;
+#X obj 126 48 inlet;
+#X obj 126 132 outlet;
+#X obj 126 69 t b b;
+#X obj 153 111 outlet;
+#X obj 165 48 inlet;
+#X obj 153 90 ofelia d -k \$0-bang;
+#A __set local c = ofCanvas(this) \; local args = c:getArgs() \; local
+xpos \, ypos \, size = args[1] \, args[2] \, args[3] \; local now =
+0 \; local circle = ofPath() \; \; function M.new() \; ofWindow.addListener("mousePressed"
+\, this) \; end \; \; function M.free() \; ofWindow.removeListener("mousePressed"
+\, this) \; end \; \; function M.bang() \; ofPushMatrix() \; ofTranslate(xpos
+\, ypos) \; ofSetCircleResolution(100) \; ofSetColor(0) \; ofDrawRectangle(0
+\, 0 \, size \, size) \; ofSetColor(255) \; ofDrawRectangle(size /
+40 \, size / 40 \, size - size / 20 \, size - size / 20) \; ofSetColor(0)
+\; ofDrawCircle(size / 2 \, size / 2 \, size / 2.5) \; if now < ofGetElapsedTimeMillis()
+then \; ofSetColor(255) \; end \; ofDrawCircle(size / 2 \, size / 2
+\, size / 2.7) \; ofPopMatrix() \; end \; \; function M.mousePressed(e)
+\; if ofDist(ofGetMouseX() \, ofGetMouseY() \, xpos + size / 2 \, ypos
++ size / 2) <= size / 2.5 then \; now = ofGetElapsedTimeMillis() +
+200 \; return nil \; end \; end \; \; function M.value() \; now = ofGetElapsedTimeMillis()
++ 200 \; return nil \; end \; \;;
+#X f 22;
+#X msg 165 71 value;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 2 1 5 0;
+#X connect 4 0 6 0;
+#X connect 5 0 3 0;
+#X connect 6 0 5 0;

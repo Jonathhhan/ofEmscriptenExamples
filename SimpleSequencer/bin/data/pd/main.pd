@@ -1,0 +1,1634 @@
+#N canvas 1210 278 423 616 10;
+#X obj 72 31 bng 15 250 50 0 empty \$0-reset Reset 17 7 0 10 -257985
+-1 -1;
+#X msg 72 51 Reset;
+#X obj 72 72 s \$0-main;
+#N canvas 870 175 498 422 gui 0;
+#N canvas 72 96 1046 886 pa 0;
+#X obj 185 89 s \$0-pattern;
+#X msg 185 47 7;
+#X obj 185 26 loadbang;
+#X obj 32 68 ofelia_hRadio 30 580 16 20;
+#X obj 155 110 s \$0-copy;
+#X obj 32 89 ofelia_bang 30 610 20;
+#X obj 155 152 s \$0-paste;
+#X obj 32 131 ofelia_bang 30 635 20;
+#X obj 155 194 s \$0-save;
+#X obj 155 236 s \$0-reset;
+#X obj 215 366 r \$0-gridNumYpreset;
+#X obj 221 236 r \$0-gridNumXpreset;
+#X obj 32 215 ofelia_bang 30 685 20;
+#X obj 32 257 ofelia_number 30 720 60 20 1 128;
+#X obj 32 389 ofelia_number 30 745 60 20 1 32;
+#X obj 242 456 ofelia set \$0-main;
+#X msg 242 435 gridNumY \$1;
+#X obj 248 322 ofelia set \$0-main;
+#X msg 248 301 gridNumX \$1;
+#X obj 215 477 s \$0-gridNumY;
+#X obj 221 345 s \$0-gridNumX;
+#X obj 215 412 t f f;
+#X obj 221 278 t f f;
+#X obj 32 173 ofelia_bang 30 660 20;
+#X obj 388 34 ofelia_bang 200 610 20;
+#X obj 388 80 ofelia_bang 200 635 20;
+#X obj 388 124 ofelia_bang 200 660 20;
+#X obj 388 168 ofelia_bang 200 685 20;
+#X obj 388 216 ofelia_bang 200 710 20;
+#X obj 388 261 ofelia_bang 200 735 20;
+#X obj 388 309 ofelia_bang 200 760 20;
+#X obj 388 359 ofelia_bang 200 785 20;
+#X obj 517 57 s \$0-Shift_Left;
+#X obj 517 101 s \$0-Shift_Right;
+#X obj 518 144 s \$0-Shift_Up;
+#X obj 517 189 s \$0-Shift_Down;
+#X obj 517 237 s \$0-Flip_X;
+#X obj 517 282 s \$0-Flip_Y;
+#X obj 517 330 s \$0-Shuffle;
+#X obj 517 380 s \$0-Shuffle_X;
+#X obj 515 428 s \$0-Shuffle_Y;
+#X obj 386 407 ofelia_bang 200 810 20;
+#X obj 581 520 s \$0-BPM;
+#X obj 527 550 s \$0-Play;
+#X obj 386 497 ofelia_number 350 610 60 20 1 500;
+#X obj 386 527 ofelia_toggle 350 635 20;
+#X obj 527 596 s \$0-Reverse;
+#X obj 587 740 s \$0-Transpose;
+#X obj 386 573 ofelia_toggle 350 660 20;
+#X obj 386 623 ofelia_toggle 350 685 20;
+#X obj 527 646 s \$0-Random_Step;
+#X obj 697 40 ofelia_toggle 350 760 20;
+#X obj 838 61 s \$0-Draw_Nth;
+#X obj 892 145 s \$0-Nth_1;
+#X obj 892 229 s \$0-Nth_2;
+#X obj 697 208 ofelia_number 350 810 60 20 2 200;
+#X obj 697 124 ofelia_number 350 785 60 20 2 200;
+#X obj 697 292 ofelia_hRadio 450 580 15 15;
+#X obj 856 313 s \$0-Scale;
+#X msg 581 474 120;
+#X obj 581 451 loadbang;
+#X obj 587 671 loadbang;
+#X obj 386 749 ofelia_number 350 735 60 20 0 10;
+#X obj 575 772 s \$0-randomPitch;
+#X obj 856 250 loadbang;
+#X msg 856 271 11;
+#X obj 892 82 loadbang;
+#X obj 892 166 loadbang;
+#X obj 910 422 s \$0-Release;
+#X obj 910 355 loadbang;
+#X obj 856 443 makefilename %s;
+#X msg 892 103 7;
+#X msg 892 187 13;
+#X msg 587 694 0;
+#X obj 386 717 ofelia_number 350 710 60 20 -24 24;
+#X msg 910 378 1000;
+#X obj 898 464 loadbang;
+#X obj 856 548 makefilename %s;
+#X obj 697 401 ofelia_hSlider 560 635 100 20 0 2000;
+#X obj 697 464 ofelia_label 665 660 100 20;
+#X obj 697 569 ofelia_label 665 710 100 20;
+#X obj 697 506 ofelia_hSlider 560 685 100 20 0 20;
+#X obj 898 527 s \$0-Delay;
+#X msg 898 485 5;
+#X obj 904 569 loadbang;
+#X obj 856 653 makefilename %s;
+#X obj 904 686 loadbang;
+#X obj 856 770 makefilename %s;
+#X obj 697 676 ofelia_label 665 760 100 20;
+#X obj 697 793 ofelia_label 665 810 100 20;
+#X obj 697 728 ofelia_hSlider 560 785 100 20 0 100;
+#X obj 697 611 ofelia_hSlider 560 735 100 20 0 100;
+#X obj 904 749 s \$0-Volume;
+#X obj 904 632 s \$0-Lowpass;
+#X msg 904 590 70;
+#X msg 904 707 80;
+#X obj 697 816 outlet;
+#X obj 32 47 inlet;
+#N canvas 1196 596 450 297 scaleLabel 0;
+#X msg 34 82 major midle-east-minor lydian-dominant harmonic-minor
+chromatic-blues whole-tones diminished pentatonic pentatonic-blues
+Gaku-Joshi In-Sen Hira-Joshi Yo Ryo Iwato Tamuke;
+#X symbolatom 62 157 20 0 0 0 - - -;
+#X floatatom 34 41 5 0 0 0 - - -;
+#X obj 34 61 t b f;
+#X obj 34 28 hradio 8 1 0 15 empty \$0-Scale scale 0 -8 0 10 -257985
+-1 -1 11;
+#X obj 34 136 list split;
+#X obj 206 193 outlet;
+#X connect 0 0 5 0;
+#X connect 1 0 6 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 3 1 5 1;
+#X connect 4 0 2 0;
+#X connect 5 1 1 0;
+#X restore 856 334 pd scaleLabel;
+#X obj 697 359 ofelia_label 600 605 165 20;
+#X connect 1 0 3 1;
+#X connect 2 0 1 0;
+#X connect 3 0 5 0;
+#X connect 3 1 0 0;
+#X connect 5 0 7 0;
+#X connect 5 1 4 0;
+#X connect 7 0 23 0;
+#X connect 7 1 6 0;
+#X connect 10 0 14 1;
+#X connect 11 0 13 1;
+#X connect 12 0 13 0;
+#X connect 12 1 9 0;
+#X connect 13 0 14 0;
+#X connect 13 1 22 0;
+#X connect 14 0 24 0;
+#X connect 14 1 21 0;
+#X connect 16 0 15 0;
+#X connect 18 0 17 0;
+#X connect 21 0 19 0;
+#X connect 21 1 16 0;
+#X connect 22 0 20 0;
+#X connect 22 1 18 0;
+#X connect 23 0 12 0;
+#X connect 23 1 8 0;
+#X connect 24 0 25 0;
+#X connect 24 1 32 0;
+#X connect 25 0 26 0;
+#X connect 25 1 33 0;
+#X connect 26 0 27 0;
+#X connect 26 1 34 0;
+#X connect 27 0 28 0;
+#X connect 27 1 35 0;
+#X connect 28 0 29 0;
+#X connect 28 1 36 0;
+#X connect 29 0 30 0;
+#X connect 29 1 37 0;
+#X connect 30 0 31 0;
+#X connect 30 1 38 0;
+#X connect 31 0 41 0;
+#X connect 31 1 39 0;
+#X connect 41 0 44 0;
+#X connect 41 1 40 0;
+#X connect 44 0 45 0;
+#X connect 44 1 42 0;
+#X connect 45 0 48 0;
+#X connect 45 1 43 0;
+#X connect 48 0 49 0;
+#X connect 48 1 46 0;
+#X connect 49 0 74 0;
+#X connect 49 1 50 0;
+#X connect 51 0 56 0;
+#X connect 51 1 52 0;
+#X connect 55 0 57 0;
+#X connect 55 1 54 0;
+#X connect 56 0 55 0;
+#X connect 56 1 53 0;
+#X connect 57 0 99 0;
+#X connect 57 1 58 0;
+#X connect 59 0 44 1;
+#X connect 60 0 59 0;
+#X connect 61 0 73 0;
+#X connect 62 0 51 0;
+#X connect 62 1 63 0;
+#X connect 64 0 65 0;
+#X connect 65 0 57 1;
+#X connect 66 0 71 0;
+#X connect 67 0 72 0;
+#X connect 69 0 75 0;
+#X connect 70 0 79 1;
+#X connect 71 0 56 1;
+#X connect 72 0 55 1;
+#X connect 73 0 74 1;
+#X connect 74 0 62 0;
+#X connect 74 1 47 0;
+#X connect 75 0 78 1;
+#X connect 76 0 83 0;
+#X connect 77 0 80 1;
+#X connect 78 0 79 0;
+#X connect 78 1 68 0;
+#X connect 78 1 70 0;
+#X connect 79 0 81 0;
+#X connect 80 0 91 0;
+#X connect 81 0 80 0;
+#X connect 81 1 77 0;
+#X connect 81 1 82 0;
+#X connect 83 0 81 1;
+#X connect 84 0 94 0;
+#X connect 85 0 88 1;
+#X connect 86 0 95 0;
+#X connect 87 0 89 1;
+#X connect 88 0 90 0;
+#X connect 89 0 96 0;
+#X connect 90 0 89 0;
+#X connect 90 1 87 0;
+#X connect 90 1 92 0;
+#X connect 91 0 88 0;
+#X connect 91 1 85 0;
+#X connect 91 1 93 0;
+#X connect 94 0 91 1;
+#X connect 95 0 90 1;
+#X connect 97 0 3 0;
+#X connect 98 0 99 1;
+#X connect 99 0 78 0;
+#X restore 39 62 pd pa;
+#N canvas 412 159 685 773 label 0;
+#X msg 194 228 symbol Reset;
+#X msg 194 186 symbol Save;
+#X msg 194 102 symbol Copy;
+#X msg 194 144 symbol Paste;
+#X msg 200 60 symbol Pattern;
+#X msg 182 270 symbol X;
+#X obj 182 249 loadbang;
+#X obj 194 207 loadbang;
+#X obj 194 123 loadbang;
+#X obj 194 81 loadbang;
+#X obj 200 39 loadbang;
+#X obj 194 165 loadbang;
+#X obj 35 144 ofelia_label 55 635 60 20;
+#X obj 35 102 ofelia_label 55 610 60 20;
+#X obj 35 60 ofelia_label 355 580 80 20;
+#X obj 35 186 ofelia_label 55 660 60 20;
+#X obj 35 228 ofelia_label 55 685 60 20;
+#X obj 35 293 ofelia_label 95 720 60 20;
+#X obj 206 481 loadbang;
+#X obj 206 398 loadbang;
+#X obj 206 356 loadbang;
+#X obj 207 439 loadbang;
+#X obj 206 650 loadbang;
+#X obj 206 566 loadbang;
+#X obj 206 523 loadbang;
+#X obj 206 608 loadbang;
+#X msg 206 377 symbol Shift_Left;
+#X obj 35 377 ofelia_label 225 610 100 20;
+#X obj 35 418 ofelia_label 225 635 100 20;
+#X obj 35 460 ofelia_label 225 660 100 20;
+#X obj 35 502 ofelia_label 225 685 100 20;
+#X obj 35 544 ofelia_label 225 710 100 20;
+#X obj 35 587 ofelia_label 225 735 100 20;
+#X obj 35 629 ofelia_label 225 760 100 20;
+#X obj 35 671 ofelia_label 225 785 100 20;
+#X msg 206 418 symbol Shift_Right;
+#X msg 207 460 symbol Shift_Up;
+#X msg 206 502 symbol Shift_Down;
+#X msg 206 544 symbol Flip_X;
+#X msg 206 587 symbol Flip_Y;
+#X msg 206 629 symbol Shuffle;
+#X obj 206 692 loadbang;
+#X msg 206 671 symbol Shuffle_X;
+#X msg 206 713 symbol Shuffle_Y;
+#X obj 35 713 ofelia_label 225 810 100 20;
+#X obj 512 123 loadbang;
+#X msg 512 144 symbol BPM;
+#X obj 518 165 loadbang;
+#X obj 518 207 loadbang;
+#X msg 518 185 symbol Play;
+#X obj 347 228 ofelia_label 375 660 100 20;
+#X obj 347 144 ofelia_label 415 610 60 20;
+#X obj 347 185 ofelia_label 375 635 100 20;
+#X msg 518 228 symbol Reverse;
+#X obj 518 293 loadbang;
+#X msg 518 314 symbol Transpose;
+#X obj 518 249 loadbang;
+#X obj 347 272 ofelia_label 375 685 100 20;
+#X obj 347 314 ofelia_label 415 710 100 20;
+#X obj 518 377 loadbang;
+#X obj 347 398 ofelia_label 375 760 100 20;
+#X obj 518 419 loadbang;
+#X obj 518 461 loadbang;
+#X msg 518 398 symbol Draw_Nth;
+#X obj 347 440 ofelia_label 415 785 100 20;
+#X obj 347 482 ofelia_label 415 810 100 20;
+#X msg 518 440 symbol Nth_1;
+#X msg 518 482 symbol Nth_2;
+#X obj 517 503 loadbang;
+#X msg 517 524 symbol Scale;
+#X obj 517 545 loadbang;
+#X obj 347 522 ofelia_label 680 580 85 20;
+#X msg 517 566 symbol Release;
+#X obj 518 335 loadbang;
+#X obj 347 356 ofelia_label 415 735 100 20;
+#X msg 518 356 symbol Rnd_Pitch;
+#X msg 518 272 symbol Rnd_Step;
+#X obj 518 587 loadbang;
+#X obj 347 565 ofelia_label 665 635 100 20;
+#X obj 347 608 ofelia_label 665 685 100 20;
+#X obj 518 629 loadbang;
+#X obj 518 671 loadbang;
+#X msg 518 650 symbol Lowpass;
+#X msg 518 692 symbol Volume;
+#X obj 347 650 ofelia_label 665 735 100 20;
+#X obj 347 692 ofelia_label 665 785 100 20;
+#X msg 518 608 symbol Reverb;
+#X obj 35 39 inlet;
+#X obj 347 713 outlet;
+#X msg 182 335 symbol Y;
+#X obj 182 314 loadbang;
+#X obj 35 356 ofelia_label 95 745 60 20;
+#X connect 0 0 16 1;
+#X connect 1 0 15 1;
+#X connect 2 0 13 1;
+#X connect 3 0 12 1;
+#X connect 4 0 14 1;
+#X connect 5 0 17 1;
+#X connect 6 0 5 0;
+#X connect 7 0 0 0;
+#X connect 8 0 3 0;
+#X connect 9 0 2 0;
+#X connect 10 0 4 0;
+#X connect 11 0 1 0;
+#X connect 12 0 15 0;
+#X connect 13 0 12 0;
+#X connect 14 0 13 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 91 0;
+#X connect 18 0 37 0;
+#X connect 19 0 35 0;
+#X connect 20 0 26 0;
+#X connect 21 0 36 0;
+#X connect 22 0 42 0;
+#X connect 23 0 39 0;
+#X connect 24 0 38 0;
+#X connect 25 0 40 0;
+#X connect 26 0 27 1;
+#X connect 27 0 28 0;
+#X connect 28 0 29 0;
+#X connect 29 0 30 0;
+#X connect 30 0 31 0;
+#X connect 31 0 32 0;
+#X connect 32 0 33 0;
+#X connect 33 0 34 0;
+#X connect 34 0 44 0;
+#X connect 35 0 28 1;
+#X connect 36 0 29 1;
+#X connect 37 0 30 1;
+#X connect 38 0 31 1;
+#X connect 39 0 32 1;
+#X connect 40 0 33 1;
+#X connect 41 0 43 0;
+#X connect 42 0 34 1;
+#X connect 43 0 44 1;
+#X connect 44 0 51 0;
+#X connect 45 0 46 0;
+#X connect 46 0 51 1;
+#X connect 47 0 49 0;
+#X connect 48 0 53 0;
+#X connect 49 0 52 1;
+#X connect 50 0 57 0;
+#X connect 51 0 52 0;
+#X connect 52 0 50 0;
+#X connect 53 0 50 1;
+#X connect 54 0 55 0;
+#X connect 55 0 58 1;
+#X connect 56 0 76 0;
+#X connect 57 0 58 0;
+#X connect 58 0 74 0;
+#X connect 59 0 63 0;
+#X connect 60 0 64 0;
+#X connect 61 0 66 0;
+#X connect 62 0 67 0;
+#X connect 63 0 60 1;
+#X connect 64 0 65 0;
+#X connect 65 0 71 0;
+#X connect 66 0 64 1;
+#X connect 67 0 65 1;
+#X connect 68 0 69 0;
+#X connect 69 0 71 1;
+#X connect 70 0 72 0;
+#X connect 71 0 78 0;
+#X connect 72 0 78 1;
+#X connect 73 0 75 0;
+#X connect 74 0 60 0;
+#X connect 75 0 74 1;
+#X connect 76 0 57 1;
+#X connect 77 0 86 0;
+#X connect 78 0 79 0;
+#X connect 79 0 84 0;
+#X connect 80 0 82 0;
+#X connect 81 0 83 0;
+#X connect 82 0 84 1;
+#X connect 83 0 85 1;
+#X connect 84 0 85 0;
+#X connect 85 0 88 0;
+#X connect 86 0 79 1;
+#X connect 87 0 14 0;
+#X connect 89 0 91 1;
+#X connect 90 0 89 0;
+#X connect 91 0 27 0;
+#X restore 66 309 pd label;
+#X obj 39 39 inlet;
+#X obj 66 332 ofelia f \; local a = require("\$0-main") \; a.labelFbo:endFbo()
+\;;
+#X obj 66 169 ofelia f \; local a = require("\$0-main") \; a.labelFbo:beginFbo()
+\; ofClear(0) \; ofSetColor(240 \, 220 \, 100) \; ofDrawRectangle(20
+\, 20 \, 800 \, 800 / 1.5) \; ofSetColor(20 \, 170 \, 150) \; ofDrawRectangle(20
+\, (ofGetHeight() - 60)/ 3 * 2 + 40 \, 800 \, ((ofGetHeight()- 60)/
+3 )) \; return a \;;
+#X obj 66 146 spigot 1;
+#X obj 39 85 t b b;
+#X msg 111 124 0;
+#X connect 0 0 6 0;
+#X connect 1 0 3 0;
+#X connect 2 0 0 0;
+#X connect 4 0 1 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X connect 6 1 5 0;
+#X connect 7 0 5 1;
+#X restore 72 116 pd gui;
+#X obj 72 93 ofelia d -k \$0-main;
+#A __set if type(window) ~= "userdata" then \; window = ofWindow()
+\; end \; \; local a = ofelia \; local canvas = ofCanvas(this) \; local
+clock = ofClock(this \, "setup") \; local shaderDir = canvas:getDir()
+.. "/data/" \; local x \, y \, i \, j \, oldGridNumX \, oldGridNumY
+= 0 \, 0 \, 0 \, 0 \, 0 \, 0 \; local rectangle \, color = ofDrawRectangle
+\, ofSetColor \; local platform = ofGetTargetPlatform() \; a.shaderRaster
+= ofShader() \; a.fboCells = ofFbo() \; a.fboLines = ofFbo() \; a.gridNumX
+\, a.gridNumY = 0 \, 0 \; a.matrix = {} \; a.counter = 0 \; a.labelFbo
+= ofFbo() \; \; function a.new() \; ofWindow.addListener("setup" \,
+this) \; ofWindow.addListener("draw" \, this) \; ofWindow.addListener("update"
+\, this) \; ofWindow.addListener("mousePressed" \, this) \; ofWindow.addListener("exit"
+\, this) \; window:setPosition(30 \, 100) \; window:setSize(840 \,
+860) \; if ofWindow.exists then \; clock:delay(0) \; else \; window:create()
+\; end \; end \; \; function a.free() \; window:destroy() \; ofWindow.removeListener("setup"
+\, this) \; ofWindow.removeListener("draw" \, this) \; ofWindow.removeListener("update"
+\, this) \; ofWindow.removeListener("mousePressed" \, this) \; ofWindow.removeListener("exit"
+\, this) \; end \; \; function a.setup() \; ofSetBackgroundColor(100
+\, 200 \, 255) \; a.width \, a.height = ofGetWidth() - 40 \, (ofGetHeight()
+- 60)/1.5 \; a.fboLines:allocate(a.width \, a.height) \; a.shaderRaster:load(shaderDir
+.. "Raster") \; a.labelFbo:allocate(840 \, 860) \; end \; \; function
+a.update() \; if a.gridNumX ~= oldGridNumX or a.gridNumY ~= oldGridNumY
+then \; oldGridNumX = a.gridNumX \; oldGridNumY = a.gridNumY \; a.gridSize()
+\; end \; if a.setPattern == 1 then \; a.pattern() \; a.setPattern
+= 0 \; end \; if a.cellsDraw == 1 then \; a.cells() \; a.cellsDraw
+= 0 \; end \; end \; \; function a.draw() \; a.labelFbo:draw(0 \, 0)
+\; ofSetColor(20 \, 170 \, 150) \; ofDrawRectangle((a.counter * a.width/a.gridNumX)
++ 20 \, 20 \, a.width/a.gridNumX \, a.height) \; if a.fboCells:isAllocated()
+then \; a.fboCells:getTexture():setTextureMinMagFilter(GL_NEAREST \,
+GL_NEAREST) \; a.fboCells:draw(20 \, 20 \, a.width \, a.height) \;
+end \; a.fboLines:draw(20 \, 20) \; return bang \; end \; \; function
+a.mousePressed(e) \; if e.x > 20 and e.x < a.width + 20 and e.y > 20
+and e.y < a.height + 20 and a.fboCells:isAllocated() then \; x = (e.x
+- 20 + (a.width / a.gridNumX)) // (a.width / a.gridNumX) \; y = (e.y
+- 20 + (a.height / a.gridNumY)) // (a.height / a.gridNumY) \; a.fboCells:beginFbo()
+\; ofDisableAlphaBlending() \; if a.matrix[x][y] == 1 then \; a.matrix[x][y]
+= 0 \; color(255 \, 255 \, 255 \, 0) \; rectangle(x - 1 \, y - 1 \,
+1 \, 1) \; else \; a.matrix[x][y] = 1 \; color(0 \, 0 \, 0 \, 255)
+\; rectangle(x - 1 \, y - 1 \, 1 \, 1) \; end \; a.fboCells:endFbo()
+\; end \; end \; \; function a.gridSize() \; for x = 1 \, a.gridNumX
+do \; a.matrix[x] = {} \; for y = 1 \, a.gridNumY do \; a.matrix[x][y]
+= 0 \; end \; end \; a.fboCells:allocate(a.gridNumX \, a.gridNumY)
+\; a.shaderRaster:beginShader() \; a.shaderRaster:setUniformTexture("Tex0"
+\, a.fboLines:getTexture() \, 1) \; a.shaderRaster:setUniform2f("resolution"
+\, a.width \, a.height) \; a.shaderRaster:setUniform1f("gridNumX" \,
+a.gridNumX) \; a.shaderRaster:setUniform1f("gridNumY" \, a.gridNumY)
+\; a.fboLines:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \, 0 \,
+a.width \, a.height) \; a.fboLines:endFbo() \; a.shaderRaster:endShader()
+\; end \; \; function a.pattern() \; for x = 1 \, a.gridNumX do \;
+a.matrix[x] = {} \; for y = 1 \, a.gridNumY do \; a.matrix[x][y] =
+0 \; end \; end \; if type(a.presetList) ~= "table" then \; a.presetList
+= {a.presetList} \; end \; a.fboCells:beginFbo() \; ofClear(0) \; color(0)
+\; for k = 1 \, #a.presetList do \; x = a.presetList[k] // a.gridNumY
++ 1 \; y = a.presetList[k] % a.gridNumY + 1 \; rectangle(x - 1 \, y
+- 1 \, 1 \, 1) \; a.matrix[x][y] = 1 \; end \; a.fboCells:endFbo()
+\; end \; \; function a.Reset() \; a.fboCells:beginFbo() \; ofClear(0)
+\; a.fboCells:endFbo() \; for x = 1 \, a.gridNumX do \; a.matrix[x]
+= {} \; for y = 1 \, a.gridNumY do \; a.matrix[x][y] = 0 \; end \;
+end \; end \; \; function a.cells() \; a.fboCells:beginFbo() \; ofClear(0)
+\; for x = 1 \, a.gridNumX do \; for y = 1 \, a.gridNumY do \; if a.matrix[x][y]
+== 1 then \; ofSetColor(0 \, 0 \, 0 \, 255) \; ofDrawRectangle(x -
+1 \, y - 1 \, 1 \, 1) \; end \; end \; end \; a.fboCells:endFbo() \;
+end \; \; function a.exit() \; a.fboCells:clear() \; a.fboLines:clear()
+\; a.labelFbo:clear() \; a.shaderRaster:unload() \; end \; \; \;;
+#X obj 91 220 nbx 5 14 0 50 0 0 \$0-randomPitch empty Random_Pitch
+0 -8 0 10 -257985 -1 -1 0 256;
+#X obj 64 254 nbx 5 14 1 128 0 0 \$0-In \$0-In_Range In 0 -8 0 10 -257985
+-1 -1 1 256;
+#X obj 123 254 nbx 5 14 1 128 0 0 \$0-Out \$0-Out_Range Out 0 -8 0
+10 -257985 -1 -1 128 256;
+#X obj 79 323 nbx 5 14 -1e+37 1e+37 0 1 empty \$0-BPM BPM 0 -8 0 10
+-257985 -1 -1 120 256;
+#N canvas 603 197 600 829 pitch 0;
+#X obj 83 183 + 20;
+#X obj 83 206 i;
+#X obj 140 333 hradio 15 1 0 15 empty \$0-Scale Scale 0 -8 0 10 -257985
+-1 -1 11;
+#X obj 140 353 text size \$0-scales;
+#X obj 192 182 nbx 5 14 0 127 0 0 empty \$0-randomPitch randomPitch
+0 -8 0 10 -257985 -1 -1 0 256;
+#X obj 177 264 random 0;
+#X obj 177 285 -;
+#X obj 83 316 +;
+#X obj 83 294 *;
+#X obj 125 426 text get \$0-scales;
+#X obj 83 382 t f b f;
+#X obj 125 404 f;
+#X obj 83 426 /;
+#X obj 125 448 f;
+#X obj 83 272 / 12;
+#X obj 83 448 * 12;
+#X obj 83 404 -;
+#X obj 83 360 i;
+#X obj 83 338 + 0.5;
+#X obj 83 250 t f b;
+#X obj 83 470 +;
+#X obj 83 228 +;
+#X obj 128 187 nbx 3 14 -1e+37 1e+37 0 0 empty \$0-Transpose Transpose
+0 -8 0 10 -257985 -1 -1 0 256;
+#X obj 160 382 mod;
+#X obj 192 201 t f f;
+#X obj 222 222 * 2;
+#X obj 222 243 + 1;
+#X obj 217 312 text define -k \$0-scales;
+#A set 0 2 4 5 7 9 11 \; 0 1 4 5 7 8 11 \; 0 2 4 6 7 9 10 \; 0 2 3
+5 7 8 11 \; 0 2 3 4 5 6 7 9 10 11 \; 0 2 4 6 8 10 \; 0 2 3 5 6 8 9
+11 \; 0 2 4 7 9 \; 0 2 3 4 7 8 9 \; 0 2 4 7 7 9 12 \; 0 0 1 5 5 7 10
+\; 0 2 3 7 7 9 10 \; 0 2 4 7 7 9 11 \; 0 2 4 6 6 9 11 \; 0 0 1 5 5
+6 10 \; 0 2 3 7 7 9 12 \;;
+#X obj 83 162 spigot;
+#X obj 83 120 f;
+#X msg 102 97 0;
+#X obj 83 74 t b f;
+#X obj 108 119 - 1;
+#X obj 56 11 inlet;
+#X obj 95 11 inlet;
+#X obj 164 53 t b f;
+#X obj 95 32 f;
+#X obj 122 32 + 3;
+#X obj 164 32 mod 12;
+#X obj 118 141 == 1;
+#N canvas 0 50 450 223 list-drip 0;
+#X obj 23 31 inlet;
+#X obj 23 141 list store;
+#X obj 23 75 until;
+#X obj 23 97 f;
+#X obj 53 97 + 1;
+#X msg 23 119 get \$1 1;
+#X obj 66 76 0;
+#X obj 23 163 outlet;
+#X obj 90 163 outlet;
+#X obj 23 53 t b b a;
+#X connect 0 0 9 0;
+#X connect 1 0 7 0;
+#X connect 1 1 8 0;
+#X connect 1 1 2 1;
+#X connect 2 0 3 0;
+#X connect 3 0 5 0;
+#X connect 3 0 4 0;
+#X connect 4 0 3 1;
+#X connect 5 0 1 0;
+#X connect 6 0 3 1;
+#X connect 9 0 2 0;
+#X connect 9 1 6 0;
+#X connect 9 2 1 1;
+#X restore 83 53 pd list-drip;
+#X msg 119 534 50;
+#X obj 156 538 nbx 5 14 1 2000 0 0 empty \$0-Release Release 0 -8 0
+10 -257985 -1 -1 1000 256;
+#X obj 128 206 + 45;
+#X obj 21 580 dbtorms;
+#X obj 21 626 line~;
+#X obj 67 738 *~;
+#X obj 67 768 dac~;
+#X obj 21 603 pack 0 50;
+#X obj 83 680 hip~ 3;
+#X obj 21 515 nbx 5 14 0 1000 0 0 empty \$0-Volume Volume 0 -8 0 10
+-257985 -1 -1 80 256;
+#X obj 21 534 / 2;
+#X obj 21 557 + 50;
+#X obj 147 613 nbx 5 14 0 1000 0 0 empty \$0-Lowpass Lowpass 0 -8 0
+10 -257985 -1 -1 70 256;
+#X obj 147 633 * 10;
+#X obj 83 651 lop~ 1000;
+#N canvas 419 185 489 267 synth 0;
+#X obj 178 32 r syn-noteon;
+#X obj 206 113 moses 1e+06;
+#X obj 178 55 unpack 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X obj 178 136 pack 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#X obj 179 207 outlet~;
+#X obj 178 171 clone -s 1 -x synthvoice 16;
+#X obj 178 90 poly 16 1;
+#X connect 0 0 2 0;
+#X connect 1 0 3 2;
+#X connect 2 0 6 0;
+#X connect 2 1 6 1;
+#X connect 2 2 3 3;
+#X connect 2 3 3 4;
+#X connect 2 4 3 5;
+#X connect 2 5 3 6;
+#X connect 2 6 3 7;
+#X connect 2 7 3 8;
+#X connect 2 8 3 9;
+#X connect 2 9 3 10;
+#X connect 2 10 3 11;
+#X connect 2 11 3 12;
+#X connect 2 12 3 13;
+#X connect 2 13 3 14;
+#X connect 2 14 3 15;
+#X connect 2 15 3 16;
+#X connect 3 0 5 0;
+#X connect 5 0 4 0;
+#X connect 6 0 3 0;
+#X connect 6 1 1 0;
+#X connect 6 2 3 1;
+#X restore 82 600 pd synth;
+#X obj 232 703 s syn-noteon;
+#X obj 83 503 t f b;
+#N canvas 72 155 690 415 tables 0;
+#X msg 107 49 bang;
+#X obj 107 78 t b b;
+#X obj 159 142 f;
+#X obj 197 142 + 1;
+#X msg 181 115 0;
+#X obj 107 107 until;
+#X obj 161 177 t f f;
+#X obj 109 210 mtof;
+#X obj 90 177 sel 129;
+#X obj 109 237 tabwrite mtof;
+#X text 48 15 patch to regenerate the mtof table;
+#X text 391 224 ------ 130 samples ------;
+#X text 590 209 0;
+#X text 592 109 12000;
+#X obj 326 293 array define -k -yrange 0 12000 mtof 130;
+#A 0 8.1758 8.66196 9.17702 9.72272 10.3009 10.9134 11.5623 12.2499
+12.9783 13.75 14.5676 15.4339 16.3516 17.3239 18.354 19.4454 20.6017
+21.8268 23.1247 24.4997 25.9565 27.5 29.1352 30.8677 32.7032 34.6478
+36.7081 38.8909 41.2034 43.6535 46.2493 48.9994 51.9131 55 58.2705
+61.7354 65.4064 69.2957 73.4162 77.7817 82.4069 87.3071 92.4986 97.9989
+103.826 110 116.541 123.471 130.813 138.591 146.832 155.563 164.814
+174.614 184.997 195.998 207.652 220 233.082 246.942 261.626 277.183
+293.665 311.127 329.628 349.228 369.994 391.995 415.305 440 466.164
+493.883 523.251 554.365 587.33 622.254 659.255 698.456 739.989 783.991
+830.609 880 932.328 987.767 1046.5 1108.73 1174.66 1244.51 1318.51
+1396.91 1479.98 1567.98 1661.22 1760 1864.66 1975.53 2093 2217.46 2349.32
+2489.02 2637.02 2793.83 2959.96 3135.96 3322.44 3520 3729.31 3951.07
+4186.01 4434.92 4698.64 4978.03 5274.04 5587.65 5919.91 6271.93 6644.88
+7040 7458.62 7902.13 8372.02 8869.84 9397.27 9956.06 10548.1 11175.3
+11839.8 12543.9 13289.8 14080;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 1 1 4 0;
+#X connect 2 0 3 0;
+#X connect 2 0 6 0;
+#X connect 2 0 8 0;
+#X connect 3 0 2 1;
+#X connect 4 0 2 1;
+#X connect 5 0 2 0;
+#X connect 6 0 7 0;
+#X connect 6 1 9 1;
+#X connect 7 0 9 0;
+#X connect 8 0 5 1;
+#X restore 262 617 pd tables;
+#N canvas 72 96 837 707 fft 0;
+#X obj 63 584 *~;
+#X obj 288 539 *~;
+#X obj 259 538 *~;
+#X obj 351 540 *~;
+#X obj 319 539 *~;
+#X obj 319 567 +~;
+#X obj 259 568 -~;
+#X obj 457 470 *~;
+#X obj 183 260 *~;
+#X obj 151 260 *~;
+#X obj 151 285 +~;
+#X obj 275 149 *~;
+#X obj 243 149 *~;
+#X obj 507 384 *~;
+#X obj 475 384 *~;
+#X obj 168 113 *~;
+#X obj 63 611 outlet~;
+#X obj 63 559 *~;
+#X obj 205 112 inlet~;
+#X obj 168 190 rfft~;
+#X obj 63 535 rifft~;
+#X obj 475 412 rsqrt~;
+#X obj 243 173 +~;
+#X obj 397 470 *~;
+#X obj 101 583 sig~ 0.0002;
+#N canvas 167 161 699 396 decision 0;
+#X obj 49 101 inlet~;
+#X obj 50 341 outlet~;
+#X obj 50 183 -~;
+#X obj 50 226 clip~ 0 1;
+#X obj 50 204 *~ 1e+20;
+#X obj 196 98 inlet~;
+#X text 137 213 stronger than;
+#X text 139 228 old one;
+#X obj 274 202 -~;
+#X obj 288 177 lrshift~ 1;
+#X obj 274 250 clip~ 0 1;
+#X obj 274 228 *~ 1e+20;
+#X obj 450 202 -~;
+#X obj 450 250 clip~ 0 1;
+#X obj 450 228 *~ 1e+20;
+#X obj 464 177 lrshift~ -1;
+#X obj 50 283 *~;
+#X obj 50 312 *~;
+#X text 135 199 1 if new signal;
+#X text 55 73 new;
+#X text 203 70 old;
+#X text 51 12 Choose whether to replace the "old" signal with the "new"
+one. The "new" one must be stronger than the old one and also must
+be stronger than its two neighboring channels;
+#X text 267 283 1 if we're louder than neighbor;
+#X connect 0 0 2 0;
+#X connect 0 0 9 0;
+#X connect 0 0 8 0;
+#X connect 0 0 12 0;
+#X connect 0 0 15 0;
+#X connect 2 0 4 0;
+#X connect 3 0 16 0;
+#X connect 4 0 3 0;
+#X connect 5 0 2 1;
+#X connect 8 0 11 0;
+#X connect 9 0 8 1;
+#X connect 10 0 16 1;
+#X connect 11 0 10 0;
+#X connect 12 0 14 0;
+#X connect 13 0 17 1;
+#X connect 14 0 13 0;
+#X connect 15 0 12 1;
+#X connect 16 0 17 0;
+#X connect 17 0 1 0;
+#X restore 151 312 pd decision;
+#X obj 475 434 *~;
+#N canvas 352 333 393 308 divide-by-prev 0;
+#X obj 204 88 inlet~;
+#X obj 266 90 inlet~;
+#X obj 204 240 outlet~;
+#X obj 267 240 outlet~;
+#X obj 70 240 outlet~;
+#X obj 138 240 outlet~;
+#X obj 171 169 *~;
+#X obj 138 169 *~;
+#X obj 103 170 *~;
+#X obj 70 170 *~;
+#X obj 70 198 +~;
+#X obj 138 197 -~;
+#X obj 89 34 tabreceive~ \$0-last-real;
+#X obj 121 61 tabreceive~ \$0-last-imag;
+#X connect 0 0 2 0;
+#X connect 0 0 9 0;
+#X connect 0 0 6 0;
+#X connect 1 0 3 0;
+#X connect 1 0 8 0;
+#X connect 1 0 7 0;
+#X connect 6 0 11 1;
+#X connect 7 0 11 0;
+#X connect 8 0 10 1;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 9 1;
+#X connect 12 0 7 1;
+#X connect 13 0 8 1;
+#X connect 13 0 6 1;
+#X restore 500 279 pd divide-by-prev;
+#N canvas 650 183 602 327 switch 0;
+#X obj 61 160 inlet~;
+#X obj 149 96 inlet~;
+#X obj 211 97 inlet~;
+#X obj 315 94 inlet~;
+#X obj 375 94 inlet~;
+#X obj 409 182 -~;
+#X obj 380 228 +~;
+#X obj 414 226 *~;
+#X obj 292 179 -~;
+#X obj 262 225 +~;
+#X obj 296 225 *~;
+#X obj 261 275 outlet~;
+#X obj 380 271 outlet~;
+#X text 88 25 switch between two pairs of inputs. If first inlet is
+one \, take the left-hand pair \, otherwise the right-hand one.;
+#X text 57 137 switch;
+#X text 134 73 pass this if one;
+#X text 311 74 pass this if zero;
+#X connect 0 0 10 1;
+#X connect 0 0 7 1;
+#X connect 1 0 8 0;
+#X connect 2 0 5 0;
+#X connect 3 0 9 0;
+#X connect 3 0 8 1;
+#X connect 4 0 6 0;
+#X connect 4 0 5 1;
+#X connect 5 0 7 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 1;
+#X connect 8 0 10 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 1;
+#X restore 277 369 pd switch;
+#X obj 99 560 tabreceive~ \$0-hann;
+#X obj 168 84 tabreceive~ \$0-hann;
+#X obj 442 174 tabreceive~ \$0-inc-real;
+#X obj 459 226 tabreceive~ \$0-inc-imag;
+#X obj 616 304 tabsend~ \$0-last-imag;
+#X obj 577 327 tabsend~ \$0-last-real;
+#X obj 457 510 tabsend~ \$0-inc-imag;
+#X obj 397 536 tabsend~ \$0-inc-real;
+#X msg 558 380 set \$1;
+#X obj 558 404 s revtime-set;
+#X obj 681 141 loadbang;
+#X obj 548 428 expr 1 - 0.2/max(0.2 \, $f1);
+#X obj 322 55 tabreceive~ \$0-amp-real;
+#X obj 337 107 tabreceive~ \$0-amp-imag;
+#X obj 319 621 tabsend~ \$0-amp-imag;
+#X obj 259 650 tabsend~ \$0-amp-real;
+#X text 314 15 previous output amplitude \, encoding both magnitude
+and phase, f 33;
+#X text 435 136 previous phase increment (unit-magnitude complex number)
+, f 31;
+#X obj 442 199 +~ 1e-15;
+#X obj 322 81 +~ 1e-15;
+#X text 61 635 IFFT and output;
+#X text 491 457 normalize increments between 0 and 1 according to revtime.
+, f 29;
+#X text 352 564 propagate amplitudes by multiplying in the increments
+\, which advance the phase and drop magnitude according to revtime.
+, f 40;
+#X text 31 289 choose whether to punch in new (amplitude \, increment)
+pair, f 16;
+#N canvas 650 183 602 327 switch 0;
+#X obj 61 160 inlet~;
+#X obj 149 96 inlet~;
+#X obj 211 97 inlet~;
+#X obj 315 94 inlet~;
+#X obj 375 94 inlet~;
+#X obj 409 182 -~;
+#X obj 380 228 +~;
+#X obj 414 226 *~;
+#X obj 292 179 -~;
+#X obj 262 225 +~;
+#X obj 296 225 *~;
+#X obj 261 275 outlet~;
+#X obj 380 271 outlet~;
+#X text 88 25 switch between two pairs of inputs. If first inlet is
+one \, take the left-hand pair \, otherwise the right-hand one.;
+#X text 57 137 switch;
+#X text 134 73 pass this if one;
+#X text 311 74 pass this if zero;
+#X connect 0 0 10 1;
+#X connect 0 0 7 1;
+#X connect 1 0 8 0;
+#X connect 2 0 5 0;
+#X connect 3 0 9 0;
+#X connect 3 0 8 1;
+#X connect 4 0 6 0;
+#X connect 4 0 5 1;
+#X connect 5 0 7 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 1;
+#X connect 8 0 10 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 1;
+#X restore 397 353 pd switch;
+#X obj 680 85 tgl 15 1 empty empty empty 0 -6 0 8 -257985 -1 -1 1 1
+;
+#X obj 680 110 switch~ 4096 4 1;
+#X obj 548 357 r \$0-revtime;
+#X msg 681 167 \; window-size 4096 \;;
+#X connect 0 0 16 0;
+#X connect 1 0 6 1;
+#X connect 2 0 6 0;
+#X connect 3 0 5 1;
+#X connect 4 0 5 0;
+#X connect 5 0 43 0;
+#X connect 6 0 44 0;
+#X connect 7 0 1 0;
+#X connect 7 0 3 0;
+#X connect 7 0 35 0;
+#X connect 8 0 10 1;
+#X connect 9 0 10 0;
+#X connect 10 0 25 0;
+#X connect 11 0 22 1;
+#X connect 12 0 22 0;
+#X connect 13 0 21 0;
+#X connect 14 0 21 0;
+#X connect 15 0 19 0;
+#X connect 17 0 0 0;
+#X connect 18 0 15 1;
+#X connect 19 0 9 0;
+#X connect 19 0 9 1;
+#X connect 19 0 27 0;
+#X connect 19 0 28 1;
+#X connect 19 1 8 0;
+#X connect 19 1 8 1;
+#X connect 19 1 27 1;
+#X connect 19 1 28 2;
+#X connect 20 0 17 0;
+#X connect 21 0 26 0;
+#X connect 22 0 25 1;
+#X connect 23 0 2 0;
+#X connect 23 0 4 0;
+#X connect 23 0 36 0;
+#X connect 24 0 0 1;
+#X connect 25 0 28 0;
+#X connect 25 0 53 0;
+#X connect 26 0 23 1;
+#X connect 26 0 7 1;
+#X connect 27 0 53 1;
+#X connect 27 1 53 2;
+#X connect 27 2 34 0;
+#X connect 27 3 33 0;
+#X connect 28 0 20 0;
+#X connect 28 0 3 1;
+#X connect 28 0 2 1;
+#X connect 28 1 20 1;
+#X connect 28 1 1 1;
+#X connect 28 1 4 1;
+#X connect 29 0 17 1;
+#X connect 30 0 15 0;
+#X connect 31 0 47 0;
+#X connect 32 0 53 4;
+#X connect 37 0 38 0;
+#X connect 39 0 57 0;
+#X connect 40 0 26 1;
+#X connect 41 0 48 0;
+#X connect 42 0 11 0;
+#X connect 42 0 11 1;
+#X connect 42 0 28 4;
+#X connect 47 0 53 3;
+#X connect 48 0 12 0;
+#X connect 48 0 12 1;
+#X connect 48 0 28 3;
+#X connect 53 0 14 0;
+#X connect 53 0 14 1;
+#X connect 53 0 23 0;
+#X connect 53 1 13 0;
+#X connect 53 1 13 1;
+#X connect 53 1 7 0;
+#X connect 54 0 55 0;
+#X connect 56 0 37 0;
+#X connect 56 0 40 0;
+#X restore 83 626 pd fft;
+#N canvas 437 203 602 538 hann-window 0;
+#X obj 365 185 osc~;
+#X obj 365 210 *~ -0.5;
+#X obj 365 234 +~ 0.5;
+#X obj 348 277 tabwrite~ \$0-hann;
+#X obj 124 114 r window-size;
+#X obj 195 238 /;
+#X obj 213 206 samplerate~;
+#X obj 195 316 s window-sec;
+#X obj 105 252 swap;
+#X obj 105 276 /;
+#X obj 105 300 s window-hz;
+#X obj 206 266 * 1000;
+#X obj 206 293 s window-msec;
+#X obj 124 149 t f b f;
+#X msg 213 156 resize \$1;
+#X obj 213 180 s \$0-hann;
+#X obj 317 123 r window-hz;
+#X msg 390 155 0;
+#X obj 317 151 t f b;
+#X text 94 21 calculate Hann window table (variable window size) and
+constants window-hz (fundamental frequency of analysis) \, window-sec
+and window-msec (analysis window size in seconds and msec)., f 56
+;
+#X obj 29 369 array define \$0-hann 4096;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 4 0 13 0;
+#X connect 5 0 7 0;
+#X connect 5 0 11 0;
+#X connect 6 0 5 1;
+#X connect 6 0 8 1;
+#X connect 8 0 9 0;
+#X connect 8 1 9 1;
+#X connect 9 0 10 0;
+#X connect 11 0 12 0;
+#X connect 13 0 5 0;
+#X connect 13 0 8 0;
+#X connect 13 1 6 0;
+#X connect 13 2 14 0;
+#X connect 14 0 15 0;
+#X connect 16 0 18 0;
+#X connect 17 0 0 1;
+#X connect 18 0 0 0;
+#X connect 18 1 3 0;
+#X connect 18 1 17 0;
+#X restore 262 571 pd hann-window;
+#N canvas 72 131 526 237 tables 0;
+#X obj 52 56 array define \$0-last-real 2048;
+#X obj 252 56 array define \$0-last-imag 2048;
+#X obj 77 103 array define \$0-amp-real 2048;
+#X obj 78 156 array define \$0-inc-real 2048;
+#X obj 291 160 array define \$0-inc-imag 2048;
+#X obj 267 105 array define \$0-amp-imag 2048;
+#X restore 262 594 pd tables;
+#X obj 262 529 nbx 5 14 0 1000 0 0 empty \$0-Delay Delay 0 -8 0 10
+-257985 -1 -1 5 256;
+#X obj 83 567 makenote 64 500;
+#X obj 232 657 pack f f;
+#X obj 232 680 list;
+#X msg 289 680 100 6 72 88 207 50 6 2 323 18 200 3.01 0 0;
+#X obj 289 657 loadbang;
+#X obj 262 548 s \$0-revtime;
+#X connect 0 0 1 0;
+#X connect 1 0 21 0;
+#X connect 2 0 3 0;
+#X connect 2 0 11 1;
+#X connect 3 0 8 1;
+#X connect 3 0 12 1;
+#X connect 3 0 23 1;
+#X connect 4 0 24 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 1;
+#X connect 7 0 18 0;
+#X connect 8 0 7 0;
+#X connect 9 0 13 0;
+#X connect 10 0 16 0;
+#X connect 10 1 11 0;
+#X connect 10 2 23 0;
+#X connect 11 0 9 0;
+#X connect 12 0 15 0;
+#X connect 13 0 20 1;
+#X connect 14 0 8 0;
+#X connect 15 0 20 0;
+#X connect 16 0 12 0;
+#X connect 17 0 10 0;
+#X connect 18 0 17 0;
+#X connect 19 0 14 0;
+#X connect 19 1 5 0;
+#X connect 20 0 58 0;
+#X connect 21 0 19 0;
+#X connect 22 0 43 0;
+#X connect 23 0 9 1;
+#X connect 23 0 16 1;
+#X connect 24 0 6 1;
+#X connect 24 1 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 5 1;
+#X connect 28 0 0 0;
+#X connect 29 0 28 0;
+#X connect 29 0 32 0;
+#X connect 30 0 29 1;
+#X connect 31 0 29 0;
+#X connect 31 1 39 0;
+#X connect 32 0 29 1;
+#X connect 33 0 40 0;
+#X connect 34 0 36 0;
+#X connect 35 0 22 0;
+#X connect 36 0 38 0;
+#X connect 37 0 36 1;
+#X connect 38 0 35 0;
+#X connect 38 0 37 0;
+#X connect 39 0 28 1;
+#X connect 40 0 31 0;
+#X connect 40 1 30 0;
+#X connect 41 0 64 1;
+#X connect 42 0 64 2;
+#X connect 43 0 21 1;
+#X connect 44 0 48 0;
+#X connect 45 0 46 0;
+#X connect 46 0 47 0;
+#X connect 46 0 47 1;
+#X connect 48 0 45 0;
+#X connect 49 0 46 1;
+#X connect 50 0 51 0;
+#X connect 51 0 52 0;
+#X connect 52 0 44 0;
+#X connect 53 0 54 0;
+#X connect 54 0 55 1;
+#X connect 55 0 49 0;
+#X connect 56 0 60 0;
+#X connect 58 0 64 0;
+#X connect 58 1 41 0;
+#X connect 60 0 55 0;
+#X connect 63 0 69 0;
+#X connect 64 0 65 0;
+#X connect 64 1 65 1;
+#X connect 65 0 66 0;
+#X connect 66 0 57 0;
+#X connect 67 0 66 1;
+#X connect 68 0 67 0;
+#X restore 82 536 pd pitch;
+#X obj 98 493 sel 1;
+#X obj 51 293 tgl 15 0 empty \$0-Play Play 17 7 0 10 -257985 -1 -1
+0 1;
+#X obj 51 404 - 1;
+#N canvas 864 446 533 536 counter 0;
+#X obj 32 43 inlet;
+#X obj 127 15 inlet;
+#X obj 139 77 inlet;
+#X obj 59 367 f;
+#X obj 127 36 pow -1;
+#X obj 128 322 r \$0-gridNumX;
+#X obj 85 367 + 1;
+#N canvas 1073 93 450 272 reverse 0;
+#X obj 18 65 sel 0 1;
+#X obj 18 128 t b b;
+#X obj 37 86 t b b;
+#X obj 18 9 inlet;
+#X obj 18 191 outlet;
+#X obj 45 170 outlet;
+#X msg 37 107 -1;
+#X obj 79 86 r \$0-gridNumX;
+#X obj 64 107 f;
+#X msg 45 149 1;
+#X msg 18 149 -1;
+#X obj 225 87 nbx 5 14 1 32 0 1 empty \$0-in in 0 -8 0 10 -257985 -1
+-1 1 256;
+#X obj 166 87 nbx 5 14 1 32 0 1 empty \$0-out out 0 -8 0 10 -257985
+-1 -1 32 256;
+#X obj 225 172 -;
+#X obj 225 129 t b f;
+#X obj 258 148 - 1;
+#X obj 18 44 f;
+#X obj 57 9 inlet;
+#X connect 0 0 1 0;
+#X connect 0 1 2 0;
+#X connect 1 0 10 0;
+#X connect 1 1 9 0;
+#X connect 2 0 6 0;
+#X connect 2 1 8 0;
+#X connect 3 0 16 1;
+#X connect 3 0 16 0;
+#X connect 6 0 5 0;
+#X connect 7 0 8 1;
+#X connect 8 0 4 0;
+#X connect 9 0 5 0;
+#X connect 10 0 4 0;
+#X connect 11 0 14 0;
+#X connect 12 0 13 0;
+#X connect 13 0 8 1;
+#X connect 14 0 13 0;
+#X connect 14 1 15 0;
+#X connect 15 0 13 1;
+#X connect 16 0 0 0;
+#X connect 17 0 16 0;
+#X restore 139 98 pd reverse;
+#X obj 113 366 mod;
+#X obj 85 388 mod;
+#X obj 59 475 + 1;
+#X obj 59 496 outlet;
+#X obj 59 125 f -1;
+#X obj 59 430 random;
+#X obj 59 409 spigot;
+#X obj 116 430 == 0;
+#X obj 116 396 tgl 15 0 empty \$0-Random_Step Random_Step 17 7 0 10
+-257985 -1 -1 0 1;
+#X obj 71 451 spigot 1;
+#X obj 59 167 f;
+#X obj 59 189 + 1;
+#X obj 59 211 & 255;
+#X obj 59 255 & 1;
+#X obj 59 233 t f f;
+#X obj 59 277 pack;
+#X obj 59 299 route 0 1;
+#X obj 131 299 *;
+#X obj 141 272 t b f;
+#X obj 84 320 pipe;
+#X obj 59 320 b;
+#X obj 84 341 b;
+#X obj 365 101 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-In In 0 -8 0 10
+-257985 -1 -1 1 256;
+#X obj 216 162 pack 0 0;
+#X obj 216 183 list prepend \$0;
+#X obj 365 161 pack 0 0;
+#X obj 365 182 list prepend \$0;
+#X msg 216 141 1;
+#X obj 216 120 t b f;
+#X obj 291 262 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-In In 0 -8 0 10
+-257985 -1 -1 1 256;
+#X obj 232 322 -;
+#X obj 308 301 - 1;
+#X obj 363 242 r \$0-gridNumX;
+#X obj 291 280 t b f f;
+#X obj 59 104 t b b;
+#X obj 363 284 t f b;
+#X msg 390 326 1;
+#X obj 216 101 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-Out Out 0 -8 0 10
+-257985 -1 -1 128 256;
+#X obj 232 262 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-Out Out 0 -8 0 10
+-257985 -1 -1 128 256;
+#X obj 32 64 t f f;
+#X obj 131 250 r \$0-Swing;
+#X msg 216 204 \; \$1-In_Range range \$2 \$3;
+#X msg 365 203 \; \$1-Out_Range range \$2 \$3;
+#X obj 59 84 sel 1;
+#X obj 364 46 r \$0-gridNumX;
+#X obj 363 263 pipe;
+#X obj 363 305 s \$0-Out_Range;
+#X obj 390 347 s \$0-In_Range;
+#X obj 364 67 t b f;
+#X obj 127 57 * 30000;
+#X obj 32 146 metro;
+#X connect 0 0 47 0;
+#X connect 1 0 4 0;
+#X connect 2 0 7 0;
+#X connect 3 0 8 0;
+#X connect 4 0 57 0;
+#X connect 5 0 8 1;
+#X connect 5 0 9 1;
+#X connect 5 0 13 1;
+#X connect 6 0 3 1;
+#X connect 6 0 9 0;
+#X connect 7 0 12 1;
+#X connect 7 1 6 1;
+#X connect 8 0 6 0;
+#X connect 9 0 17 0;
+#X connect 10 0 11 0;
+#X connect 12 0 3 1;
+#X connect 13 0 10 0;
+#X connect 14 0 13 0;
+#X connect 15 0 17 1;
+#X connect 16 0 14 1;
+#X connect 16 0 15 0;
+#X connect 17 0 10 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 20 0 18 1;
+#X connect 20 0 22 0;
+#X connect 21 0 23 0;
+#X connect 22 0 21 0;
+#X connect 22 1 23 1;
+#X connect 23 0 24 0;
+#X connect 24 0 28 0;
+#X connect 24 1 27 0;
+#X connect 25 0 27 1;
+#X connect 26 0 25 0;
+#X connect 26 1 25 1;
+#X connect 27 0 29 0;
+#X connect 28 0 3 0;
+#X connect 28 0 14 0;
+#X connect 29 0 3 0;
+#X connect 29 0 14 0;
+#X connect 30 0 33 0;
+#X connect 31 0 32 0;
+#X connect 32 0 49 0;
+#X connect 33 0 34 0;
+#X connect 34 0 50 0;
+#X connect 35 0 31 0;
+#X connect 36 0 35 0;
+#X connect 36 1 31 1;
+#X connect 37 0 41 0;
+#X connect 38 0 13 1;
+#X connect 38 0 9 1;
+#X connect 38 0 8 1;
+#X connect 39 0 38 1;
+#X connect 40 0 53 0;
+#X connect 41 0 38 0;
+#X connect 41 1 39 0;
+#X connect 41 2 10 1;
+#X connect 42 0 12 0;
+#X connect 42 1 7 1;
+#X connect 43 0 54 0;
+#X connect 43 1 44 0;
+#X connect 44 0 55 0;
+#X connect 45 0 36 0;
+#X connect 46 0 38 0;
+#X connect 47 0 58 0;
+#X connect 47 1 51 0;
+#X connect 48 0 25 0;
+#X connect 51 0 42 0;
+#X connect 52 0 56 0;
+#X connect 53 0 43 0;
+#X connect 56 0 30 0;
+#X connect 56 1 33 1;
+#X connect 57 0 26 0;
+#X connect 57 0 58 1;
+#X connect 58 0 18 0;
+#X restore 51 362 pd counter;
+#X obj 108 342 tgl 15 0 empty \$0-Reverse Reverse 17 7 0 10 -257985
+-1 -1 0 1;
+#X obj 82 515 ofelia d -c11 -k \$0-step;
+#A __set function ofelia.float(x) \; local a = require("\$0-main")
+\; return a.matrix[x] \; end \;;
+#X obj 51 383 t f f f f f;
+#X msg 51 425 counter \$1;
+#X obj 51 446 s \$0-main;
+#X obj 159 395 tgl 15 0 empty \$0-Draw_Nth Draw_Nth 17 7 0 10 -257985
+-1 -1 0 1;
+#X obj 126 415 spigot;
+#X obj 217 434 nbx 5 14 1 1000 0 1 empty \$0-Nth_1 Nth_1 0 -8 0 10
+-257985 -1 -1 7 256;
+#X obj 126 453 ofelia d -c31 -k \$0-fboCellsNth;
+#A __set local a = require("\$0-main") \; \; function ofelia.list(fv)
+\; a.nth1 \, a.nth2 = fv[2] \, fv[3] \; for y = 1 \, a.gridNumY do
+\; if fv[1] * y % a.nth1 == 1 or fv[1] * y % a.nth2 == 1 then \; a.matrix[fv[1]][y]
+= 1 \; else \; a.matrix[fv[1]][y] = 0 \; end \; end \; a.cellsDraw
+= 1 \; end \;;
+#X obj 309 434 nbx 5 14 1 1000 0 1 empty \$0-Nth_2 Nth_2 0 -8 0 10
+-257985 -1 -1 13 256;
+#N canvas 914 569 402 439 gridOperations 0;
+#X obj 157 223 bng 15 250 50 0 empty \$0-Invert Invert 17 7 0 10 -257985
+-1 -1;
+#X obj 28 359 bng 15 250 50 0 empty \$0-Flip_Y Flip_Y 17 7 0 10 -257985
+-1 -1;
+#X obj 28 291 bng 15 250 50 0 empty \$0-Flip_X Flip_X 17 7 0 10 -257985
+-1 -1;
+#X obj 28 155 bng 15 250 50 0 empty \$0-Shift_Up Shift_Up 17 7 0 10
+-257985 -1 -1;
+#X obj 28 223 bng 15 250 50 0 empty \$0-Shift_Down Shift_Down 17 7
+0 10 -257985 -1 -1;
+#X obj 28 19 bng 15 250 50 0 empty \$0-Shift_Left Shift_Left 17 7 0
+10 -257985 -1 -1;
+#X obj 28 87 bng 15 250 50 0 empty \$0-Shift_Right Shift_Right 17 7
+0 10 -257985 -1 -1;
+#X obj 157 19 bng 15 250 50 0 empty \$0-Shuffle Shuffle 17 7 0 10 -257985
+-1 -1;
+#X msg 157 243 Invert;
+#X msg 157 39 Shuffle;
+#X msg 28 107 Shift_Right;
+#X msg 28 39 Shift_Left;
+#X msg 28 175 Shift_Up;
+#X msg 28 243 Shift_Down;
+#X obj 157 87 bng 15 250 50 0 empty \$0-Shuffle_X Shuffle_X 17 7 0
+10 -257985 -1 -1;
+#X obj 157 155 bng 15 250 50 0 empty \$0-Shuffle_Y Shuffle_Y 17 7 0
+10 -257985 -1 -1;
+#X msg 157 107 Shuffle_X;
+#X msg 157 175 Shuffle_Y;
+#X msg 28 379 Flip_Y;
+#X msg 28 311 Flip_X;
+#X obj 157 291 bng 15 250 50 0 empty \$0-Reset Reset 17 7 0 10 -257985
+-1 -1;
+#X msg 157 311 Reset;
+#X obj 157 60 s \$0-gridOperations;
+#X obj 28 128 s \$0-gridOperations;
+#X obj 28 60 s \$0-gridOperations;
+#X obj 28 196 s \$0-gridOperations;
+#X obj 28 264 s \$0-gridOperations;
+#X obj 28 332 s \$0-gridOperations;
+#X obj 157 264 s \$0-gridOperations;
+#X obj 157 196 s \$0-gridOperations;
+#X obj 157 128 s \$0-gridOperations;
+#X obj 157 332 s \$0-gridOperations;
+#X obj 28 400 s \$0-gridOperations;
+#X obj 157 400 ofelia d -c11 -k \$0-gridOperations;
+#A __set local a = require("\$0-main") \; \; function ofelia.Shift_Left()
+\; for x = 1 \, a.gridNumX-1 do \; for y = 1 \, a.gridNumY do \; a.matrix[(x)%a.gridNumX+1][y]
+\, a.matrix[x][y] = a.matrix[x][y] \, a.matrix[(x)%a.gridNumX+1][y]
+\; end \; end \; a.cellsDraw = 1 \; end \; \; function ofelia.Shift_Right()
+\; for x = 1 \, a.gridNumX-1 do \; for y = 1 \, a.gridNumY do \; a.matrix[((x
+* - 1) + a.gridNumX) % a.gridNumX + 1][y] \, a.matrix[((x * - 1) +
+a.gridNumX)][y] = a.matrix[((x*-1) + a.gridNumX)][y] \, a.matrix[((x
+* - 1) + a.gridNumX) % a.gridNumX + 1][y] \; end \; end \; a.cellsDraw
+= 1 \; end \; \; function ofelia.Shift_Up() \; for x = 1 \, a.gridNumX
+do \; for y = 1 \, a.gridNumY-1 do \; a.matrix[x][y] \, a.matrix[x][(y)%a.gridNumY+1]
+= a.matrix[x][y%a.gridNumY+1] \, a.matrix[x][y] \; end \; end \; a.cellsDraw
+= 1 \; end \; \; function ofelia.Shift_Down() \; for x = 1 \, a.gridNumX
+do \; for y = 1 \, a.gridNumY-1 do \; a.matrix[x][((y * - 1) + a.gridNumY)
+% a.gridNumY + 1] \, a.matrix[x][((y * - 1) + a.gridNumY)%a.gridNumY]
+= a.matrix[x][((y * - 1) + a.gridNumY)%a.gridNumY] \, a.matrix[x][((y
+* - 1) + a.gridNumY) % a.gridNumY + 1] \; end \; end \; a.cellsDraw
+= 1 \; end \; \; function ofelia.Flip_X() \; for y = 1 \, a.gridNumY
+do \; local i \, j = 1 \, a.gridNumX \; while i < j do \; a.matrix[i][y]
+\, a.matrix[j][y] = a.matrix[j][y] \, a.matrix[i][y] \; i = i + 1 \;
+j = j - 1 \; end \; end \; a.cellsDraw = 1 \; end \; \; function ofelia.Flip_Y()
+\; for x = 1 \, a.gridNumX do \; local i \, j = 1 \, a.gridNumY \;
+while i < j do \; a.matrix[x][i] \, a.matrix[x][j] = a.matrix[x][j]
+\, a.matrix[x][i] \; i = i + 1 \; j = j - 1 \; end \; end \; a.cellsDraw
+= 1 \; end \; \; function ofelia.Shuffle() \; for i = 1 \, a.gridNumX
+do \; for j = 1 \, a.gridNumY do \; local x = math.random(i) \; local
+y = math.random(j) \; a.matrix[i][j] \, a.matrix[x][y] = a.matrix[x][y]
+\, a.matrix[i][j] \; end \; end \; a.cellsDraw = 1 \; end \; \; function
+ofelia.Shuffle_X() \; for i = 1 \, a.gridNumX do \; for j = 1 \, a.gridNumY
+do \; local x = math.random(i) \; local y = j \; a.matrix[i][y] \,
+a.matrix[x][y] = a.matrix[x][y] \, a.matrix[i][y] \; end \; end \;
+a.cellsDraw = 1 \; end \; \; function ofelia.Shuffle_Y() \; for i =
+1 \, a.gridNumX do \; for j = 1 \, a.gridNumY do \; local x = i \;
+local y = math.random(j) \; a.matrix[x][j] \, a.matrix[x][y] = a.matrix[x][y]
+\, a.matrix[x][j] \; end \; end \; a.cellsDraw = 1 \; end \; \; function
+ofelia.Invert() \; for x = 1 \, a.gridNumX do \; for y = 1 \, a.gridNumY
+do \; if a.matrix[x][y] == 0 then \; a.matrix[x][y] = 1 \; elseif a.matrix[x][y]
+> 0 then \; a.matrix[x][y] = 0 \; end \; end \; end \; a.cellsDraw
+= 1 \; end \; \; function ofelia.Reset() \; for x = 1 \, a.gridNumX
+do \; for y = 1 \, a.gridNumY do \; a.matrix[x][y] = 0 \; end \; end
+\; a.cellsDraw = 1 \; end \;;
+#X connect 0 0 8 0;
+#X connect 1 0 18 0;
+#X connect 2 0 19 0;
+#X connect 3 0 12 0;
+#X connect 4 0 13 0;
+#X connect 5 0 11 0;
+#X connect 6 0 10 0;
+#X connect 7 0 9 0;
+#X connect 8 0 28 0;
+#X connect 9 0 22 0;
+#X connect 10 0 23 0;
+#X connect 11 0 24 0;
+#X connect 12 0 25 0;
+#X connect 13 0 26 0;
+#X connect 14 0 16 0;
+#X connect 15 0 17 0;
+#X connect 16 0 30 0;
+#X connect 17 0 29 0;
+#X connect 18 0 32 0;
+#X connect 19 0 27 0;
+#X connect 20 0 21 0;
+#X connect 21 0 31 0;
+#X restore 72 162 pd gridOperations;
+#N canvas 685 238 662 336 pattern 0;
+#X obj 259 75 bng 15 250 50 0 empty \$0-copy Copy 17 7 0 10 -257985
+-1 -1;
+#X obj 260 136 bng 15 250 50 0 empty \$0-paste Paste 17 7 0 10 -257985
+-1 -1;
+#X obj 44 166 bng 15 250 50 0 empty \$0-save Save 17 7 0 10 -257985
+-1 -1;
+#X obj 79 32 hradio 15 1 0 16 empty \$0-pattern Pattern 0 -8 0 10 -257985
+-1 -1 7;
+#X obj 44 228 text define -k \$0-preset;
+#A set 128 32 0 49 75 104 165 245 259 335 354 410 490 545 599 679 735
+754 830 844 924 985 1014 1040 1120 1169 1195 1224 1285 1365 1379 1455
+1474 1530 1610 1665 1719 1799 1855 1874 1950 1964 2044 2105 2134 2160
+2240 2289 2315 2344 2405 2485 2499 2575 2594 2650 2730 2785 2839 2919
+2975 2994 3070 3084 3164 3225 3254 3280 3360 3409 3435 3464 3525 3605
+3619 3695 3714 3770 3850 3905 3959 4039 4095 \; 16 10 0 38 55 83 112
+\; 32 18 0 12 76 88 114 190 216 228 292 304 330 406 432 444 508 520
+546 \; 32 12 0 28 50 106 128 168 196 218 274 296 336 364 \; 64 12 0
+35 44 65 99 117 134 190 193 205 222 232 259 291 343 396 420 455 464
+485 513 519 554 589 610 618 625 628 679 687 739 \; 128 7 0 12 17 23
+36 55 60 77 89 94 100 113 132 137 154 166 171 177 190 209 214 231 243
+248 254 267 286 291 308 320 325 331 344 363 368 385 397 402 408 421
+440 445 462 474 479 485 498 517 522 539 551 556 562 575 594 599 616
+628 633 639 652 671 676 693 705 710 716 729 748 753 770 782 787 793
+806 825 830 847 859 864 870 883 \; 128 14 0 13 20 36 51 63 80 85 102
+114 129 145 165 182 195 202 218 233 245 262 267 284 296 311 327 347
+364 377 384 400 415 427 444 449 466 478 493 509 529 546 559 566 582
+597 609 626 631 648 660 675 691 711 728 741 748 764 779 791 808 813
+830 842 857 873 893 910 923 930 946 961 973 990 995 1012 1024 1039
+1055 1075 1092 1105 1112 1128 1143 1155 1172 1177 1194 1206 1221 1237
+1257 1274 1287 1294 1310 1325 1337 1354 1359 1376 1388 1403 1419 1439
+1456 1469 1476 1492 1507 1519 1536 1541 1558 1570 1585 1601 1621 1638
+1651 1658 1674 1689 1701 1718 1723 1740 1752 1767 1783 \; 128 14 0
+120 226 314 366 376 516 540 570 594 700 710 926 1076 1120 1240 1270
+1294 1400 1434 1486 1626 1636 1776 \; 128 14 0 23 40 46 59 94 109 127
+146 161 170 209 215 232 266 289 306 312 325 360 375 393 412 427 436
+475 481 498 532 555 572 578 591 626 641 659 678 693 702 741 747 764
+798 821 838 844 857 892 907 925 944 959 968 1007 1013 1030 1064 1087
+1104 1110 1123 1158 1173 1191 1210 1225 1234 1273 1279 1296 1330 1353
+1370 1376 1389 1424 1439 1457 1476 1491 1500 1539 1545 1562 1596 1619
+1636 1642 1655 1690 1705 1723 1742 1757 1766 \; 128 32 0 22 78 136
+158 210 260 282 400 450 472 524 582 604 660 704 726 782 840 862 914
+964 986 1104 1154 1176 1228 1286 1308 1364 1408 1430 1486 1544 1566
+1618 1668 1690 1808 1858 1880 1932 1990 2012 2068 2112 2134 2190 2248
+2270 2322 2372 2394 2512 2562 2584 2636 2694 2716 2772 2816 2838 2894
+2952 2974 3026 3076 3098 3216 3266 3288 3340 3398 3420 3476 3520 3542
+3598 3656 3678 3730 3780 3802 3920 3970 3992 4044 \; 128 32 0 80 334
+402 410 458 514 540 588 604 670 728 790 844 912 914 980 1028 1174 1224
+1290 1350 1364 1438 1478 1600 1680 1730 2010 2114 2204 2270 2312 2444
+2514 2522 2580 2624 2774 2824 2890 2950 2958 3026 3082 3164 3200 3212
+3280 3352 3414 3536 3610 3652 3714 3804 3870 3988 4044 4062 \; 64 32
+0 17 40 57 69 86 108 125 134 151 162 179 196 213 238 255 257 274 299
+316 333 350 361 378 387 404 426 443 455 472 495 544 561 584 601 613
+630 652 669 678 695 706 723 740 757 782 799 801 818 843 860 877 894
+905 922 931 948 970 987 999 1016 1039 1088 1105 1128 1145 1157 1174
+1196 1213 1222 1239 1250 1267 1284 1301 1326 1343 1345 1362 1387 1404
+1421 1438 1449 1466 1475 1492 1514 1531 1543 1560 1583 1632 1649 1672
+1689 1701 1718 1740 1757 1766 1783 1794 1811 1828 1845 1870 1887 1889
+1906 1931 1948 1965 1982 1993 2010 2019 2036 \; 16 10 0 16 28 39 47
+61 74 82 93 105 130 146 158 \; 16 10 0 44 66 88 102 124 \; 2 2 \; 32
+12 0 20 29 54 62 76 97 119 141 147 166 175 204 224 233 258 266 280
+301 323 345 351 370 379 \;;
+#X obj 106 73 text get \$0-preset;
+#X obj 79 52 t f f;
+#X obj 44 207 text set \$0-preset;
+#X msg 260 156 0;
+#X msg 466 200 0 0;
+#X obj 493 137 text delete \$0-preset;
+#X obj 466 179 until;
+#X msg 466 158 16;
+#X obj 466 95 t b b;
+#X obj 466 75 bng 15 250 50 0 empty empty delete 17 7 0 10 -258113
+-1 -1;
+#X msg 493 116 -1;
+#X obj 44 186 ofelia d -c11 -k \$0-setPreset;
+#A __set local a = require("\$0-main") \; \; function M.bang() \; local
+tab = {} \; tab[1] = a.gridNumX \; tab[2] = a.gridNumY \; for x = 1
+\, a.gridNumX do \; for y = 1 \, a.gridNumY do \; if a.matrix[x][y]
+== 1 then \; table.insert(tab \, a.gridNumY * x - a.gridNumY + y -
+1) \; end \; end \; end \; return tab \; end \;;
+#X obj 259 95 ofelia d -c11 -k \$0-setPresetCopy;
+#A __set local a = require("\$0-main") \; \; function M.bang() \; local
+tab = {} \; tab[1] = a.gridNumX \; tab[2] = a.gridNumY \; for x = 1
+\, a.gridNumX do \; for y = 1 \, a.gridNumY do \; if a.matrix[x][y]
+== 1 then \; table.insert(tab \, a.gridNumY * x - a.gridNumY + y -
+1) \; end \; end \; end \; return tab \; end \;;
+#X obj 44 249 text define \$0-presetCopy;
+#X obj 260 177 text get \$0-presetCopy;
+#X obj 259 115 text set \$0-presetCopy;
+#N canvas 449 739 410 341 routeList 0;
+#X obj 118 220 list prepend presetList;
+#X obj 145 262 list trim;
+#X obj 118 241 t b l;
+#X obj 118 73 list split 2;
+#X obj 145 136 spigot;
+#X obj 178 115 > 2;
+#X obj 178 94 list length;
+#X obj 145 157 unpack;
+#X obj 145 199 s \$0-gridNumXpreset;
+#X obj 178 178 s \$0-gridNumYpreset;
+#X obj 118 115 list;
+#X obj 118 52 t l l;
+#X obj 118 94 t b l;
+#X obj 118 288 outlet;
+#X obj 118 31 inlet;
+#X msg 215 157 Reset;
+#X obj 214 116 <= 2;
+#X obj 214 139 sel 1;
+#X connect 0 0 2 0;
+#X connect 1 0 13 0;
+#X connect 2 1 1 0;
+#X connect 3 0 12 0;
+#X connect 3 1 10 1;
+#X connect 4 0 7 0;
+#X connect 5 0 4 1;
+#X connect 6 0 5 0;
+#X connect 6 0 16 0;
+#X connect 7 0 8 0;
+#X connect 7 1 9 0;
+#X connect 10 0 0 0;
+#X connect 11 0 3 0;
+#X connect 11 1 6 0;
+#X connect 12 0 10 0;
+#X connect 12 1 4 0;
+#X connect 14 0 11 0;
+#X connect 16 0 17 0;
+#X connect 17 0 15 0;
+#X restore 106 94 pd routeList;
+#X obj 466 220 text set \$0-preset 100;
+#N canvas 773 613 410 341 routeList 0;
+#X obj 118 220 list prepend presetList;
+#X obj 145 262 list trim;
+#X obj 118 241 t b l;
+#X obj 118 73 list split 2;
+#X obj 145 136 spigot;
+#X obj 178 115 > 2;
+#X obj 178 94 list length;
+#X obj 145 157 unpack;
+#X obj 145 199 s \$0-gridNumXpreset;
+#X obj 178 178 s \$0-gridNumYpreset;
+#X obj 118 115 list;
+#X obj 118 52 t l l;
+#X obj 118 94 t b l;
+#X obj 118 288 outlet;
+#X obj 118 31 inlet;
+#X connect 0 0 2 0;
+#X connect 1 0 13 0;
+#X connect 2 0 13 0;
+#X connect 2 1 1 0;
+#X connect 3 0 12 0;
+#X connect 3 1 10 1;
+#X connect 4 0 7 0;
+#X connect 5 0 4 1;
+#X connect 6 0 5 0;
+#X connect 7 0 8 0;
+#X connect 7 1 9 0;
+#X connect 10 0 0 0;
+#X connect 11 0 3 0;
+#X connect 11 1 6 0;
+#X connect 12 0 10 0;
+#X connect 12 1 4 0;
+#X connect 14 0 11 0;
+#X restore 260 198 pd routeList;
+#X obj 106 117 t b a;
+#X msg 106 140 setPattern 1;
+#X obj 260 221 t b a;
+#X msg 260 244 setPattern 1;
+#X obj 287 267 s \$0-main;
+#X obj 133 163 ofelia set \$0-main;
+#X connect 0 0 17 0;
+#X connect 1 0 8 0;
+#X connect 2 0 16 0;
+#X connect 3 0 6 0;
+#X connect 5 0 21 0;
+#X connect 6 0 7 1;
+#X connect 6 1 5 0;
+#X connect 8 0 19 0;
+#X connect 9 0 22 0;
+#X connect 11 0 9 0;
+#X connect 12 0 11 0;
+#X connect 13 0 12 0;
+#X connect 13 1 15 0;
+#X connect 14 0 13 0;
+#X connect 15 0 10 0;
+#X connect 16 0 7 0;
+#X connect 17 0 20 0;
+#X connect 19 0 23 0;
+#X connect 21 0 24 0;
+#X connect 23 0 26 0;
+#X connect 24 0 25 0;
+#X connect 24 1 29 0;
+#X connect 25 0 29 0;
+#X connect 26 0 27 0;
+#X connect 26 1 28 0;
+#X connect 27 0 28 0;
+#X restore 72 139 pd pattern;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 4 0 3 0;
+#X connect 8 0 13 1;
+#X connect 10 0 9 1;
+#X connect 11 0 13 0;
+#X connect 12 0 17 0;
+#X connect 13 0 16 0;
+#X connect 14 0 13 2;
+#X connect 15 0 9 0;
+#X connect 16 0 12 0;
+#X connect 16 2 15 0;
+#X connect 16 3 10 0;
+#X connect 16 4 20 0;
+#X connect 17 0 18 0;
+#X connect 19 0 20 1;
+#X connect 20 0 22 0;
+#X connect 21 0 22 1;
+#X connect 23 0 22 2;
