@@ -1,4 +1,4 @@
-#N canvas 1346 90 431 196 10;
+#N canvas 1190 96 431 196 10;
 #X obj 126 48 inlet;
 #X obj 126 132 outlet;
 #X obj 126 69 t b b;
@@ -7,18 +7,23 @@
 #X obj 153 90 ofelia d -k \$0-bang;
 #A __set local c = ofCanvas(this) \; local args = c:getArgs() \; local
 xpos \, ypos \, size = args[1] \, args[2] \, args[3] \; local now =
-0 \; local circle = ofPath() \; \; function M.new() \; ofWindow.addListener("mousePressed"
+0 \; local circle = ofPath() \; local isTouch = 0 \; \; function M.new()
+\; ofWindow.addListener("mousePressed" \, this) \; ofWindow.addListener("touchDown"
 \, this) \; end \; \; function M.free() \; ofWindow.removeListener("mousePressed"
-\, this) \; end \; \; function M.bang() \; ofPushMatrix() \; ofTranslate(xpos
-\, ypos) \; ofSetCircleResolution(100) \; ofSetColor(0) \; ofDrawRectangle(0
+\, this) \; ofWindow.removeListener("touchDown" \, this) \; end \;
+\; function M.bang() \; ofPushMatrix() \; ofTranslate(xpos \, ypos)
+\; ofSetCircleResolution(100) \; ofSetColor(0) \; ofDrawRectangle(0
 \, 0 \, size \, size) \; ofSetColor(255) \; ofDrawRectangle(size /
 40 \, size / 40 \, size - size / 20 \, size - size / 20) \; ofSetColor(0)
 \; ofDrawCircle(size / 2 \, size / 2 \, size / 2.5) \; if now < ofGetElapsedTimeMillis()
 then \; ofSetColor(255) \; end \; ofDrawCircle(size / 2 \, size / 2
 \, size / 2.7) \; ofPopMatrix() \; end \; \; function M.mousePressed(e)
-\; if ofDist(ofGetMouseX() \, ofGetMouseY() \, xpos + size / 2 \, ypos
-+ size / 2) <= size / 2.5 then \; now = ofGetElapsedTimeMillis() +
-200 \; return nil \; end \; end \; \; function M.value() \; now = ofGetElapsedTimeMillis()
+\; if ofDist(e.x \, e.y \, xpos + size / 2 \, ypos + size / 2) <= size
+/ 2.5 and isTouch == 0 then \; now = ofGetElapsedTimeMillis() + 200
+\; return nil \; end \; end \; \; function M.touchDown(e) \; if ofDist(e.x
+\, e.y \, xpos + size / 2 \, ypos + size / 2) <= size / 2.5 then \;
+isTouch = 1 \; now = ofGetElapsedTimeMillis() + 200 \; return nil \;
+end \; end \; \; function M.value() \; now = ofGetElapsedTimeMillis()
 + 200 \; return nil \; end \; \;;
 #X f 22;
 #X msg 165 71 value;

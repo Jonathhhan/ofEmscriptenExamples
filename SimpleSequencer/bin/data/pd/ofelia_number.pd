@@ -1,4 +1,4 @@
-#N canvas 1190 96 431 196 10;
+#N canvas 1197 96 431 196 10;
 #X obj 126 48 inlet;
 #X obj 126 132 outlet;
 #X obj 126 69 t b b;
@@ -11,11 +11,14 @@ xpos \, ypos \, width \, height \, min \, max = args[1] \, args[2]
 \, args[3] \, args[4] \, args[5] \, args[6] \; local mouseState = 0
 \; local key = 0 \; local value = 0 \; local previewValue = 0 \; local
 preview = 0 \; local count = 0 \; local decimalPlace = 0 \; local multiply
-= 1 \; local now = 0 \; \; function M.new() \; ofWindow.addListener("mousePressed"
-\, this) \; ofWindow.addListener("mouseDragged" \, this) \; ofWindow.addListener("keyPressed"
+= 1 \; local now = 0 \; local previousMouseY = 0 \; local isTouch =
+0 \; \; function M.new() \; ofWindow.addListener("mousePressed" \,
+this) \; ofWindow.addListener("mouseDragged" \, this) \; ofWindow.addListener("touchDown"
+\, this) \; ofWindow.addListener("touchMoved" \, this) \; ofWindow.addListener("keyPressed"
 \, this) \; ofWindow.addListener("keyReleased" \, this) \; end \; \;
 function M.free() \; ofWindow.removeListener("mousePressed" \, this)
-\; ofWindow.removeListener("mouseDragged" \, this) \; ofWindow.removeListener("keyPressed"
+\; ofWindow.removeListener("mouseDragged" \, this) \; ofWindow.removeListener("touchDown"
+\, this) \; ofWindow.removeListener("touchMoved" \, this) \; ofWindow.removeListener("keyPressed"
 \, this) \; ofWindow.removeListener("keyReleased" \, this) \; end \;
 \; function M.bang() \; ofPushMatrix() \; ofTranslate(xpos \, ypos)
 \; ofSetColor(0) \; ofDrawRectangle(0 \, 0 \, width \, height) \; ofSetColor(255)
@@ -28,29 +31,39 @@ function M.free() \; ofWindow.removeListener("mousePressed" \, this)
 \, 5 \, 14) \; end \; ofPopMatrix() \; if now < ofGetElapsedTimeMillis()
 then \; preview = 0 \; previewValue = 0 \; count = 0 \; decimalPlace
 = 0 \; multiply = 1 \; end \; end \; \; function M.mousePressed(e)
-\; count = 0 \; previewValue = 0 \; preview = 0 \; decimalPlace = 0
-\; multiply = 1 \; if ofGetMouseX() > xpos and ofGetMouseX() < xpos
-+ width and ofGetMouseY() > ypos and ofGetMouseY() < ypos + height
-then \; mouseState = 1 \; else \; mouseState = 0 \; end \; --return
-value \; end \; \; function M.mouseDragged(e) \; if mouseState == 1
-then \; if key == 83 then \; value = math.floor(ofGetPreviousMouseY()
-- ofGetMouseY()) / 1000 + value \; else \; value = ofGetPreviousMouseY()
-- ofGetMouseY() + value \; end \; if value > max then \; value = max
-\; end \; if value < min then \; value = min \; end \; return value
-\; end \; end \; \; function M.keyPressed(e) \; key = e.key \; if key
-== 43 and mouseState == 1 and count == 0 then \; now = ofGetElapsedTimeMillis()
-+ 3000 \; multiply = 1 \; end \; if key == 45 and mouseState == 1 and
-count == 0 then \; now = ofGetElapsedTimeMillis() + 3000 \; multiply
-= - 1 \; end \; if key == 46 and mouseState == 1 then \; decimalPlace
-= 1 \; end \; if key >= 48 and key <= 57 and mouseState == 1 then \;
-now = ofGetElapsedTimeMillis() + 3000 \; preview = 1 \; if decimalPlace
+\; if e.x > xpos and e.x < xpos + width and e.y > ypos and e.y < ypos
++ height and isTouch == 0 then \; count = 0 \; previewValue = 0 \;
+preview = 0 \; decimalPlace = 0 \; multiply = 1 \; mouseState = 1 \;
+previousMouseY = e.y \; else \; mouseState = 0 \; previousMouseY =
+e.y \; end \; --return value \; end \; \; function M.mouseDragged(e)
+\; if mouseState == 1 and isTouch == 0 then \; if key == 83 then \;
+value = math.floor(previousMouseY - e.y) / 1000 + value \; previousMouseY
+= e.y \; else \; value = previousMouseY - e.y + value \; end \; previousMouseY
+= e.y \; if value > max then \; value = max \; end \; if value < min
+then \; value = min \; end \; return value \; end \; end \; \; function
+M.touchDown(e) \; if e.x > xpos and e.x < xpos + width and e.y > ypos
+and e.y < ypos + height then \; isTouch = 1 \; count = 0 \; previewValue
+= 0 \; preview = 0 \; decimalPlace = 0 \; multiply = 1 \; mouseState
+= 1 \; previousMouseY = e.y \; else \; mouseState = 0 \; previousMouseY
+= e.y \; end \; --return value \; end \; \; function M.touchMoved(e)
+\; if mouseState == 1 then \; if key == 83 then \; value = math.floor(previousMouseY
+- e.y) / 1000 + value \; previousMouseY = e.y \; else \; value = previousMouseY
+- e.y + value \; previousMouseY = e.y \; end \; if value > max then
+\; value = max \; end \; if value < min then \; value = min \; end
+\; return value \; end \; end \; \; function M.keyPressed(e) \; if
+e.key == 43 and mouseState == 1 and count == 0 then \; now = ofGetElapsedTimeMillis()
++ 3000 \; multiply = 1 \; end \; if e.key == 45 and mouseState == 1
+and count == 0 then \; now = ofGetElapsedTimeMillis() + 3000 \; multiply
+= - 1 \; end \; if e.key == 46 and mouseState == 1 then \; decimalPlace
+= 1 \; end \; if e.key >= 48 and e.key <= 57 and mouseState == 1 then
+\; now = ofGetElapsedTimeMillis() + 3000 \; preview = 1 \; if decimalPlace
 == 0 then \; previewValue = previewValue * 10 + (key - 48) * multiply
-\; else \; count = count + 1 \; previewValue = previewValue + ((key
-- 48) * multiply / 10 ^ count) \; end \; end \; if key == 69 and preview
-== 1 then \; value = previewValue \; if value > max then \; value =
-max \; end \; if value < min then \; value = min \; end \; preview
-= 0 \; mouseState = 0 \; end \; return value \; end \; \; function
-M.keyReleased(e) \; key = 0 \; end \; \; function M.inlet(f) \; value
+\; else \; count = count + 1 \; previewValue = previewValue + ((e.key
+- 48) * multiply / 10 ^ count) \; end \; end \; if e.key == 69 and
+preview == 1 then \; value = previewValue \; if value > max then \;
+value = max \; end \; if value < min then \; value = min \; end \;
+preview = 0 \; mouseState = 0 \; end \; return value \; end \; \; function
+M.keyReleased(e) \; e.key = 0 \; end \; \; function M.inlet(f) \; value
 = f \; return value \; end \; \;;
 #X f 22;
 #X connect 0 0 2 0;
