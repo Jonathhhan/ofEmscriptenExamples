@@ -15,28 +15,28 @@ EMSCRIPTEN_BINDINGS(Module) {
 }
 
 void ofApp::loadAudioToSoundfiler() {	
-	pd.sendBang(patch.dollarZeroStr() + "-soundfiler");
+	OFpd.sendBang(patch.dollarZeroStr() + "-soundfiler");
 	EM_ASM(FS.unlink("/data/data"));
 }
 
 //--------------------------------------------------------------
 void ofApp::toggle_1onMousePressed(bool & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-play", e);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-play", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_1onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-tempo", e);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-tempo", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_2onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-lowpass", e);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-lowpass", e);
 }
 
 //--------------------------------------------------------------
 void ofApp::hSlider_3onMousePressed(float & e){
-	pd.sendFloat(patch.dollarZeroStr() + "-volume", e);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-volume", e);
 }
 
 //--------------------------------------------------------------
@@ -93,17 +93,12 @@ void ofApp::setup() {
 	hSlider_2.slider = 0.8;
 	hSlider_3.setup(20, 220, 80, 20, 0, 1);
 	hSlider_3.slider = 0.5;
-	
-	//ofSetLogLevel("Pd", OF_LOG_VERBOSE); // see verbose info inside
-
-	// double check where we are ...
-	cout << ofFilePath::getCurrentWorkingDirectory() << endl;
 
 	// the number of libpd ticks per buffer,
 	// used to compute the audio buffer len: tpb * blocksize (always 64)
-	#ifdef TARGET_LINUX_ARM
+	#if defined(TARGET_LINUX_ARM) || defined(__EMSCRIPTEN__)
 		// longer latency for Raspberry PI
-		int ticksPerBuffer = 32; // 32 * 64 = buffer len of 2048
+		int ticksPerBuffer = 2; // 32 * 64 = buffer len of 2048
 		int numInputs = 0; // no built in mic
 	#else
 		int ticksPerBuffer = 2; // 8 * 64 = buffer len of 512
@@ -114,26 +109,25 @@ void ofApp::setup() {
 	ofSoundStreamSettings settings;
 	settings.numInputChannels = 0;
 	settings.numOutputChannels = 2;
-	settings.sampleRate = 44100;
+	settings.sampleRate = ofSoundStream().getSampleRate();
 	settings.bufferSize = ofxPd::blockSize() * ticksPerBuffer;
 	settings.setInListener(this);
 	settings.setOutListener(this);
 	ofSoundStreamSetup(settings);
-
-	if(!pd.init(2, numInputs, 44100, ticksPerBuffer, false)) {
+	if(!OFpd.init(2, numInputs, ofSoundStream().getSampleRate(), ticksPerBuffer, false)) {
 		OF_EXIT_APP(1);
 	}
 
 	// subscribe to receive source names
-	pd.subscribe("toOF");
-	pd.addReceiver(*this); // automatically receives from all subscribed sources
-	pd.start();
-	patch = pd.openPatch("pd/test.pd");
+	OFpd.subscribe("toOF");
+	OFpd.addReceiver(*this); // automatically receives from all subscribed sources
+	OFpd.start();
+	patch = OFpd.openPatch("pd/test.pd");
 	
-	pd.sendFloat(patch.dollarZeroStr() + "-play", true);
-	pd.sendFloat(patch.dollarZeroStr() + "-tempo", 1);
-	pd.sendFloat(patch.dollarZeroStr() + "-lowpass", 100);
-	pd.sendFloat(patch.dollarZeroStr() + "-volume", 0.75);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-play", true);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-tempo", 1);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-lowpass", 100);
+	OFpd.sendFloat(patch.dollarZeroStr() + "-volume", 0.75);
 }
 
 //--------------------------------------------------------------
@@ -165,12 +159,12 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::audioReceived(float * input, int bufferSize, int nChannels) {
-	pd.audioIn(input, bufferSize, nChannels);
+	OFpd.audioIn(input, bufferSize, nChannels);
 }
 
 //--------------------------------------------------------------
 void ofApp::audioRequested(float * output, int bufferSize, int nChannels) {
-	pd.audioOut(output, bufferSize, nChannels);
+	OFpd.audioOut(output, bufferSize, nChannels);
 }
 
 //--------------------------------------------------------------
