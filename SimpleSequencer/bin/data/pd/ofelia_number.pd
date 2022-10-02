@@ -1,4 +1,4 @@
-#N canvas 1197 96 431 196 10;
+#N canvas 870 264 431 196 10;
 #X obj 126 48 inlet;
 #X obj 126 132 outlet;
 #X obj 126 69 t b b;
@@ -36,35 +36,32 @@ then \; preview = 0 \; previewValue = 0 \; count = 0 \; decimalPlace
 preview = 0 \; decimalPlace = 0 \; multiply = 1 \; mouseState = 1 \;
 previousMouseY = e.y \; else \; mouseState = 0 \; previousMouseY =
 e.y \; end \; --return value \; end \; \; function M.mouseDragged(e)
-\; if mouseState == 1 and isTouch == 0 then \; if key == 83 then \;
-value = math.floor(previousMouseY - e.y) / 1000 + value \; previousMouseY
-= e.y \; else \; value = previousMouseY - e.y + value \; end \; previousMouseY
-= e.y \; if value > max then \; value = max \; end \; if value < min
-then \; value = min \; end \; return value \; end \; end \; \; function
-M.touchDown(e) \; if e.x > xpos and e.x < xpos + width and e.y > ypos
-and e.y < ypos + height then \; isTouch = 1 \; count = 0 \; previewValue
-= 0 \; preview = 0 \; decimalPlace = 0 \; multiply = 1 \; mouseState
-= 1 \; previousMouseY = e.y \; else \; mouseState = 0 \; previousMouseY
-= e.y \; end \; --return value \; end \; \; function M.touchMoved(e)
-\; if mouseState == 1 then \; if key == 83 then \; value = math.floor(previousMouseY
-- e.y) / 1000 + value \; previousMouseY = e.y \; else \; value = previousMouseY
-- e.y + value \; previousMouseY = e.y \; end \; if value > max then
-\; value = max \; end \; if value < min then \; value = min \; end
-\; return value \; end \; end \; \; function M.keyPressed(e) \; if
-e.key == 43 and mouseState == 1 and count == 0 then \; now = ofGetElapsedTimeMillis()
-+ 3000 \; multiply = 1 \; end \; if e.key == 45 and mouseState == 1
-and count == 0 then \; now = ofGetElapsedTimeMillis() + 3000 \; multiply
-= - 1 \; end \; if e.key == 46 and mouseState == 1 then \; decimalPlace
-= 1 \; end \; if e.key >= 48 and e.key <= 57 and mouseState == 1 then
-\; now = ofGetElapsedTimeMillis() + 3000 \; preview = 1 \; if decimalPlace
-== 0 then \; previewValue = previewValue * 10 + (key - 48) * multiply
-\; else \; count = count + 1 \; previewValue = previewValue + ((e.key
-- 48) * multiply / 10 ^ count) \; end \; end \; if e.key == 69 and
-preview == 1 then \; value = previewValue \; if value > max then \;
-value = max \; end \; if value < min then \; value = min \; end \;
-preview = 0 \; mouseState = 0 \; end \; return value \; end \; \; function
-M.keyReleased(e) \; e.key = 0 \; end \; \; function M.inlet(f) \; value
-= f \; return value \; end \; \;;
+\; if mouseState == 1 and isTouch == 0 then \; value = previousMouseY
+- e.y + value \; previousMouseY = e.y \; if value > max then \; value
+= max \; end \; if value < min then \; value = min \; end \; return
+value \; end \; end \; \; function M.touchDown(e) \; if e.x > xpos
+and e.x < xpos + width and e.y > ypos and e.y < ypos + height then
+\; isTouch = 1 \; count = 0 \; previewValue = 0 \; preview = 0 \; decimalPlace
+= 0 \; multiply = 1 \; mouseState = 1 \; previousMouseY = e.y \; else
+\; mouseState = 0 \; previousMouseY = e.y \; end \; --return value
+\; end \; \; function M.touchMoved(e) \; if mouseState == 1 then \;
+value = previousMouseY - e.y + value \; previousMouseY = e.y \; if
+value > max then \; value = max \; end \; if value < min then \; value
+= min \; end \; return value \; end \; end \; \; function M.keyPressed(e)
+\; if e.key == 43 and mouseState == 1 and count == 0 then \; now =
+ofGetElapsedTimeMillis() + 3000 \; multiply = 1 \; end \; if e.key
+== 45 and mouseState == 1 and count == 0 then \; now = ofGetElapsedTimeMillis()
++ 3000 \; multiply = - 1 \; end \; if e.key == 46 and mouseState ==
+1 then \; decimalPlace = 1 \; end \; if e.key >= 48 and e.key <= 57
+and mouseState == 1 then \; now = ofGetElapsedTimeMillis() + 3000 \;
+preview = 1 \; if decimalPlace == 0 then \; previewValue = previewValue
+* 10 + (key - 48) * multiply \; else \; count = count + 1 \; previewValue
+= previewValue + ((e.key - 48) * multiply / 10 ^ count) \; end \; end
+\; if e.key == 69 and preview == 1 then \; value = previewValue \;
+if value > max then \; value = max \; end \; if value < min then \;
+value = min \; end \; preview = 0 \; mouseState = 0 \; end \; return
+value \; end \; \; function M.keyReleased(e) \; e.key = 0 \; end \;
+\; function M.inlet(f) \; value = f \; return value \; end \; \;;
 #X f 22;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
