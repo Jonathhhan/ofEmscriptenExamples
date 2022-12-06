@@ -91,12 +91,10 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 		var uint8View = await new Promise((resolve) => {
 			reader.onload = (e) => resolve(new Uint8Array(reader.result));		
 		});
-		if (typeof(uint8View) != "undefined") {
-			FS.createDataFile("/data/", "data", uint8View, true, true);
-			FS.syncfs(true, function (err) {
+		FS.createDataFile("/data/", "data", uint8View, true, true);
+		FS.syncfs(true, function (err) {
 				assert(!err);
-        		});
-        	}
+        	});
 	} catch (err) {
 		console.error(err.name, err.message);
 	}
