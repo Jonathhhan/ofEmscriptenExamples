@@ -6,9 +6,9 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 	var input = document.createElement('input');
 	input.type = 'file';
 	input.accept = '.adts, .aiff, .caf, .flac, .mp3, .mp4, .ogg, .wav, .webm';
-	input.click();
 	var url = await new Promise((resolve) => {
 		input.onchange = (e) => resolve(URL.createObjectURL(e.target.files[0]));
+		input.click();
 	});
 	var size = lengthBytesUTF8(url) + 1;
 	var stringPointer = stackAlloc(size);
@@ -29,9 +29,9 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 	var input = document.createElement('input');
 	input.type = 'file';
 	input.accept = '.3gp, .h264, .mov, .mp4, .mpeg, .ogg, .webm';
-	input.click();
 	var url = await new Promise((resolve) => {
 		input.onchange = (e) => resolve(URL.createObjectURL(e.target.files[0]));
+		input.click();
 	});
 	var size = lengthBytesUTF8(url) + 1;
 	var stringPointer = stackAlloc(size);
@@ -50,9 +50,9 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 	var input = document.createElement('input');
 	input.type = 'file';
 	input.accept = '.apng, .avif, .bmp, .gif, .ico, .jfif, .jpe, .jpeg, .jpg, .png, .svg, .tif, .tiff, .webp';
-	input.click();
 	var file = await new Promise((resolve) => {
 		input.onchange = (e) => resolve(e.target.files[0]);
+		input.click();
 	});
 	var reader = new FileReader();
 	reader.readAsArrayBuffer(file);
@@ -69,7 +69,7 @@ void ofApp::bang_3_event(bool & e) {
 	loadImage();
 	ofLoadImage(texture, "data");
 	EM_ASM(FS.unlink("/data/data"));
-}   
+}
 
 //--------------------------------------------------------------
 void ofApp::toggle_1_event(bool & e) { 
