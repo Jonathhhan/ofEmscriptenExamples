@@ -15,17 +15,13 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 	excludeAcceptAllOption: true,
 	multiple: false
 	};
-	try {
-		const [handle] = await window.showOpenFilePicker(pickerOpts);
-		var file = await handle.getFile();
-		var url = URL.createObjectURL(file);
-		var size = lengthBytesUTF8(url) + 1;
-		var stringPointer = stackAlloc(size);
-		stringToUTF8Array(url, HEAP8, stringPointer, size);
-		return stringPointer;
-	} catch (err) {
-		console.error(err.name, err.message);
-	}
+	const [handle] = await window.showOpenFilePicker(pickerOpts);
+	var file = await handle.getFile();
+	var url = URL.createObjectURL(file);
+	var size = lengthBytesUTF8(url) + 1;
+	var stringPointer = stackAlloc(size);
+	stringToUTF8Array(url, HEAP8, stringPointer, size);
+	return stringPointer;
 });
 
 void ofApp::bang_1_event(bool & e) { 
@@ -50,17 +46,13 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 	excludeAcceptAllOption: true,
 	multiple: false
 	};
-	try {
-		const [handle] = await window.showOpenFilePicker(pickerOpts);
-		var file = await handle.getFile();
-		var url = URL.createObjectURL(file);
-		var size = lengthBytesUTF8(url) + 1;
-		var stringPointer = stackAlloc(size);
-		stringToUTF8Array(url, HEAP8, stringPointer, size);
-		return stringPointer;
-	} catch (err) {
-		console.error(err.name, err.message);
-	}
+	const [handle] = await window.showOpenFilePicker(pickerOpts);
+	var file = await handle.getFile();
+	var url = URL.createObjectURL(file);
+	var size = lengthBytesUTF8(url) + 1;
+	var stringPointer = stackAlloc(size);
+	stringToUTF8Array(url, HEAP8, stringPointer, size);
+	return stringPointer;
 });
 
 void ofApp::bang_2_event(bool & e) {
@@ -83,21 +75,17 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 	excludeAcceptAllOption: true,
 	multiple: false
 	};
-	try {
-		const [handle] = await window.showOpenFilePicker(pickerOpts);
-		var file = await handle.getFile();
-		var reader = new FileReader();
-		reader.readAsArrayBuffer(file);
-		var uint8View = await new Promise((resolve) => {
-			reader.onload = (e) => resolve(new Uint8Array(reader.result));		
-		});
-		FS.createDataFile("/data/", "data", uint8View, true, true);
-		FS.syncfs(true, function (err) {
-				assert(!err);
-        	});
-	} catch (err) {
-		console.error(err.name, err.message);
-	}
+	const [handle] = await window.showOpenFilePicker(pickerOpts);
+	var file = await handle.getFile();
+	var reader = new FileReader();
+	reader.readAsArrayBuffer(file);
+	var uint8View = await new Promise((resolve) => {
+		reader.onload = (e) => resolve(new Uint8Array(reader.result));		
+	});
+	FS.createDataFile("/data/", "data", uint8View, true, true);
+	FS.syncfs(true, function (err) {
+			assert(!err);
+        });
 });
 
 void ofApp::bang_3_event(bool & e) {
