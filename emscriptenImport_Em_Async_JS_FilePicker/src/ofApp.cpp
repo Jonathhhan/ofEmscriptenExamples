@@ -91,10 +91,12 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 		var uint8View = await new Promise((resolve) => {
 			reader.onload = (e) => resolve(new Uint8Array(reader.result));		
 		});
-		FS.createDataFile("/data/", "data", uint8View, true, true);
-		FS.syncfs(true, function (err) {
-			assert(!err);
-        	});	
+		if (typeof(uint8View) != "undefined") {
+			FS.createDataFile("/data/", "data", uint8View, true, true);
+			FS.syncfs(true, function (err) {
+				assert(!err);
+        		});
+        	}
 	} catch (err) {
 		console.error(err.name, err.message);
 	}
@@ -102,9 +104,11 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 
 void ofApp::bang_3_event(bool & e) {
 	loadImage();
-	ofLoadImage(texture, "data");
-	EM_ASM(FS.unlink("/data/data"));
-}   
+	if (ofFile("data").exists()){
+		ofLoadImage(texture, "data");
+		EM_ASM(FS.unlink("/data/data"));
+	}
+}
 
 //--------------------------------------------------------------
 void ofApp::toggle_1_event(bool & e) { 
