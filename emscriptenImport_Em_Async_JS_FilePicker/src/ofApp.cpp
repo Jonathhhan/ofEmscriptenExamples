@@ -30,10 +30,12 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 
 void ofApp::bang_1_event(bool & e) { 
 	std::string url = loadAudio();
-	audioPlayer.unload();
-	audioPlayer.load(url);
-	audioPlayer.setLoop(true);
-	audioPlayer.play();
+	if (!url.empty()) {
+		audioPlayer.unload();
+		audioPlayer.load(url);
+		audioPlayer.setLoop(true);
+		audioPlayer.play();
+	}
 }   
 
 //--------------------------------------------------------------
@@ -65,8 +67,10 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 
 void ofApp::bang_2_event(bool & e) {
 	std::string url = loadVideo();
-	videoPlayer.load(url);
-	videoPlayer.play();
+	if (!url.empty()) {
+		videoPlayer.load(url);
+		videoPlayer.play();
+	}
 }
 
 //--------------------------------------------------------------
