@@ -5,6 +5,7 @@
 #include "label.h"
 #include "bang.h"
 #include "toggle.h"
+#include "emscripten.h"
 
 class ofApp : public ofBaseApp{
 	public:
