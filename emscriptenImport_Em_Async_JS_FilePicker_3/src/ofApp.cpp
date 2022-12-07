@@ -1,5 +1,4 @@
 #include "ofApp.h"
-#include "emscripten.h"
 
 //--------------------------------------------------------------
 EM_ASYNC_JS(const char*, loadAudio, (), {
