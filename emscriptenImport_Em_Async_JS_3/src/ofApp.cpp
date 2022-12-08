@@ -11,10 +11,10 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 	canvas.hasFocus = false;
 	await new Promise((resolve, reject) => {		
 		input.onchange = (e) => {
+			canvas.hasFocus = true;
 			url = URL.createObjectURL(e.target.files[0]);
 		};
 		document.body.onfocus = (event) => {
-			canvas.hasFocus = true;
 			if (input.value.length) {
 				resolve();
 			} else {
@@ -52,10 +52,10 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 	canvas.hasFocus = false;
 	await new Promise((resolve, reject) => {		
 		input.onchange = (e) => {
+			canvas.hasFocus = true;
 			url = URL.createObjectURL(e.target.files[0]);
 		};
 		document.body.onfocus = (event) => {
-			canvas.hasFocus = true;
 			if (input.value.length) {
 				resolve();
 			} else {
@@ -91,10 +91,10 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 		canvas.hasFocus = false;
 		await new Promise((resolve, reject) => {
 			input.onchange = (e) => {
+				canvas.hasFocus = true;
 				file = e.target.files[0];
 			};
         		document.body.onfocus = (event) => {
-        			canvas.hasFocus = true;
 				if (input.value.length) {
 					resolve();
 				} else {
@@ -204,7 +204,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	ofSoundUpdate();
 	videoPlayer.update();
-	// int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
+	int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
 }
 
 //--------------------------------------------------------------
