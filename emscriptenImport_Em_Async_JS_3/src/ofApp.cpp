@@ -30,7 +30,6 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 });
 
 void ofApp::bang_1_event(bool & e) { 
-ofLog(OF_LOG_NOTICE, "the number is " + ofToString(10));
 	if (EM_ASM_INT(return canvas.hasFocus)) {
 		std::string url = loadAudio();
 		if (!url.empty()) {
