@@ -8,17 +8,17 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 	input.type = 'file';
 	input.accept = '.adts, .aiff, .caf, .flac, .mp3, .mp4, .ogg, .wav, .webm';
 	input.click();
+	canvas.hasFocus = false;
 	await new Promise((resolve, reject) => {		
 		input.onchange = (e) => {
 			url = URL.createObjectURL(e.target.files[0]);
 		};
 		document.body.onfocus = (event) => {
+			canvas.hasFocus = true;
 			if (input.value.length) {
 				resolve();
-				document.body.onfocus = null;
 			} else {
 				reject(console.error("The user aborted a request."));
-				document.body.onfocus = null;
 			}
 		};	
 	});
@@ -30,8 +30,8 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 });
 
 void ofApp::bang_1_event(bool & e) { 
-	int focus = EM_ASM_INT({return !document.body.onfocus});
-	if (focus == true) {
+ofLog(OF_LOG_NOTICE, "the number is " + ofToString(10));
+	if (EM_ASM_INT(return canvas.hasFocus)) {
 		std::string url = loadAudio();
 		if (!url.empty()) {
 			audioPlayer.unload();
@@ -50,19 +50,19 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 	input.type = 'file';
 	input.accept = '.3gp, .h264, .mov, .mp4, .mpeg, .ogg, .webm';
 	input.click();
+	canvas.hasFocus = false;
 	await new Promise((resolve, reject) => {		
 		input.onchange = (e) => {
 			url = URL.createObjectURL(e.target.files[0]);
 		};
 		document.body.onfocus = (event) => {
+			canvas.hasFocus = true;
 			if (input.value.length) {
 				resolve();
-				document.body.onfocus = null;
 			} else {
 				reject(console.error("The user aborted a request."));
-				document.body.onfocus = null;
 			}
-		};
+		};	
 	});
 	var size = lengthBytesUTF8(url) + 1;
 	var stringPointer = stackAlloc(size);
@@ -72,8 +72,7 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 });
 
 void ofApp::bang_2_event(bool & e) {
-	int focus = EM_ASM_INT({return !document.body.onfocus});
-	if (focus == true) {
+	if (EM_ASM_INT(return canvas.hasFocus)) {
 		std::string url = loadVideo();
 		if (!url.empty()) {
 			videoPlayer.load(url);
@@ -90,17 +89,17 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 		input.type = 'file';
 		input.accept = '.apng, .avif, .bmp, .gif, .ico, .jfif, .jpe, .jpeg, .jpg, .png, .svg, .tif, .tiff, .webp';
 		input.click();
+		canvas.hasFocus = false;
 		await new Promise((resolve, reject) => {
 			input.onchange = (e) => {
 				file = e.target.files[0];
 			};
         		document.body.onfocus = (event) => {
+        			canvas.hasFocus = true;
 				if (input.value.length) {
 					resolve();
-					document.body.onfocus = null;
 				} else {
 					reject(console.error("The user aborted a request."));
-					document.body.onfocus = null;
 				}
 			};
 		});
@@ -117,8 +116,7 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 });
 
 void ofApp::bang_3_event(bool & e) {
-	int focus = EM_ASM_INT({return !document.body.onfocus});
-	if (focus == true) {
+	if (EM_ASM_INT(return canvas.hasFocus)) {
 		loadImage();
 		if (ofFile("data").exists()){
 			ofLoadImage(texture, "data");
@@ -207,6 +205,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	ofSoundUpdate();
 	videoPlayer.update();
+	// int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
 }
 
 //--------------------------------------------------------------
