@@ -42,7 +42,7 @@ void ofApp::bang_2_event(bool & e) {
 	if (canvas.hasFocus) {
 		var input = document.createElement('input');
 		input.type = 'file';
-		input.accept = '.adts, .aiff, .caf, .flac, .mp3, .mp4, .ogg, .wav, .webm';
+		input.accept = '.3gp, .h264, .mov, .mp4, .mpeg, .ogg, .webm';
 		input.click();
 		canvas.hasFocus = false;
 		input.onchange = function(e) {
