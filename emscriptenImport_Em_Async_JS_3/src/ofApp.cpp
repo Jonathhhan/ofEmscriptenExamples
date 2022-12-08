@@ -3,24 +3,19 @@
 //--------------------------------------------------------------
 EM_ASYNC_JS(const char*, loadAudio, (), {
 	try {
-	var url;
 	var input = document.createElement('input');
 	input.type = 'file';
 	input.accept = '.adts, .aiff, .caf, .flac, .mp3, .mp4, .ogg, .wav, .webm';
 	input.click();
 	canvas.hasFocus = false;
-	await new Promise((resolve, reject) => {		
-		input.onchange = (e) => {
-			canvas.hasFocus = true;
-			url = URL.createObjectURL(e.target.files[0]);
+	var url = await new Promise((resolve, reject) => {		
+		input.onchange = (event) => {
+			resolve(URL.createObjectURL(event.target.files[0]));
 		};
-		document.body.onfocus = (event) => {
-			if (input.value.length) {
-				resolve();
-			} else {
-				reject(console.error("The user aborted a request."));
-			}
-		};	
+		canvas.onfocus = (event) => {
+			canvas.hasFocus = true;
+			reject(input.value.length);
+		};
 	});
 	var size = lengthBytesUTF8(url) + 1;
 	var stringPointer = stackAlloc(size);
@@ -44,24 +39,19 @@ void ofApp::bang_1_event(bool & e) {
 //--------------------------------------------------------------
 EM_ASYNC_JS(const char*, loadVideo, (), {	
 	try {
-	var url;
 	var input = document.createElement('input');
 	input.type = 'file';
 	input.accept = '.3gp, .h264, .mov, .mp4, .mpeg, .ogg, .webm';
 	input.click();
 	canvas.hasFocus = false;
-	await new Promise((resolve, reject) => {		
-		input.onchange = (e) => {
-			canvas.hasFocus = true;
-			url = URL.createObjectURL(e.target.files[0]);
+	var url = await new Promise((resolve, reject) => {		
+		input.onchange = (event) => {
+			resolve(URL.createObjectURL(event.target.files[0]));
 		};
-		document.body.onfocus = (event) => {
-			if (input.value.length) {
-				resolve();
-			} else {
-				reject(console.error("The user aborted a request."));
-			}
-		};	
+		canvas.onfocus = (event) => {
+			canvas.hasFocus = true;
+			reject(input.value.length);
+		};
 	});
 	var size = lengthBytesUTF8(url) + 1;
 	var stringPointer = stackAlloc(size);
@@ -83,23 +73,18 @@ void ofApp::bang_2_event(bool & e) {
 //--------------------------------------------------------------
 EM_ASYNC_JS(const char*, loadImage, (), {
 	try {
-		var file;
 		var input = document.createElement('input');
 		input.type = 'file';
 		input.accept = '.apng, .avif, .bmp, .gif, .ico, .jfif, .jpe, .jpeg, .jpg, .png, .svg, .tif, .tiff, .webp';
 		input.click();
 		canvas.hasFocus = false;
-		await new Promise((resolve, reject) => {
-			input.onchange = (e) => {
-				canvas.hasFocus = true;
-				file = e.target.files[0];
+		var file = await new Promise((resolve, reject) => {
+			input.onchange = (event) => {
+				resolve(event.target.files[0]);
 			};
-        		document.body.onfocus = (event) => {
-				if (input.value.length) {
-					resolve();
-				} else {
-					reject(console.error("The user aborted a request."));
-				}
+        		canvas.onfocus = (event) => {
+        			canvas.hasFocus = true;
+				reject(input.value.length);
 			};
 		});
 		var reader = new FileReader();
@@ -204,7 +189,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	ofSoundUpdate();
 	videoPlayer.update();
-	// int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
+	int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
 }
 
 //--------------------------------------------------------------
