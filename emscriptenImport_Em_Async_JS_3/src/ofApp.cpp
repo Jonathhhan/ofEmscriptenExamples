@@ -204,7 +204,7 @@ void ofApp::setup() {
 void ofApp::update() {
 	ofSoundUpdate();
 	videoPlayer.update();
-	int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
+	// int hasFocus = EM_ASM_INT({console.log(canvas.hasFocus); return canvas.hasFocus});
 }
 
 //--------------------------------------------------------------
