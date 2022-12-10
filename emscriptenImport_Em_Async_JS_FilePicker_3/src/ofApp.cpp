@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "emscripten.h"
 
 //--------------------------------------------------------------
 EM_ASYNC_JS(const char*, loadAudio, (), {
@@ -15,12 +16,14 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 	multiple: false
 	};
 	try {
+		canvas.hasFocus = false;
 		const [handle] = await window.showOpenFilePicker(pickerOpts);
 		var file = await handle.getFile();
 		var url = URL.createObjectURL(file);
 		var size = lengthBytesUTF8(url) + 1;
 		var stringPointer = stackAlloc(size);
 		stringToUTF8Array(url, HEAP8, stringPointer, size);
+		document.body.onfocus = null;
 		return stringPointer;
 	} catch (err) {
 		console.error(err.name, err.message);
@@ -28,8 +31,7 @@ EM_ASYNC_JS(const char*, loadAudio, (), {
 });
 
 void ofApp::bang_1_event(bool & e) { 
-	int focus = EM_ASM_INT({return !document.body.onfocus});
-	//if (focus == true) {
+	if (EM_ASM_INT(return canvas.hasFocus)) {
 		std::string url = loadAudio();
 		if (!url.empty()) {
 			audioPlayer.unload();
@@ -37,7 +39,7 @@ void ofApp::bang_1_event(bool & e) {
 			audioPlayer.setLoop(true);
 			audioPlayer.play();
 		}
-	//}
+	}
 }   
 
 //--------------------------------------------------------------
@@ -55,6 +57,7 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 	multiple: false
 	};
 	try {
+		canvas.hasFocus = false;
 		const [handle] = await window.showOpenFilePicker(pickerOpts);
 		var file = await handle.getFile();
 		var url = URL.createObjectURL(file);
@@ -68,14 +71,13 @@ EM_ASYNC_JS(const char*, loadVideo, (), {
 });
 
 void ofApp::bang_2_event(bool & e) {
-	int focus = EM_ASM_INT({return !document.body.onfocus});
-	//if (focus == true) {
+	if (EM_ASM_INT(return canvas.hasFocus)) {
 		std::string url = loadVideo();
 		if (!url.empty()) {
 			videoPlayer.load(url);
 			videoPlayer.play();
 		}
-	//}
+	}
 }
 
 //--------------------------------------------------------------
@@ -93,12 +95,13 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 	multiple: false
 	};
 	try {
+		canvas.hasFocus = false;
 		const [handle] = await window.showOpenFilePicker(pickerOpts);	
 		var file = await handle.getFile();
 		var reader = new FileReader();
-		reader.readAsArrayBuffer(file);
+		reader.readAsArrayBuffer(file);	
 		var uint8View = await new Promise((resolve) => {
-			reader.onload = (e) => resolve(new Uint8Array(reader.result));		
+			reader.onload = (e) => resolve(new Uint8Array(reader.result));	
 		});
 		FS.createDataFile("/data/", "data", uint8View, true, true);
 		FS.syncfs(true, function (err) {
@@ -110,14 +113,13 @@ EM_ASYNC_JS(const char*, loadImage, (), {
 });
 
 void ofApp::bang_3_event(bool & e) {
-	int focus = EM_ASM_INT({return !document.body.onfocus});
-	//if (focus == true) {
+	if (EM_ASM_INT(return canvas.hasFocus)) {
 		loadImage();
 		if (ofFile("data").exists()){
 			ofLoadImage(texture, "data");
 			EM_ASM(FS.unlink("/data/data"));
 		}
-	//}
+	}
 }   
 
 //--------------------------------------------------------------
@@ -236,7 +238,6 @@ void ofApp::draw() {
 		texture.draw(305, 260, 300, 200);
 		
 	}
-	//image.draw(305, 260, 300, 200);
 }
 
 //--------------------------------------------------------------
