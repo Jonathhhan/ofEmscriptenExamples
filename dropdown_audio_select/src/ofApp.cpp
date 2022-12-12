@@ -41,6 +41,7 @@ void ofApp::draw() {
 void ofApp::onSongChange(string & file) {
 	std::cout << "audio option changed" << std::endl;
 }
+
 //--------------------------------------------------------------
 void ofApp::mousePressed(ofMouseEventArgs & args){
 	std::vector<std::string> list;
