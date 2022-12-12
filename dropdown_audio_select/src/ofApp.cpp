@@ -41,3 +41,23 @@ void ofApp::draw() {
 void ofApp::onSongChange(string & file) {
 	std::cout << "audio option changed" << std::endl;
 }
+//--------------------------------------------------------------
+void ofApp::mousePressed(ofMouseEventArgs & args){
+	std::vector<std::string> list;
+	list.push_back("video 1");
+	list.push_back("audio 2");
+	list.push_back("ton 3");
+	list.push_back("test");
+	
+	audioInputDropdown->clear();
+	for(int j = 0; j < list.size(); j++){
+		audioInputDropdown->add(list[j]);
+	}
+	audioInputDropdown->forceRedraw();
+		audioOutputDropdown->clear();
+	audioOutputDropdown->clear();
+	for(int j = 0; j < list.size(); j++){
+		audioOutputDropdown->add(list[j]);
+	}
+	audioOutputDropdown->forceRedraw();
+}
