@@ -9,6 +9,7 @@ void ofApp::setup() {
 	
 	gui.setup("audio options");
 	gui.setPosition(50, 50);
+	gui.disableHeader();
 	
 	audioInputOptions.setName("audioinput options");
 	audioInputDropdown = make_unique<ofxDropdown>(audioInputOptions);
