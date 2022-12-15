@@ -1,13 +1,5 @@
 #include "ofApp.h"
 
-EMSCRIPTEN_BINDINGS(){
-	emscripten::class_<ofApp>("ofApp")
-        .constructor<>()
-	.function("loadAudioUrl", & ofApp::loadAudioUrl)
-	.function("loadVideoUrl", & ofApp::loadVideoUrl)
-	.function("loadImage", & ofApp::loadImage);
-}
-
 ofxEmscriptenVideoPlayer videoPlayer;
 ofxEmscriptenSoundPlayer audioPlayer;
 ofTexture texture;
@@ -135,6 +127,11 @@ void ofApp::hSlider_3_event(float & e) {
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+	emscripten::class_<ofApp>("ofApp")
+        .constructor<>()
+	.function("loadAudioUrl", & ofApp::loadAudioUrl)
+	.function("loadVideoUrl", & ofApp::loadVideoUrl)
+	.function("loadImage", & ofApp::loadImage);
 	ofBackground(100, 100, 100);
 	videoPlayer.setPixelFormat(OF_PIXELS_RGBA);
 	videoPlayer.setUsePixels(false);
