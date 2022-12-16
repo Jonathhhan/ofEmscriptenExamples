@@ -27,8 +27,8 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 	
 	ofxGuiGroup gui;
 
-	ofParameter<string> audioInputOptions;
-	ofParameter<string> audioOutputOptions;
+	ofParameter<string> midiInputOptions;
+	ofParameter<string> midiOutputOptions;
 
 	toggle toggle_1;
 	ofxPd puredata;
