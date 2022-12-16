@@ -1,24 +1,24 @@
 #include "ofApp.h"
 
-unique_ptr<ofxDropdown> audioInputDropdown;
-unique_ptr<ofxDropdown> audioOutputDropdown;
+unique_ptr<ofxDropdown> midiInputDropdown;
+unique_ptr<ofxDropdown> midiOutputDropdown;
 	
 void loadMidiInDevices(std::string string){  
 	std::vector<std::string> deviceList = ofSplitString(string, ",", true);      	
-	audioInputDropdown->clear();
+	midiInputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
-		audioInputDropdown->add(deviceList[j], deviceList[j + 1]);
+		midiInputDropdown->add(deviceList[j], deviceList[j + 1]);
 	}
-	audioInputDropdown->forceRedraw();
+	midiInputDropdown->forceRedraw();
 }
 
 void loadMidiOutDevices(std::string string){  
 	std::vector<std::string> deviceList = ofSplitString(string, ",", true);      	
-	audioOutputDropdown->clear();
+	midiOutputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
-		audioOutputDropdown->add(deviceList[j], deviceList[j + 1]);
+		midiOutputDropdown->add(deviceList[j], deviceList[j + 1]);
 	}
-	audioOutputDropdown->forceRedraw();
+	midiOutputDropdown->forceRedraw();
 }
 
 void midiIn(std::string midiIn){
@@ -42,19 +42,19 @@ void ofApp::setup() {
 	gui.disableHeader();
 	toggle_1.setup(400, 200, 50);
 
-	audioInputOptions.setName("midi in");
-	audioInputDropdown = make_unique<ofxDropdown>(audioInputOptions);
-	audioInputDropdown->disableMultipleSelection();
-	audioInputDropdown->enableCollapseOnSelection();
-	audioInputDropdown->addListener(this, &ofApp::selectMidiIn);
-	gui.add(audioInputDropdown.get());
+	midiInputOptions.setName("midi in");
+	midiInputDropdown = make_unique<ofxDropdown>(midiInputOptions);
+	midiInputDropdown->disableMultipleSelection();
+	midiInputDropdown->enableCollapseOnSelection();
+	midiInputDropdown->addListener(this, &ofApp::selectMidiIn);
+	gui.add(midiInputDropdown.get());
 
-	audioOutputOptions.setName("midi out");
-	audioOutputDropdown =  make_unique<ofxDropdown>(audioOutputOptions);
-	audioOutputDropdown->disableMultipleSelection();
-	audioOutputDropdown->enableCollapseOnSelection();
-	audioOutputDropdown->addListener(this, &ofApp::selectMidiOut);
-	gui.add(audioOutputDropdown.get());
+	midiOutputOptions.setName("midi out");
+	midiOutputDropdown =  make_unique<ofxDropdown>(midiOutputOptions);
+	midiOutputDropdown->disableMultipleSelection();
+	midiOutputDropdown->enableCollapseOnSelection();
+	midiOutputDropdown->addListener(this, &ofApp::selectMidiOut);
+	gui.add(midiOutputDropdown.get());
 	EM_ASM(getMidiDevices());
 
 	int ticksPerBuffer = 32;
