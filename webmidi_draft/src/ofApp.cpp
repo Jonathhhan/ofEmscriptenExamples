@@ -6,7 +6,7 @@ unique_ptr<ofxDropdown> audioOutputDropdown;
 void loadMidiInDevices(std::string string){  
 	std::vector<std::string> deviceList = ofSplitString(string, ",", true);      	
 	audioInputDropdown->clear();
-	for(int j = 0; j < deviceList.size();j += 2){
+	for(int j = 0; j < deviceList.size(); j += 2){
 		audioInputDropdown->add(deviceList[j], deviceList[j + 1]);
 	}
 	audioInputDropdown->forceRedraw();
@@ -15,7 +15,7 @@ void loadMidiInDevices(std::string string){
 void loadMidiOutDevices(std::string string){  
 	std::vector<std::string> deviceList = ofSplitString(string, ",", true);      	
 	audioOutputDropdown->clear();
-	for(int j = 0; j < deviceList.size();j += 2){
+	for(int j = 0; j < deviceList.size(); j += 2){
 		audioOutputDropdown->add(deviceList[j], deviceList[j + 1]);
 	}
 	audioOutputDropdown->forceRedraw();
@@ -72,14 +72,11 @@ void ofApp::setup() {
 	if(!puredata.init(2, numInputs, 44100, ticksPerBuffer, false)) {
 		OF_EXIT_APP(1);
 	}
-
 	puredata.subscribe("midi_out");
 	puredata.addReceiver(*this); 
 	puredata.addMidiReceiver(*this);
 	puredata.start();
-
 	patch = puredata.openPatch("pd/test.pd");
-	cout << "Markov Generator" << endl;
 }
 
 //--------------------------------------------------------------
