@@ -32,10 +32,6 @@ void ofApp::setup(){
 	midiOutputDropdown->addListener(this, &ofApp::selectMidiOut);
 	gui.add(midiOutputDropdown.get());
 	EM_ASM(startMidi());
-	midiInputDropdown->setSelectedValueByIndex(0, true);
-	midiInputDropdown->forceRedraw();
-	midiOutputDropdown->setSelectedValueByIndex(0, true);
-	midiOutputDropdown->forceRedraw();
 
 	int ticksPerBuffer = 4;
 	int numInputs = 0;
