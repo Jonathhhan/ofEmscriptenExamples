@@ -17,7 +17,6 @@ void ofApp::setup(){
 	toggle_1.setup(400, 200, 50);
 
 	midiInputOptions.setName("midi in");
-	//midiInputOptions.select();
 	midiInputDropdown = make_unique<ofxDropdown>(midiInputOptions);
 	midiInputDropdown->disableMultipleSelection();
 	midiInputDropdown->enableCollapseOnSelection();
