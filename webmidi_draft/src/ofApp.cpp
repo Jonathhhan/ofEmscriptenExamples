@@ -17,6 +17,7 @@ void ofApp::setup(){
 	toggle_1.setup(400, 200, 50);
 
 	midiInputOptions.setName("midi in");
+	//midiInputOptions.select();
 	midiInputDropdown = make_unique<ofxDropdown>(midiInputOptions);
 	midiInputDropdown->disableMultipleSelection();
 	midiInputDropdown->enableCollapseOnSelection();
@@ -27,9 +28,14 @@ void ofApp::setup(){
 	midiOutputDropdown =  make_unique<ofxDropdown>(midiOutputOptions);
 	midiOutputDropdown->disableMultipleSelection();
 	midiOutputDropdown->enableCollapseOnSelection();
+	
 	midiOutputDropdown->addListener(this, &ofApp::selectMidiOut);
 	gui.add(midiOutputDropdown.get());
 	EM_ASM(startMidi());
+	midiInputDropdown->setSelectedValueByIndex(0, true);
+	midiInputDropdown->forceRedraw();
+	midiOutputDropdown->setSelectedValueByIndex(0, true);
+	midiOutputDropdown->forceRedraw();
 
 	int ticksPerBuffer = 4;
 	int numInputs = 0;
@@ -61,21 +67,31 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::loadMidiInDevices(std::string string){  
-	std::vector<std::string> deviceList = ofSplitString(string, ",", true);      	
+	std::vector<std::string> deviceList = ofSplitString(string, ",", true);
+	int numOptions = midiInputDropdown->getNumOptions();
 	midiInputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
 		midiInputDropdown->add(deviceList[j], deviceList[j + 1]);
 	}
+	if(numOptions == 0){
+		midiInputDropdown->setSelectedValueByIndex(0, true);
+	}
+	midiInputDropdown->setDropdownElementsWidth(300);
 	midiInputDropdown->forceRedraw();
 }
 
 //--------------------------------------------------------------
 void ofApp::loadMidiOutDevices(std::string string){  
-	std::vector<std::string> deviceList = ofSplitString(string, ",", true);      	
+	std::vector<std::string> deviceList = ofSplitString(string, ",", true);  
+	int numOptions = midiOutputDropdown->getNumOptions();    	
 	midiOutputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
 		midiOutputDropdown->add(deviceList[j], deviceList[j + 1]);
 	}
+	if(numOptions == 0){
+		midiOutputDropdown->setSelectedValueByIndex(0, true);
+	}
+	midiOutputDropdown->setDropdownElementsWidth(300);
 	midiOutputDropdown->forceRedraw();
 }
 
