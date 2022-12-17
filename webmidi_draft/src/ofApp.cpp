@@ -57,7 +57,7 @@ void ofApp::setup() {
 	gui.add(midiOutputDropdown.get());
 	EM_ASM(startMidi());
 
-	int ticksPerBuffer = 32;
+	int ticksPerBuffer = 4;
 	int numInputs = 0;
 
 	ofSoundStreamSettings settings;
