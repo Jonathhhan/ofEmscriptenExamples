@@ -55,7 +55,7 @@ void ofApp::setup() {
 	midiOutputDropdown->enableCollapseOnSelection();
 	midiOutputDropdown->addListener(this, &ofApp::selectMidiOut);
 	gui.add(midiOutputDropdown.get());
-	EM_ASM(getMidiDevices());
+	EM_ASM(startMidi());
 
 	int ticksPerBuffer = 32;
 	int numInputs = 0;
