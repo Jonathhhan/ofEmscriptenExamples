@@ -18,6 +18,7 @@ class ofApp : public ofBaseApp, public PdReceiver, public PdMidiReceiver {
 	static void loadMidiInDevices(std::string string);
 	static void loadMidiOutDevices(std::string string);
 	static void midiIn(std::string string);
+
 	void selectMidiIn(string & file);
 	void selectMidiOut(string & file);
 
