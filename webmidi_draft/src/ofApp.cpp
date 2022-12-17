@@ -12,7 +12,7 @@ void ofApp::setup(){
 
 	gui.setup("midi options");
 	gui.setPosition(50, 50);
-	gui.setWidthElements(250);
+	gui.setWidthElements(300);
 	gui.disableHeader();
 	toggle_1.setup(400, 200, 50);
 
