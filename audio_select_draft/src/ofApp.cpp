@@ -62,7 +62,7 @@ void ofApp::loadAudioInDevices(std::string string){
 	int numOptions = audioInputDropdown->getNumOptions();
 	audioInputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
-		audioInputDropdown->add(deviceList[j], deviceList[j + 1]);
+		audioInputDropdown->add(deviceList[j], deviceList[j + 1].substr(0, 35));
 	}
 	if(numOptions == 0){
 		audioInputDropdown->setSelectedValueByIndex(0, true);
@@ -77,7 +77,7 @@ void ofApp::loadAudioOutDevices(std::string string){
 	int numOptions = audioOutputDropdown->getNumOptions();    	
 	audioOutputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
-		audioOutputDropdown->add(deviceList[j], deviceList[j + 1]);
+		audioOutputDropdown->add(deviceList[j], deviceList[j + 1].substr(0, 35));
 	}
 	if(numOptions == 0){
 		audioOutputDropdown->setSelectedValueByIndex(0, true);
