@@ -66,7 +66,7 @@ void ofApp::loadMidiInDevices(std::string string){
 	int numOptions = midiInputDropdown->getNumOptions();
 	midiInputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
-		midiInputDropdown->add(deviceList[j], deviceList[j + 1]);
+		midiInputDropdown->add(deviceList[j], deviceList[j + 1].substr(0, 35));
 	}
 	if(numOptions == 0){
 		midiInputDropdown->setSelectedValueByIndex(0, true);
@@ -81,7 +81,7 @@ void ofApp::loadMidiOutDevices(std::string string){
 	int numOptions = midiOutputDropdown->getNumOptions();    	
 	midiOutputDropdown->clear();
 	for(int j = 0; j < deviceList.size(); j += 2){
-		midiOutputDropdown->add(deviceList[j], deviceList[j + 1]);
+		midiOutputDropdown->add(deviceList[j], deviceList[j + 1].substr(0, 35));
 	}
 	if(numOptions == 0){
 		midiOutputDropdown->setSelectedValueByIndex(0, true);
