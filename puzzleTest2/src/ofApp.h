@@ -1,9 +1,13 @@
-/* Refer to the README.md in the example's root folder for more information on usage */
+// Refer to the README.md in the example's root folder for more information on usage
 
 #pragma once
 
 #include "ofMain.h"
-
+#include "ofEvents.h"
+#include "bang.h"
+#include "number.h"
+#include "label.h"
+#include <random>
 class ofApp : public ofBaseApp{
 	
 	public:
@@ -12,21 +16,39 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
+		void keyPressed(ofKeyEventArgs & args);
+		void keyReleased(ofKeyEventArgs & args);
+		void mouseMoved(ofMouseEventArgs & args);
+		void mouseDragged(ofMouseEventArgs & args);
+		void mousePressed(ofMouseEventArgs & args);
+		void mouseReleased(ofMouseEventArgs & args);
+		void mouseEntered(ofMouseEventArgs & args);
+		void mouseExited(ofMouseEventArgs & args);
+		void touchMoved(ofTouchEventArgs & args);
+		void touchDown(ofTouchEventArgs & args);
+		void touchUp(ofTouchEventArgs & args);
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);		
+		void gotMessage(ofMessage msg);
 		
-		// we will have a dynamic number of images, based on the content of a directory:
-		ofDirectory dir;
-		vector<ofImage> images;
+		void bang_1onMousePressed(bool & e);	
+		void bang_2onMousePressed(bool & e);
+		void bang_3onMousePressed(bool & e);
+		void bang_4onMousePressed(bool & e);
+		void bang_5onMousePressed(bool & e);
+		void number_1onMousePressed(float & e);
+		void number_2onMousePressed(float & e);
+		void number_3onMousePressed(float & e);	
+		
+		class bang bang_1;
+		class bang bang_2;
+		class number number_1;
+		class number number_2;
+		class label label_1;
+		class label label_2;
+		class label label_3;
+		class label label_4;
+		
 		ofImage image;
 		ofFbo fbo;
 		ofFbo fboImg;
@@ -47,6 +69,5 @@ class ofApp : public ofBaseApp{
 		int yNumber;
 		int row;
 		int column;
-		int currentImage;
 };
-
+	
