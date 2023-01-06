@@ -218,7 +218,6 @@ void ofApp::mouseReleased(ofMouseEventArgs & args){
 		data[row * xPieces + column] = b;
 		data[(((int)args.y - 20) - ((int)args.y - 20) % puzzlePieceHeight) / puzzlePieceHeight * xPieces +  (((int)args.x - 20) - ((int)args.x - 20) % puzzlePieceWidth) / puzzlePieceWidth] = a;
 	}
-
 	bool win = true;
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		if(data[i] != i){
