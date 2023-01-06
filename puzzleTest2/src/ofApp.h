@@ -7,11 +7,12 @@
 #include "bang.h"
 #include "number.h"
 #include "label.h"
-#include <random>
+#include "random"
+#include "emscripten.h"
+#include "emscripten/bind.h"
+
 class ofApp : public ofBaseApp{
-	
 	public:
-		
 		void setup();
 		void update();
 		void draw();
@@ -33,12 +34,9 @@ class ofApp : public ofBaseApp{
 		
 		void bang_1onMousePressed(bool & e);	
 		void bang_2onMousePressed(bool & e);
-		void bang_3onMousePressed(bool & e);
-		void bang_4onMousePressed(bool & e);
-		void bang_5onMousePressed(bool & e);
 		void number_1onMousePressed(float & e);
 		void number_2onMousePressed(float & e);
-		void number_3onMousePressed(float & e);	
+		void loadImageX();
 		
 		class bang bang_1;
 		class bang bang_2;
@@ -48,26 +46,24 @@ class ofApp : public ofBaseApp{
 		class label label_2;
 		class label label_3;
 		class label label_4;
+		class label label_5;
+		class label label_6;
 		
 		ofImage image;
 		ofFbo fbo;
 		ofFbo fboImg;
 		std::vector<int> data;
 		bool mouseIsPressed;
-		int mouseButton;
+		bool play;
 		int puzzleWidth;
 		int puzzleHeight;
 		int xPieces;
 		int yPieces;
 		int puzzlePieceWidth;
 		int puzzlePieceHeight;
-		int xVal;
-		int xPos;
-		int xNumber;
-		int yVal;
-		int yPos;
-		int yNumber;
 		int row;
 		int column;
+		float playTime;
+		int moves;
+		std::default_random_engine rng;
 };
-	
