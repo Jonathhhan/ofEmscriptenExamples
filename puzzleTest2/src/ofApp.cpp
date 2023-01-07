@@ -77,23 +77,18 @@ void ofApp::setup(){
 	label_6.setup(440, 660, 200, 30, "Seconds: 0");
 	xPieces = 4;
 	yPieces = 2;
-	puzzleWidth = 800;
-	puzzleHeight = 576;
 	puzzlePieceWidth = puzzleWidth / xPieces;
 	puzzlePieceHeight = puzzleHeight / yPieces;
-	moves = 0;
-	image.load("wald3.jpg");
+	image.load("wald.jpg");
 	fbo.allocate(puzzleWidth, puzzleHeight, GL_RGB);
 	fboImg.allocate(puzzleWidth, puzzleHeight, GL_RGB);
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		data.push_back(i);
 	}
 	fbo.begin();
-	ofClear(255);
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo.end();
 	fboImg.begin();
-	ofClear(255);
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fboImg.end();
 }
@@ -157,6 +152,7 @@ void ofApp::bang_2onMousePressed(bool & e){
 	playTime = ofGetElapsedTimef();
 	moves = 0;
 	label_5.symbol= "Moves: " + ofToString(moves);
+	label_6.symbol= "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
 	std::shuffle(data.begin(), data.end(), rng);
 	fbo.begin();
 	for (int i = 0; i < xPieces * yPieces; i++) {
@@ -167,6 +163,9 @@ void ofApp::bang_2onMousePressed(bool & e){
 
 //--------------------------------------------------------------
 void ofApp::number_1onMousePressed(float & e){
+	play = false;
+	label_5.symbol= "Moves: " + ofToString(0);
+	label_6.symbol= "Seconds: " + ofToString(0);
 	xPieces = e;
 	data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
@@ -181,6 +180,9 @@ void ofApp::number_1onMousePressed(float & e){
 
 //--------------------------------------------------------------
 void ofApp::number_2onMousePressed(float & e){
+	play = false;
+	label_5.symbol= "Moves: " + ofToString(0);
+	label_6.symbol= "Seconds: " + ofToString(0);
 	yPieces = e;
 	data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {

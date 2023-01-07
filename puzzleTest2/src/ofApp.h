@@ -55,8 +55,6 @@ class ofApp : public ofBaseApp{
 		std::vector<int> data;
 		bool mouseIsPressed;
 		bool play;
-		int puzzleWidth;
-		int puzzleHeight;
 		int xPieces;
 		int yPieces;
 		int puzzlePieceWidth;
@@ -64,6 +62,8 @@ class ofApp : public ofBaseApp{
 		int row;
 		int column;
 		float playTime;
-		int moves;
 		std::default_random_engine rng;
+		int puzzleWidth = 800;
+		int puzzleHeight = 576;
+		int moves = 0;
 };
