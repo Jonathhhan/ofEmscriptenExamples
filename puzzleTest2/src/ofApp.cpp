@@ -66,9 +66,9 @@ void ofApp::setup(){
 	bang_1.setup(50, 660, 30);
 	bang_2.setup(50, 700, 30);
 	number_1.setup(210, 660, 100, 30, 1, 100);
-	number_1.value = 2;
+	number_1.value = 4;
 	number_2.setup(210, 700, 100, 30, 1, 100);
-	number_2.value = 1;
+	number_2.value = 2;
 	label_1.setup(85, 660, 120, 30, "Load image");
 	label_2.setup(85, 700, 120, 30, "Play");
 	label_3.setup(315, 660, 120, 30, "Pieces X");
