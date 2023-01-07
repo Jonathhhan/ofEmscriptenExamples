@@ -120,7 +120,11 @@ void ofApp::draw(){
 		ofSetColor(0);
 		ofDrawRectangle(column * puzzlePieceWidth + 30, row * puzzlePieceHeight + 30, puzzlePieceWidth, puzzlePieceHeight);
 		ofSetColor(255);
+		if(!isTouch){
 		fbo.getTexture().drawSubsection(ofGetMouseX() - puzzlePieceWidth / 2, ofGetMouseY() - puzzlePieceHeight / 2, puzzlePieceWidth, puzzlePieceHeight, column * puzzlePieceWidth, row * puzzlePieceHeight);
+		}else{
+		fbo.getTexture().drawSubsection(touchX - puzzlePieceWidth / 2, touchY - puzzlePieceHeight / 2, puzzlePieceWidth, puzzlePieceHeight, column * puzzlePieceWidth, row * puzzlePieceHeight);
+		}
 	}
 }
 
@@ -193,7 +197,7 @@ void ofApp::number_2onMousePressed(float & e){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(ofMouseEventArgs & args){
-	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30){
+	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30 && !isTouch){
 		mouseIsPressed = true;
 		row = (args.y - 30) / puzzlePieceHeight;
 		column = (args.x - 30) / puzzlePieceWidth;
@@ -202,7 +206,7 @@ void ofApp::mousePressed(ofMouseEventArgs & args){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(ofMouseEventArgs & args){
-	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30 && mouseIsPressed){
+	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30 && mouseIsPressed && !isTouch){
 		int a = data[row * xPieces + column];
 		int b = data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight)) / puzzlePieceHeight * xPieces +  (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth)) / puzzlePieceWidth];
 		if(a != b && play){
@@ -243,17 +247,51 @@ void ofApp::mouseExited(ofMouseEventArgs & args){
 
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs & args){
-
+	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30){
+		isTouch = true;
+		mouseIsPressed = true;
+		touchX = args.x;
+		touchY = args.y;
+		row = (args.y - 30) / puzzlePieceHeight;
+		column = (args.x - 30) / puzzlePieceWidth;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & args){
-
+	touchX = args.x;
+	touchY = args.y;
 }
 
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & args){
-
+	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30 && mouseIsPressed){
+		int a = data[row * xPieces + column];
+		int b = data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight)) / puzzlePieceHeight * xPieces +  (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth)) / puzzlePieceWidth];
+		if(a != b && play){
+			moves++;
+			label_5.symbol= "Moves: " + ofToString(moves);
+		}
+		fbo.begin();
+			fboImg.getTexture().drawSubsection(args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth), args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight), puzzlePieceWidth, puzzlePieceHeight, data[row * xPieces + column] % xPieces * puzzlePieceWidth, data[row * xPieces + column] / xPieces * puzzlePieceHeight);
+			fboImg.getTexture().drawSubsection(column * puzzlePieceWidth, row * puzzlePieceHeight, puzzlePieceWidth, puzzlePieceHeight, b % xPieces * puzzlePieceWidth, b / xPieces * puzzlePieceHeight);
+		fbo.end();
+		data[row * xPieces + column] = b;
+		data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight)) / puzzlePieceHeight * xPieces +  (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth)) / puzzlePieceWidth] = a;
+	}
+	bool win = true;
+	for (int i = 0; i < xPieces * yPieces; i++) {
+		if(data[i] != i){
+			win = false;
+		}
+	}
+	if (win && play){
+		play = false;
+		playTime = floor(ofGetElapsedTimef() - playTime);
+		ofLog(OF_LOG_NOTICE, "you won in " + ofToString(playTime) + " seconds and with " + ofToString(moves) +  " moves.");
+		moves = 0;
+	}
+	mouseIsPressed = false;
 }
 
 //--------------------------------------------------------------
