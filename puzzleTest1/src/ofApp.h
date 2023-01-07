@@ -12,9 +12,7 @@
 #include "emscripten/bind.h"
 
 class ofApp : public ofBaseApp{
-	
 	public:
-		
 		void setup();
 		void update();
 		void draw();
@@ -48,30 +46,26 @@ class ofApp : public ofBaseApp{
 		class label label_2;
 		class label label_3;
 		class label label_4;
+		class label label_5;
+		class label label_6;
 		
 		ofImage image;
 		ofFbo fbo;
 		ofFbo fboImg;
 		std::vector<int> data;
-		bool mouseIsPressed;
-		bool play;
 		int mouseButton;
-		int puzzleWidth;
-		int puzzleHeight;
+		bool play;
 		int xPieces;
 		int yPieces;
-		int puzzlePieceWidth;
-		int puzzlePieceHeight;
-		int xVal;
-		int xPos;
-		int xNumber;
-		int yVal;
-		int yPos;
-		int yNumber;
+		float puzzlePieceWidth;
+		float puzzlePieceHeight;
 		int row;
 		int column;
-		int playTime;
 		int moves;
+		float playTime;
 		std::default_random_engine rng;
+		float puzzleWidth = 800;
+		float puzzleHeight = 600;
+		float xVal;
+		float yVal;
 };
-	

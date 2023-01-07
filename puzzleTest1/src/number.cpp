@@ -58,7 +58,7 @@ if (preview){
 ofDrawBitmapString(ofToString(previewValue) + ">", 8, 20);
 }
 else{
-ofDrawBitmapString(ofToString(pow(2,value)), 8, 20);
+ofDrawBitmapString(ofToString(value), 8, 20);
 }
 ofPopMatrix();
 ofPopStyle();
@@ -99,8 +99,8 @@ value = maxVal;
 if (value < minVal){
 value = minVal;
 }
-float value2 = pow(2,value);
-ofNotifyEvent(onMousePressed, value2, this); 
+//float value2 = pow(2,value);
+ofNotifyEvent(onMousePressed, value, this); 
 }
 }
 
