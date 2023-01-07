@@ -38,11 +38,9 @@ void loadImage() {
 void ofApp::loadImageX() {
 	image.load("data");
 	fbo.begin();
-	ofClear(255);
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo.end();
 	fboImg.begin();
-	ofClear(255);
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fboImg.end();
 	EM_ASM(FS.unlink("/data/data"));
