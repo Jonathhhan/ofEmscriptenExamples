@@ -57,13 +57,13 @@ class ofApp : public ofBaseApp{
 		bool play;
 		int xPieces;
 		int yPieces;
-		int puzzlePieceWidth;
-		int puzzlePieceHeight;
+		float puzzlePieceWidth;
+		float puzzlePieceHeight;
 		int row;
 		int column;
+		int moves;
 		float playTime;
 		std::default_random_engine rng;
-		int puzzleWidth = 800;
-		int puzzleHeight = 576;
-		int moves = 0;
+		float puzzleWidth = 800;
+		float puzzleHeight = 600;
 };
