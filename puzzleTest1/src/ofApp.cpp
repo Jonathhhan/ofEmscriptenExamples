@@ -91,6 +91,7 @@ void ofApp::setup(){
 	fboImg.begin();
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fboImg.end();
+	rng.seed(std::chrono::system_clock::now().time_since_epoch().count());
 }
 
 //--------------------------------------------------------------
