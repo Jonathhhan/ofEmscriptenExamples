@@ -90,7 +90,7 @@ void ofApp::setup(){
 	rng.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	shaderRandom.load("random");
 	shaderReplace.load("replace");
-	image2.allocate(data.size(), 1, OF_IMAGE_COLOR);
+	image2.allocate(data.size(), 1, OF_IMAGE_COLOR_ALPHA);
 }
 
 //--------------------------------------------------------------
@@ -159,7 +159,7 @@ void ofApp::bang_2onMousePressed(bool & e){
 	label_6.symbol= "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
 	std::shuffle(data.begin(), data.end(), rng);
 	for (int i = 0; i < data.size(); i++) {
-		image2.setColor(i, 0, ofColor(data[i] / 256. / 256., data[i] / 256., data[i]));
+		image2.setColor(i, 0, ofColor(data[i] / 256 / 256 / 256, data[i] / 256 / 256, data[i] / 256, data[i]));
 		//ofLog(OF_LOG_NOTICE, "the number is rgb " + ofToString((int)image2.getColor(i, 0).r * 256 * 256 + (int)image2.getColor(i, 0).g * 256 + (int)image2.getColor(i, 0).b));
 		//ofLog(OF_LOG_NOTICE, "r " + ofToString((int)image2.getColor(i, 0).r * 256 * 256));
 		//ofLog(OF_LOG_NOTICE, "g " + ofToString((int)image2.getColor(i, 0).g * 256));
@@ -169,8 +169,8 @@ void ofApp::bang_2onMousePressed(bool & e){
 	fbo.begin();
 	ofClear(0);
 	shaderRandom.begin();
-	shaderRandom.setUniformTexture("Tex0", fboImg.getTexture(), 1);
-	shaderRandom.setUniformTexture("Tex1", image2.getTexture(), 2);
+	shaderRandom.setUniformTexture("Tex0", fboImg.getTexture(), 0);
+	shaderRandom.setUniformTexture("Tex1", image2.getTexture(), 1);
 	shaderRandom.setUniform2f("resolution", puzzleWidth, puzzleHeight);
 	shaderRandom.setUniform2f("puzzlePieceSize", puzzlePieceWidth, puzzlePieceHeight);
 	shaderRandom.setUniform2f("puzzlePieces", xPieces, yPieces);
@@ -193,7 +193,7 @@ void ofApp::number_1onMousePressed(float & e){
 	fbo.begin();
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo.end();
-	image2.allocate(data.size(), 1, OF_IMAGE_COLOR);
+	image2.allocate(data.size(), 1, OF_IMAGE_COLOR_ALPHA);
 }
 
 //--------------------------------------------------------------
@@ -210,7 +210,7 @@ void ofApp::number_2onMousePressed(float & e){
 	fbo.begin();
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo.end();
-	image2.allocate(data.size(), 1, OF_IMAGE_COLOR);
+	image2.allocate(data.size(), 1, OF_IMAGE_COLOR_ALPHA);
 }
 
 //--------------------------------------------------------------
