@@ -10,9 +10,9 @@ uniform sampler2D Tex1;
 uniform vec2 resolution;
 uniform vec2 puzzlePieceSize;
 uniform vec2 puzzlePieces;
-vec4 col1;
 
 void main(){
+	vec4 col1;
 	for(int i = 0; i < int(puzzlePieces.x * puzzlePieces.y); i++) {
 		vec2 texcoord = vec2(float(i) + 0.5, 0.5) / vec2(puzzlePieces.x * puzzlePieces.y, 1.);
 		vec4 pixelData = floor(texture(Tex1, texcoord) * 256.);
