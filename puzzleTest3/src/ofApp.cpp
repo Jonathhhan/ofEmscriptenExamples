@@ -159,7 +159,11 @@ void ofApp::bang_2onMousePressed(bool & e){
 	label_6.symbol= "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
 	std::shuffle(data.begin(), data.end(), rng);
 	for (int i = 0; i < data.size(); i++) {
-		image2.setColor(i, 0, ofColor(data[i]/256./256., data[i]/256., data[i]));
+		image2.setColor(i, 0, ofColor(data[i] / 256. / 256., data[i] / 256., data[i]));
+		//ofLog(OF_LOG_NOTICE, "the number is rgb " + ofToString((int)image2.getColor(i, 0).r * 256 * 256 + (int)image2.getColor(i, 0).g * 256 + (int)image2.getColor(i, 0).b));
+		//ofLog(OF_LOG_NOTICE, "r " + ofToString((int)image2.getColor(i, 0).r * 256 * 256));
+		//ofLog(OF_LOG_NOTICE, "g " + ofToString((int)image2.getColor(i, 0).g * 256));
+		//ofLog(OF_LOG_NOTICE, "b " + ofToString((int)image2.getColor(i, 0).b));
 	}
 	image2.update();
 	fbo.begin();
@@ -234,9 +238,9 @@ void ofApp::mouseReleased(ofMouseEventArgs & args){
 		shaderReplace.setUniformTexture("Tex0", fboImg.getTexture(), 0);
 		shaderReplace.setUniform2f("resolution", puzzleWidth, puzzleHeight);
 		shaderReplace.setUniform2f("puzzlePieceSize", puzzlePieceWidth, puzzlePieceHeight);
-		shaderReplace.setUniform2f("offsetA", a % xPieces * puzzlePieceWidth, floor(a / xPieces) * puzzlePieceHeight);
+		shaderReplace.setUniform2f("offsetA", a % xPieces * puzzlePieceWidth, (a / xPieces) * puzzlePieceHeight);
 		shaderReplace.setUniform2f("positionA", args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth), args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight));
-		shaderReplace.setUniform2f("offsetB", b % xPieces * puzzlePieceWidth, floor(b / xPieces) * puzzlePieceHeight);
+		shaderReplace.setUniform2f("offsetB", b % xPieces * puzzlePieceWidth, (b / xPieces) * puzzlePieceHeight);
 		shaderReplace.setUniform2f("positionB", column * puzzlePieceWidth, row * puzzlePieceHeight);
 		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 		shaderReplace.end();
