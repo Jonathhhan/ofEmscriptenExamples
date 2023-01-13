@@ -171,7 +171,6 @@ void ofApp::bang_2onMousePressed(bool & e){
 	shaderRandom.setUniformTexture("Tex1", image2.getTexture(), 1);
 	shaderRandom.setUniformTexture("Tex2", image3.getTexture(), 2);
 	shaderRandom.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-	shaderRandom.setUniform2f("puzzlePieceSize", puzzlePieceWidth, puzzlePieceHeight);
 	shaderRandom.setUniform2f("puzzlePieces", xPieces, yPieces);
 	ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 	shaderRandom.end();
@@ -235,8 +234,9 @@ void ofApp::mouseReleased(ofMouseEventArgs & args){
 		fbo.begin();
 		shaderReplace.begin();
 		shaderReplace.setUniformTexture("Tex0", fboImg.getTexture(), 0);
+		shaderReplace.setUniformTexture("Tex1", image3.getTexture(), 2);
 		shaderReplace.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-		shaderReplace.setUniform2f("puzzlePieceSize", puzzlePieceWidth, puzzlePieceHeight);
+		shaderReplace.setUniform2f("puzzlePieces", xPieces, yPieces);
 		shaderReplace.setUniform2f("offsetA", a % xPieces * puzzlePieceWidth, (a / xPieces) * puzzlePieceHeight);
 		shaderReplace.setUniform2f("positionA", args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth), args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight));
 		shaderReplace.setUniform2f("offsetB", b % xPieces * puzzlePieceWidth, (b / xPieces) * puzzlePieceHeight);

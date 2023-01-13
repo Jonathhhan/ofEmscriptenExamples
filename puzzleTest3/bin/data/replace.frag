@@ -6,22 +6,24 @@ precision lowp float;
 out vec4 out_Color;
 
 uniform sampler2D Tex0;
+uniform sampler2D Tex1;
 uniform vec2 resolution;
-uniform vec2 puzzlePieceSize;
+uniform vec2 puzzlePieces;
 uniform vec2 offsetA;
 uniform vec2 positionA;
 uniform vec2 offsetB;
 uniform vec2 positionB;
 
 void main() {
-	vec4 col0 = texture(Tex0, vec2((gl_FragCoord.x + offsetA.x - positionA.x) / resolution.x, (gl_FragCoord.y + offsetA.y - positionA.y) / resolution.y));
-	bool a = gl_FragCoord.x > positionA.x && gl_FragCoord.x < positionA.x + puzzlePieceSize.x && gl_FragCoord.y > positionA.y && gl_FragCoord.y < positionA.y + puzzlePieceSize.y;
-	vec4 col1 = texture(Tex0, vec2((gl_FragCoord.x + offsetB.x - positionB.x) / resolution.x, (gl_FragCoord.y + offsetB.y - positionB.y) / resolution.y));
-	bool b = gl_FragCoord.x > positionB.x && gl_FragCoord.x < positionB.x + puzzlePieceSize.x && gl_FragCoord.y > positionB.y && gl_FragCoord.y < positionB.y + puzzlePieceSize.y;
-	if(a){
+	vec2 puzzlePieceSize = resolution / puzzlePieces;
+	vec4 col0 = texture(Tex0, vec2(mod((gl_FragCoord.x + offsetA.x - positionA.x) / resolution.x, 1.), mod((gl_FragCoord.y + offsetA.y - positionA.y) / resolution.y, 1.)));
+	vec4 col1 = texture(Tex1, vec2(mod(gl_FragCoord.x + puzzlePieceSize.x / 8. - positionA.x, resolution.x) / (puzzlePieceSize.x + puzzlePieceSize.x / 4.), mod(gl_FragCoord.y + puzzlePieceSize.y / 8. - positionA.y, resolution.y) / (puzzlePieceSize.y + puzzlePieceSize.y / 4.)));
+	vec4 col2 = texture(Tex0, vec2(mod((gl_FragCoord.x + offsetB.x - positionB.x) / resolution.x, 1.), mod((gl_FragCoord.y + offsetB.y - positionB.y) / resolution.y, 1.)));
+	vec4 col3 = texture(Tex1, vec2(mod(gl_FragCoord.x + puzzlePieceSize.x / 8. - positionB.x, resolution.x) / (puzzlePieceSize.x + puzzlePieceSize.x / 4.), mod(gl_FragCoord.y + puzzlePieceSize.y / 8. - positionB.y, resolution.y) / (puzzlePieceSize.y + puzzlePieceSize.y / 4.)));
+	if(col1.a > 0.){
 		out_Color = col0;
 	}
-	if(b){
-		out_Color = col1;
+	if(col3.a > 0.){
+		out_Color = col2;
 	}
 }
