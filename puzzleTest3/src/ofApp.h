@@ -51,6 +51,8 @@ class ofApp : public ofBaseApp{
 		ofShader shaderRandom;
 		ofShader shaderReplace;
 		ofImage image;
+		ofImage image2;
+		ofImage image3;
 		ofFbo fbo;
 		ofFbo fboImg;
 		std::vector<int> data;
@@ -70,5 +72,4 @@ class ofApp : public ofBaseApp{
 		int puzzleHeight = 600;
 		int touchX;
 		int touchY;
-		ofImage image2;
 };
