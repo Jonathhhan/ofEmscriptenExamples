@@ -13,7 +13,7 @@ uniform vec2 puzzlePieces;
 
 void main(){
 	vec2 puzzlePieceSize = resolution / puzzlePieces;
-	vec2 counter = floor(gl_FragCoord.xy / resolution * puzzlePieces);
+	vec2 counter = floor((1. - gl_FragCoord.xy / resolution) * puzzlePieces);
 	vec2 texcoord = vec2(counter.x + 0.5, 0.5) / vec2(puzzlePieces.x * puzzlePieces.y, 1.);
 	vec4 pixelData = floor(texture(Tex1, texcoord) * 256.);
 	float pixelValue = pixelData.r * 256. * 256. * 256. + pixelData.g * 256. * 256. + pixelData.b * 256. + pixelData.a;

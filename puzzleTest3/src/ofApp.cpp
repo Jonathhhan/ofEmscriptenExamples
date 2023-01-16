@@ -310,7 +310,7 @@ void ofApp::touchDown(ofTouchEventArgs & args){
 		fbo.end();
 		fboPuzzlePiece.begin();
 		shaderPuzzlePiece.begin();
-		shaderPuzzlePiece.setUniformTexture("Tex0", fboImg.getTexture(), 0);
+		shaderPuzzlePiece.setUniformTexture("Tex0", fboImg.getTexture(), 1);
 		shaderPuzzlePiece.setUniformTexture("Tex1", image3.getTexture(), 2);
 		shaderPuzzlePiece.setUniform2f("offset", data[row * xPieces + column] % xPieces * puzzlePieceWidth, (data[row * xPieces + column] / xPieces) * puzzlePieceHeight);
 		shaderPuzzlePiece.setUniform2f("resolution", puzzleWidth, puzzleHeight);
