@@ -16,10 +16,10 @@ uniform vec2 positionB;
 
 void main() {
 	vec2 puzzlePieceSize = resolution / puzzlePieces;
-	vec4 col0 = texture(Tex0, vec2(mod((gl_FragCoord.x + offsetA.x - positionA.x) / resolution.x, 1.), mod((gl_FragCoord.y + offsetA.y - positionA.y) / resolution.y, 1.)));
-	vec4 col1 = texture(Tex1, vec2(mod(gl_FragCoord.x + puzzlePieceSize.x / 8. - positionA.x, resolution.x) / (puzzlePieceSize.x + puzzlePieceSize.x / 4.), mod(gl_FragCoord.y + puzzlePieceSize.y / 8. - positionA.y, resolution.y) / (puzzlePieceSize.y + puzzlePieceSize.y / 4.)));
-	vec4 col2 = texture(Tex0, vec2(mod((gl_FragCoord.x + offsetB.x - positionB.x) / resolution.x, 1.), mod((gl_FragCoord.y + offsetB.y - positionB.y) / resolution.y, 1.)));
-	vec4 col3 = texture(Tex1, vec2(mod(gl_FragCoord.x + puzzlePieceSize.x / 8. - positionB.x, resolution.x) / (puzzlePieceSize.x + puzzlePieceSize.x / 4.), mod(gl_FragCoord.y + puzzlePieceSize.y / 8. - positionB.y, resolution.y) / (puzzlePieceSize.y + puzzlePieceSize.y / 4.)));
+	vec4 col0 = texture(Tex0, vec2(mod((gl_FragCoord.xy + offsetA - positionA) / resolution, 1.)));
+	vec4 col1 = texture(Tex1, vec2(mod(gl_FragCoord.xy + puzzlePieceSize / 8. - positionA, resolution) / (puzzlePieceSize + puzzlePieceSize / 4.)));
+	vec4 col2 = texture(Tex0, vec2(mod((gl_FragCoord.xy + offsetB - positionB) / resolution, 1.)));
+	vec4 col3 = texture(Tex1, vec2(mod(gl_FragCoord.xy + puzzlePieceSize / 8. - positionB, resolution) / (puzzlePieceSize + puzzlePieceSize / 4.)));
 	if(col1.a > 0.){
 		out_Color = col0;
 	}

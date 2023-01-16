@@ -50,11 +50,14 @@ class ofApp : public ofBaseApp{
 		class label label_6;
 		ofShader shaderRandom;
 		ofShader shaderReplace;
+		ofShader shaderEmptyPuzzlePiece;
+		ofShader shaderPuzzlePiece;
 		ofImage image;
 		ofImage image2;
 		ofImage image3;
 		ofFbo fbo;
 		ofFbo fboImg;
+		ofFbo fboPuzzlePiece;
 		std::vector<int> data;
 		bool mouseIsPressed;
 		bool play;

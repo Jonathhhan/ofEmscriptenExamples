@@ -78,6 +78,7 @@ void ofApp::setup(){
 	image.load("wald.jpg");
 	fbo.allocate(puzzleWidth, puzzleHeight, GL_RGBA);
 	fboImg.allocate(puzzleWidth, puzzleHeight, GL_RGBA);
+	fboPuzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		data.push_back(i);
 	}
@@ -90,6 +91,8 @@ void ofApp::setup(){
 	rng.seed(std::chrono::system_clock::now().time_since_epoch().count());
 	shaderRandom.load("random");
 	shaderReplace.load("replace");
+	shaderEmptyPuzzlePiece.load("emptyPuzzlePiece");
+	shaderPuzzlePiece.load("puzzlePiece");
 	image2.allocate(data.size(), 1, OF_IMAGE_COLOR_ALPHA);
 	image3.load("CPE15cm.png");
 }
@@ -118,16 +121,12 @@ void ofApp::draw(){
 	label_5.draw();
 	label_6.draw();
 	ofSetColor(255);
-	fbo.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	fbo.draw(30, 30);
 	if(mouseIsPressed){
-		ofSetColor(0);
-		ofDrawRectangle(column * puzzlePieceWidth + 30, row * puzzlePieceHeight + 30, puzzlePieceWidth, puzzlePieceHeight);
-		ofSetColor(255);
 		if(!isTouch){
-			fbo.getTexture().drawSubsection(ofGetMouseX() - puzzlePieceWidth / 2, ofGetMouseY() - puzzlePieceHeight / 2, puzzlePieceWidth, puzzlePieceHeight, column * puzzlePieceWidth, row * puzzlePieceHeight);
+			fboPuzzlePiece.draw(ofGetMouseX() - (puzzlePieceWidth + puzzlePieceWidth / 4) / 2, ofGetMouseY() - (puzzlePieceHeight + puzzlePieceHeight / 4) / 2);
 		}else{
-			fbo.getTexture().drawSubsection(touchX - puzzlePieceWidth / 2, touchY - puzzlePieceHeight / 2, puzzlePieceWidth, puzzlePieceHeight, column * puzzlePieceWidth, row * puzzlePieceHeight);
+			fboPuzzlePiece.draw(touchX - (puzzlePieceWidth + puzzlePieceWidth / 4) / 2, touchY - (puzzlePieceHeight + puzzlePieceHeight / 4) / 2);
 		}
 	}
 }
@@ -188,6 +187,7 @@ void ofApp::number_1onMousePressed(float & e){
 		data.push_back(i);
 	}
 	puzzlePieceWidth = puzzleWidth / xPieces;
+	fboPuzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
 	fbo.begin();
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo.end();
@@ -205,6 +205,7 @@ void ofApp::number_2onMousePressed(float & e){
 		data.push_back(i);
 	}
 	puzzlePieceHeight = puzzleHeight / yPieces;
+	fboPuzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
 	fbo.begin();
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo.end();
@@ -217,6 +218,25 @@ void ofApp::mousePressed(ofMouseEventArgs & args){
 		mouseIsPressed = true;
 		row = (args.y - 30) / puzzlePieceHeight;
 		column = (args.x - 30) / puzzlePieceWidth;
+		fbo.begin();
+		shaderEmptyPuzzlePiece.begin();
+		shaderEmptyPuzzlePiece.setUniformTexture("Tex0", image3.getTexture(), 0);
+		shaderEmptyPuzzlePiece.setUniform2f("position", column * puzzlePieceWidth, row * puzzlePieceHeight);
+		shaderEmptyPuzzlePiece.setUniform2f("resolution", puzzleWidth, puzzleHeight);
+		shaderEmptyPuzzlePiece.setUniform2f("puzzlePieces", xPieces, yPieces);
+		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
+		shaderEmptyPuzzlePiece.end();
+		fbo.end();
+		fboPuzzlePiece.begin();
+		shaderPuzzlePiece.begin();
+		shaderPuzzlePiece.setUniformTexture("Tex0", fboImg.getTexture(), 0);
+		shaderPuzzlePiece.setUniformTexture("Tex1", image3.getTexture(), 2);
+		shaderPuzzlePiece.setUniform2f("offset", data[row * xPieces + column] % xPieces * puzzlePieceWidth, (data[row * xPieces + column] / xPieces) * puzzlePieceHeight);
+		shaderPuzzlePiece.setUniform2f("resolution", puzzleWidth, puzzleHeight);
+		shaderPuzzlePiece.setUniform2f("puzzlePieces", xPieces, yPieces);
+		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
+		shaderPuzzlePiece.end();
+		fboPuzzlePiece.end();
 	}
 }
 
@@ -279,6 +299,25 @@ void ofApp::touchDown(ofTouchEventArgs & args){
 		touchY = args.y;
 		row = (args.y - 30) / puzzlePieceHeight;
 		column = (args.x - 30) / puzzlePieceWidth;
+		fbo.begin();
+		shaderEmptyPuzzlePiece.begin();
+		shaderEmptyPuzzlePiece.setUniformTexture("Tex0", image3.getTexture(), 0);
+		shaderEmptyPuzzlePiece.setUniform2f("position", column * puzzlePieceWidth, row * puzzlePieceHeight);
+		shaderEmptyPuzzlePiece.setUniform2f("resolution", puzzleWidth, puzzleHeight);
+		shaderEmptyPuzzlePiece.setUniform2f("puzzlePieces", xPieces, yPieces);
+		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
+		shaderEmptyPuzzlePiece.end();
+		fbo.end();
+		fboPuzzlePiece.begin();
+		shaderPuzzlePiece.begin();
+		shaderPuzzlePiece.setUniformTexture("Tex0", fboImg.getTexture(), 0);
+		shaderPuzzlePiece.setUniformTexture("Tex1", image3.getTexture(), 2);
+		shaderPuzzlePiece.setUniform2f("offset", data[row * xPieces + column] % xPieces * puzzlePieceWidth, (data[row * xPieces + column] / xPieces) * puzzlePieceHeight);
+		shaderPuzzlePiece.setUniform2f("resolution", puzzleWidth, puzzleHeight);
+		shaderPuzzlePiece.setUniform2f("puzzlePieces", xPieces, yPieces);
+		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
+		shaderPuzzlePiece.end();
+		fboPuzzlePiece.end();
 	}
 }
 
@@ -290,7 +329,7 @@ void ofApp::touchMoved(ofTouchEventArgs & args){
 
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & args){
-	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30 && mouseIsPressed && !isTouch){
+	if(args.x > 30 && args.x < puzzleWidth + 30 && args.y > 30 && args.y < puzzleHeight + 30 && mouseIsPressed){
 		int a = data[row * xPieces + column];
 		int b = data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight)) / puzzlePieceHeight * xPieces +  (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth)) / puzzlePieceWidth];
 		data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight)) / puzzlePieceHeight * xPieces +  (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth)) / puzzlePieceWidth] = a;
@@ -302,11 +341,12 @@ void ofApp::touchUp(ofTouchEventArgs & args){
 		fbo.begin();
 		shaderReplace.begin();
 		shaderReplace.setUniformTexture("Tex0", fboImg.getTexture(), 0);
+		shaderReplace.setUniformTexture("Tex1", image3.getTexture(), 2);
 		shaderReplace.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-		shaderReplace.setUniform2f("puzzlePieceSize", puzzlePieceWidth, puzzlePieceHeight);
-		shaderReplace.setUniform2f("offsetA", a % xPieces * puzzlePieceWidth, floor(a / xPieces) * puzzlePieceHeight);
+		shaderReplace.setUniform2f("puzzlePieces", xPieces, yPieces);
+		shaderReplace.setUniform2f("offsetA", a % xPieces * puzzlePieceWidth, (a / xPieces) * puzzlePieceHeight);
 		shaderReplace.setUniform2f("positionA", args.x - 30 - fmodf(args.x - 30, puzzlePieceWidth), args.y - 30 - fmodf(args.y - 30, puzzlePieceHeight));
-		shaderReplace.setUniform2f("offsetB", b % xPieces * puzzlePieceWidth, floor(b / xPieces) * puzzlePieceHeight);
+		shaderReplace.setUniform2f("offsetB", b % xPieces * puzzlePieceWidth, (b / xPieces) * puzzlePieceHeight);
 		shaderReplace.setUniform2f("positionB", column * puzzlePieceWidth, row * puzzlePieceHeight);
 		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 		shaderReplace.end();
