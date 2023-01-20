@@ -44,7 +44,7 @@ void ofApp::loadImageX() {
 	EM_ASM(FS.unlink("/data/data"));
 	data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
-		data.push_back(std::make_pair(fmodf(float(i), xPieces) / xPieces, floor(float(i)/xPieces) / yPieces));
+		data.push_back(std::make_pair(i % xPieces / xPieces, floor(i / xPieces) / yPieces));
 	}
 	play = false;
 }
@@ -80,7 +80,7 @@ void ofApp::setup(){
 	fboImg.allocate(puzzleWidth, puzzleHeight, GL_RGBA);
 	fboPuzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
 	for (int i = 0; i < xPieces * yPieces; i++) {
-		data.push_back(std::make_pair(fmodf(float(i), xPieces) / xPieces, floor(float(i)/xPieces) / yPieces));
+		data.push_back(std::make_pair(i % xPieces / xPieces, floor(i / xPieces) / yPieces));
 	}
 	fbo.begin();
 	image.draw(0, 0, puzzleWidth, puzzleHeight);
@@ -187,7 +187,7 @@ void ofApp::number_1onMousePressed(float & e){
 	xPieces = e;
 	data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
-		data.push_back(std::make_pair(fmodf(float(i), xPieces) / xPieces, floor(float(i)/xPieces) / yPieces));
+		data.push_back(std::make_pair(i % xPieces / xPieces, floor(i / xPieces) / yPieces));
 	}
 	puzzlePieceWidth = puzzleWidth / xPieces;
 	fboPuzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
@@ -205,7 +205,7 @@ void ofApp::number_2onMousePressed(float & e){
 	yPieces = e;
 	data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
-		data.push_back(std::make_pair(fmodf(float(i), xPieces) / xPieces, floor(float(i)/xPieces) / yPieces));
+		data.push_back(std::make_pair(i % xPieces / xPieces, floor(i / xPieces) / yPieces));
 	}
 	puzzlePieceHeight = puzzleHeight / yPieces;
 	fboPuzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
