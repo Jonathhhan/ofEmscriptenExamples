@@ -161,7 +161,7 @@ void ofApp::bang_2onMousePressed(bool & e){
 	label_5.symbol= "Moves: " + ofToString(moves);
 	label_6.symbol= "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
 	std::shuffle(data.begin(), data.end(), rng);
-	for (int i = 1; i < data.size(); i++) {
+	for (int i = 0; i < data.size(); i++) {
 		image2.setColor(i % xPieces, floor(i / xPieces), ofFloatColor(data[i].first, data[i].second, 1, 1));
 		// ofLog(OF_LOG_NOTICE, "the number " + ofToString(i) + " is x: " + ofToString(data[i].first * xPieces) + " is y: " + ofToString(data[i].second * yPieces));
 	}
