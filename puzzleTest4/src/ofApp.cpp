@@ -130,7 +130,7 @@ void ofApp::draw(){
 		}
 	}
 	image2.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-	image2.drawSubsection(0, 0, 200, 150, 0, 0);
+	image2.drawSubsection(0, 0, 100, 100, 0, 0);
 }
 
 //--------------------------------------------------------------
