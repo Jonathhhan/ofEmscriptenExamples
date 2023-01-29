@@ -334,8 +334,7 @@ void ofApp::touchDown(ofTouchEventArgs & args){
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & args){
-	touchX = args.x;
-	touchY = args.y;
+
 }
 
 //--------------------------------------------------------------
