@@ -42,5 +42,5 @@ void main() {
 		offset = texelFetch(texture_data, ivec2(gl_FragCoord.xy + position_offset * puzzlePieceSize), 0).rg;
 	}
 
-	out_Color = texture(texture_image, (gl_FragCoord.xy / resolution + offset - position));
+	out_Color = texture(texture_image, gl_FragCoord.xy / resolution + offset - position);
 }
