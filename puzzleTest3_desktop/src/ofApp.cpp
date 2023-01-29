@@ -15,6 +15,8 @@ void ofApp::setup() {
 	puzzlePieceHeight = puzzleHeight / yPieces;
 	puzzlePieceWidthScreen = puzzleWidthScreen / xPieces;
 	puzzlePieceHeightScreen = puzzleHeightScreen / yPieces;
+	puzzlePieceDiv = 10;
+	puzzlePieceDivHalf = puzzlePieceDiv / 2;
 	ofAddListener(bang_1.onMousePressed, this, &ofApp::bang_1onMousePressed);
 	ofAddListener(bang_2.onMousePressed, this, &ofApp::bang_2onMousePressed);
 	ofAddListener(number_1.onMousePressed, this, &ofApp::number_1onMousePressed);
@@ -51,7 +53,7 @@ void ofApp::setup() {
 	fbo_data.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
 	fbo_data.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	fbo_mask_1.allocate(puzzleWidth, puzzleHeight, GL_RGBA);
-	fbo_puzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
+	fbo_puzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf, GL_RGBA);
 	fbo_puzzlePiece.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
 	fbo_emptyPuzzlePiece.allocate(puzzleWidth, puzzleHeight, GL_RGB);
 	fbo_emptyPuzzlePiece.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
@@ -106,11 +108,11 @@ void ofApp::draw() {
 	if (mouseIsPressed) {
 		if (!isTouch) {
 			fbo_emptyPuzzlePiece.draw(30, 30, puzzleWidthScreen, puzzleHeightScreen);
-			fbo_puzzlePiece.draw(ofGetMouseX() - (puzzlePieceWidthScreen + puzzlePieceWidthScreen / 4) / 2, ofGetMouseY() - (puzzlePieceHeightScreen + puzzlePieceHeightScreen / 4) / 2, puzzlePieceWidthScreen + puzzlePieceWidthScreen / 4, puzzlePieceHeightScreen + puzzlePieceHeightScreen / 4);
+			fbo_puzzlePiece.draw(ofGetMouseX() - (puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf) / 2, ofGetMouseY() - (puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf) / 2, puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf, puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf);
 		}
 		else {
 			fbo_emptyPuzzlePiece.draw(30, 30, puzzleWidthScreen, puzzleHeightScreen);
-			fbo_puzzlePiece.draw(touchX - (puzzlePieceWidthScreen + puzzlePieceWidthScreen / 4) / 2, touchY - (puzzlePieceHeightScreen + puzzlePieceHeightScreen / 4) / 2, puzzlePieceWidthScreen + puzzlePieceWidthScreen / 4, puzzlePieceHeightScreen + puzzlePieceHeightScreen / 4);
+			fbo_puzzlePiece.draw(touchX - (puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf) / 2, touchY - (puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf) / 2, puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf, puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf);
 		}
 	}
 }
@@ -175,7 +177,6 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	int originalPositions = 0;
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		image_data.setColor(i % xPieces, i / xPieces, ofColor(vector_data[i].first * 255 / xPieces, vector_data[i].second * 255 / yPieces, 0));
-		// ofLog(OF_LOG_NOTICE) << "the number is " << float(vector_data[i].first * 255 / xPieces);
 		if (vector_data[i].first == i % xPieces && vector_data[i].second == i / xPieces) {
 			originalPositions++;
 		}
@@ -215,7 +216,7 @@ void ofApp::number_1onMousePressed(float& e) {
 	fbo_data.end();
 	puzzlePieceWidth = puzzleWidth / xPieces;
 	puzzlePieceWidthScreen = puzzleWidthScreen / xPieces;
-	fbo_puzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
+	fbo_puzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf, GL_RGBA);
 	fbo_puzzleState.begin();
 	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo_puzzleState.end();
@@ -238,7 +239,7 @@ void ofApp::number_2onMousePressed(float& e) {
 	fbo_data.end();
 	puzzlePieceHeight = puzzleHeight / yPieces;
 	puzzlePieceHeightScreen = puzzleHeightScreen / yPieces;
-	fbo_puzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4, GL_RGBA);
+	fbo_puzzlePiece.allocate(puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf, GL_RGBA);
 	fbo_puzzleState.begin();
 	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo_puzzleState.end();
@@ -251,23 +252,23 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 		row = (args.y - 30) / puzzlePieceHeightScreen;
 		column = (args.x - 30) / puzzlePieceWidthScreen;
 		fbo_puzzlePiece.begin();
-		fbo_puzzleState.getTexture().drawSubsection(0, 0, puzzleWidth + puzzleWidth / 4, puzzleHeight + puzzleHeight / 4, column * puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8);
+		fbo_puzzleState.getTexture().drawSubsection(0, 0, puzzleWidth + puzzleWidth / puzzlePieceDivHalf, puzzleHeight + puzzleHeight / puzzlePieceDivHalf, column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv);
 		fbo_puzzlePiece.end();
 		fbo_puzzlePiece.getTexture().setAlphaMask(texture_mask_2);
 		fbo_emptyPuzzlePiece.begin();
 		fbo_puzzleState.draw(0, 0);
-		texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+		texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		if (column == xPieces - 1 && xPieces > 1) {
-			texture_mask_3.draw(-puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw(-puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		else if (column == 0 && xPieces > 1) {
-			texture_mask_3.draw((xPieces)*puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw((xPieces)*puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		if (row == yPieces - 1 && yPieces > 1) {
-			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / 8, -puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, -puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		else if (row == 0 && yPieces > 1) {
-			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / 8, (yPieces)*puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, (yPieces)*puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		fbo_emptyPuzzlePiece.end();
 	}
@@ -350,23 +351,23 @@ void ofApp::touchDown(ofTouchEventArgs& args) {
 		row = (args.y - 30) / puzzlePieceHeightScreen;
 		column = (args.x - 30) / puzzlePieceWidthScreen;
 		fbo_puzzlePiece.begin();
-		fbo_puzzleState.getTexture().drawSubsection(0, 0, puzzleWidth + puzzleWidth / 4, puzzleHeight + puzzleHeight / 4, column * puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8);
+		fbo_puzzleState.getTexture().drawSubsection(0, 0, puzzleWidth + puzzleWidth / puzzlePieceDivHalf, puzzleHeight + puzzleHeight / puzzlePieceDivHalf, column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv);
 		fbo_puzzlePiece.end();
 		fbo_puzzlePiece.getTexture().setAlphaMask(texture_mask_2);
 		fbo_emptyPuzzlePiece.begin();
 		fbo_puzzleState.draw(0, 0);
-		texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+		texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		if (column == xPieces - 1 && xPieces > 1) {
-			texture_mask_3.draw(-puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw(-puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		else if (column == 0 && xPieces > 1) {
-			texture_mask_3.draw((xPieces)*puzzlePieceWidth - puzzlePieceWidth / 8, row * puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw((xPieces)*puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		if (row == yPieces - 1 && yPieces > 1) {
-			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / 8, -puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, -puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		else if (row == 0 && yPieces > 1) {
-			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / 8, (yPieces)*puzzlePieceHeight - puzzlePieceHeight / 8, puzzlePieceWidth + puzzlePieceWidth / 4, puzzlePieceHeight + puzzlePieceHeight / 4);
+			texture_mask_3.draw(column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, (yPieces)*puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv, puzzlePieceWidth + puzzlePieceWidth / puzzlePieceDivHalf, puzzlePieceHeight + puzzlePieceHeight / puzzlePieceDivHalf);
 		}
 		fbo_emptyPuzzlePiece.end();
 	}

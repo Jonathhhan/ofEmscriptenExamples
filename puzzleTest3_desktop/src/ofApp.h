@@ -79,4 +79,6 @@ public:
 	int puzzleHeightScreen;
 	float puzzlePieceWidthScreen;
 	float puzzlePieceHeightScreen;
+	float puzzlePieceDiv;
+	float puzzlePieceDivHalf;
 };
