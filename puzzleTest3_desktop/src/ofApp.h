@@ -70,8 +70,8 @@ public:
 	int moves;
 	float playTime;
 	std::default_random_engine rng;
-	int puzzleWidth;
-	int puzzleHeight;
+	float puzzleWidth;
+	float puzzleHeight;
 	int touchX;
 	int touchY;
 	float scale;
