@@ -17,6 +17,7 @@ void ofApp::setup() {
 	puzzlePieceHeightScreen = puzzleHeightScreen / yPieces;
 	puzzlePieceDiv = 10;
 	puzzlePieceDivHalf = puzzlePieceDiv / 2;
+	borderSize = 30;
 	ofAddListener(bang_1.onMousePressed, this, &ofApp::bang_1onMousePressed);
 	ofAddListener(bang_2.onMousePressed, this, &ofApp::bang_2onMousePressed);
 	ofAddListener(number_1.onMousePressed, this, &ofApp::number_1onMousePressed);
@@ -104,14 +105,14 @@ void ofApp::draw() {
 	label_7.draw();
 	ofSetColor(255);
 	fbo_data.draw(650, 660, 160, 90);
-	fbo_puzzleState.draw(30, 30, puzzleWidthScreen, puzzleHeightScreen);
+	fbo_puzzleState.draw(borderSize, borderSize, puzzleWidthScreen, puzzleHeightScreen);
 	if (mouseIsPressed) {
 		if (!isTouch) {
-			fbo_emptyPuzzlePiece.draw(30, 30, puzzleWidthScreen, puzzleHeightScreen);
+			fbo_emptyPuzzlePiece.draw(borderSize, borderSize, puzzleWidthScreen, puzzleHeightScreen);
 			fbo_puzzlePiece.draw(ofGetMouseX() - (puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf) / 2, ofGetMouseY() - (puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf) / 2, puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf, puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf);
 		}
 		else {
-			fbo_emptyPuzzlePiece.draw(30, 30, puzzleWidthScreen, puzzleHeightScreen);
+			fbo_emptyPuzzlePiece.draw(borderSize, borderSize, puzzleWidthScreen, puzzleHeightScreen);
 			fbo_puzzlePiece.draw(touchX - (puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf) / 2, touchY - (puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf) / 2, puzzlePieceWidthScreen + puzzlePieceWidthScreen / puzzlePieceDivHalf, puzzlePieceHeightScreen + puzzlePieceHeightScreen / puzzlePieceDivHalf);
 		}
 	}
@@ -247,10 +248,10 @@ void ofApp::number_2onMousePressed(float& e) {
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(ofMouseEventArgs& args) {
-	if (args.x > 30 && args.x < puzzleWidthScreen + 30 && args.y > 30 && args.y < puzzleHeightScreen + 30 && !isTouch) {
+	if (args.x > borderSize && args.x < puzzleWidthScreen + borderSize && args.y > borderSize && args.y < puzzleHeightScreen + borderSize && !isTouch) {
 		mouseIsPressed = true;
-		row = (args.y - 30) / puzzlePieceHeightScreen;
-		column = (args.x - 30) / puzzlePieceWidthScreen;
+		row = (args.y - borderSize) / puzzlePieceHeightScreen;
+		column = (args.x - borderSize) / puzzlePieceWidthScreen;
 		fbo_puzzlePiece.begin();
 		fbo_puzzleState.getTexture().drawSubsection(0, 0, puzzleWidth + puzzleWidth / puzzlePieceDivHalf, puzzleHeight + puzzleHeight / puzzlePieceDivHalf, column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv);
 		fbo_puzzlePiece.end();
@@ -277,13 +278,13 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 //--------------------------------------------------------------
 void ofApp::mouseReleased(ofMouseEventArgs& args) {
 	if (mouseIsPressed && !isTouch) {
-		if (args.x > 30 && args.x < puzzleWidthScreen + 30 && args.y > 30 && args.y < puzzleHeightScreen + 30) {
+		if (args.x > borderSize && args.x < puzzleWidthScreen + borderSize && args.y > borderSize && args.y < puzzleHeightScreen + borderSize) {
 			int a1 = vector_data[row * xPieces + column].first;
 			int a2 = vector_data[row * xPieces + column].second;
-			int b1 = vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first;
-			int b2 = vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second;
-			vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first = a1;
-			vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second = a2;
+			int b1 = vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first;
+			int b2 = vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second;
+			vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first = a1;
+			vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second = a2;
 			vector_data[row * xPieces + column].first = b1;
 			vector_data[row * xPieces + column].second = b2;
 			if (play && (a1 != b1 || a2 != b2)) {
@@ -345,11 +346,11 @@ void ofApp::mouseExited(ofMouseEventArgs& args) {
 
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs& args) {
-	if (args.x > 30 && args.x < puzzleWidthScreen + 30 && args.y > 30 && args.y < puzzleHeightScreen + 30 && !isTouch) {
+	if (args.x > borderSize && args.x < puzzleWidthScreen + borderSize && args.y > borderSize && args.y < puzzleHeightScreen + borderSize && !isTouch) {
 		isTouch = true;
 		mouseIsPressed = true;
-		row = (args.y - 30) / puzzlePieceHeightScreen;
-		column = (args.x - 30) / puzzlePieceWidthScreen;
+		row = (args.y - borderSize) / puzzlePieceHeightScreen;
+		column = (args.x - borderSize) / puzzlePieceWidthScreen;
 		fbo_puzzlePiece.begin();
 		fbo_puzzleState.getTexture().drawSubsection(0, 0, puzzleWidth + puzzleWidth / puzzlePieceDivHalf, puzzleHeight + puzzleHeight / puzzlePieceDivHalf, column * puzzlePieceWidth - puzzlePieceWidth / puzzlePieceDiv, row * puzzlePieceHeight - puzzlePieceHeight / puzzlePieceDiv);
 		fbo_puzzlePiece.end();
@@ -382,20 +383,20 @@ void ofApp::touchMoved(ofTouchEventArgs& args) {
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs& args) {
 	if (mouseIsPressed) {
-		if (args.x > 30 && args.x < puzzleWidthScreen + 30 && args.y > 30 && args.y < puzzleHeightScreen + 30) {
+		if (args.x > borderSize && args.x < puzzleWidthScreen + borderSize && args.y > borderSize && args.y < puzzleHeightScreen + borderSize) {
 			int a1 = vector_data[row * xPieces + column].first;
 			int a2 = vector_data[row * xPieces + column].second;
-			int b1 = vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first;
-			int b2 = vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second;
-			vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first = a1;
-			vector_data[(args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second = a2;
+			int b1 = vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first;
+			int b2 = vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second;
+			vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].first = a1;
+			vector_data[(args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen * xPieces + (args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen].second = a2;
 			vector_data[row * xPieces + column].first = b1;
 			vector_data[row * xPieces + column].second = b2;
 			if (play && (a1 != b1 || a2 != b2)) {
 				moves++;
 				label_5.symbol = "Moves: " + ofToString(moves);
 			}
-			image_data.setColor((args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen, (args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen, ofColor(a1 * 255 / xPieces, a2 * 255 / yPieces, 0));
+			image_data.setColor((args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen, (args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen, ofColor(a1 * 255 / xPieces, a2 * 255 / yPieces, 0));
 			image_data.setColor(column, row, ofColor(b1 * 255 / xPieces, b2 * 255 / yPieces, 0));
 			image_data.update();
 			fbo_data.begin();
@@ -411,7 +412,6 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 			shader_puzzle.end();
 			fbo_puzzleState.end();
-
 			bool win = true;
 			int originalPositions = 0;
 			for (int i = 0; i < xPieces * yPieces; i++) {

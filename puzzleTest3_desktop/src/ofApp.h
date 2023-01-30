@@ -81,4 +81,5 @@ public:
 	float puzzlePieceHeightScreen;
 	float puzzlePieceDiv;
 	float puzzlePieceDivHalf;
+	float borderSize;
 };
