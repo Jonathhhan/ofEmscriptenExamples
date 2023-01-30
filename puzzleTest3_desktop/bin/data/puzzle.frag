@@ -8,8 +8,8 @@ uniform sampler2D texture_data;
 uniform sampler2D texture_mask;
 uniform vec2 resolution;
 uniform vec2 puzzlePieces;
+uniform vec2 puzzlePieceSize;
 
-vec2 puzzlePieceSize;
 vec2 counter;
 vec4 mask;
 vec2 position_offset;
@@ -17,7 +17,6 @@ vec2 position;
 vec2 offset;
 
 void main() {
-	puzzlePieceSize = resolution / puzzlePieces;
 	counter = floor(gl_FragCoord.xy / puzzlePieceSize) / puzzlePieces;
 	mask = texture(texture_mask, (gl_FragCoord.xy / resolution - counter) * puzzlePieces);
 	
