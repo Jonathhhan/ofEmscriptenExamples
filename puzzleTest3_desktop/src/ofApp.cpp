@@ -291,7 +291,7 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 				moves++;
 				label_5.symbol = "Moves: " + ofToString(moves);
 			}
-			image_data.setColor((args.x - 30 - fmodf(args.x - 30, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen, (args.y - 30 - fmodf(args.y - 30, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen, ofColor(a1 * 255 / xPieces, a2 * 255 / yPieces, 0));
+			image_data.setColor((args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen, (args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen, ofColor(a1 * 255 / xPieces, a2 * 255 / yPieces, 0));
 			image_data.setColor(column, row, ofColor(b1 * 255 / xPieces, b2 * 255 / yPieces, 0));
 			image_data.update();
 			fbo_data.begin();
