@@ -64,7 +64,7 @@ void ofApp::setup() {
 	}
 	image_data.update();
 	fbo_data.begin();
-	image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+	image_data.draw(0, 0, pow(puzzleWidthScreen,2) / xPieces * scale, pow(puzzleHeightScreen,2) / yPieces * scale);
 	fbo_data.end();
 	fbo_puzzleState.begin();
 	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
@@ -159,7 +159,7 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			}
 			image_data.update();
 			fbo_data.begin();
-			image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+			image_data.draw(0, 0, pow(puzzleWidthScreen, 2) / xPieces * scale, pow(puzzleHeightScreen, 2) / yPieces * scale);
 			fbo_data.end();
 			play = false;
 		}
@@ -185,7 +185,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	label_7.symbol = "Original positions: " + ofToString(originalPositions);
 	image_data.update();
 	fbo_data.begin();
-	image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+	image_data.draw(0, 0, pow(puzzleWidthScreen, 2) / xPieces * scale, pow(puzzleHeightScreen, 2) / yPieces * scale);
 	fbo_data.end();
 	fbo_puzzleState.begin();
 	ofClear(0);
@@ -213,7 +213,7 @@ void ofApp::number_1onMousePressed(float& e) {
 	}
 	image_data.update();
 	fbo_data.begin();
-	image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+	image_data.draw(0, 0, pow(puzzleWidthScreen, 2) / xPieces * scale, pow(puzzleHeightScreen, 2) / yPieces * scale);
 	fbo_data.end();
 	puzzlePieceWidth = puzzleWidth / xPieces;
 	puzzlePieceWidthScreen = puzzleWidthScreen / xPieces;
@@ -236,7 +236,7 @@ void ofApp::number_2onMousePressed(float& e) {
 	}
 	image_data.update();
 	fbo_data.begin();
-	image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+	image_data.draw(0, 0, pow(puzzleWidthScreen, 2) / xPieces * scale, pow(puzzleHeightScreen, 2) / yPieces * scale);
 	fbo_data.end();
 	puzzlePieceHeight = puzzleHeight / yPieces;
 	puzzlePieceHeightScreen = puzzleHeightScreen / yPieces;
@@ -291,11 +291,11 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 				moves++;
 				label_5.symbol = "Moves: " + ofToString(moves);
 			}
-			image_data.setColor((args.x - borderSize - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen, (args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen, ofColor(a1 * 255 / xPieces, a2 * 255 / yPieces, 0));
+			image_data.setColor((args.x - 30 - fmodf(args.x - borderSize, puzzlePieceWidthScreen)) / puzzlePieceWidthScreen, (args.y - borderSize - fmodf(args.y - borderSize, puzzlePieceHeightScreen)) / puzzlePieceHeightScreen, ofColor(a1 * 255 / xPieces, a2 * 255 / yPieces, 0));
 			image_data.setColor(column, row, ofColor(b1 * 255 / xPieces, b2 * 255 / yPieces, 0));
 			image_data.update();
 			fbo_data.begin();
-			image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+			image_data.draw(0, 0, pow(puzzleWidthScreen, 2) / xPieces * scale, pow(puzzleHeightScreen, 2) / yPieces * scale);
 			fbo_data.end();
 			fbo_puzzleState.begin();
 			shader_puzzle.begin();
@@ -400,7 +400,7 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			image_data.setColor(column, row, ofColor(b1 * 255 / xPieces, b2 * 255 / yPieces, 0));
 			image_data.update();
 			fbo_data.begin();
-			image_data.draw(0, 0, (puzzleWidthScreen * puzzleWidthScreen) / xPieces * scale, (puzzleHeightScreen * puzzleHeightScreen) / yPieces * scale);
+			image_data.draw(0, 0, pow(puzzleWidthScreen, 2) / xPieces * scale, pow(puzzleHeightScreen, 2) / yPieces * scale);
 			fbo_data.end();
 			fbo_puzzleState.begin();
 			shader_puzzle.begin();
