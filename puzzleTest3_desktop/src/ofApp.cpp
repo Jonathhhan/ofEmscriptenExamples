@@ -195,6 +195,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	shader_puzzle.setUniformTexture("texture_mask", fbo_mask_1.getTexture(), 3);
 	shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
 	shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
+	shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
 	ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 	shader_puzzle.end();
 	fbo_puzzleState.end();
@@ -304,6 +305,7 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 			shader_puzzle.setUniformTexture("texture_mask", fbo_mask_1.getTexture(), 3);
 			shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
 			shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
+			shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
 			ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 			shader_puzzle.end();
 			fbo_puzzleState.end();
@@ -409,6 +411,7 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			shader_puzzle.setUniformTexture("texture_mask", fbo_mask_1.getTexture(), 3);
 			shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
 			shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
+			shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
 			ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
 			shader_puzzle.end();
 			fbo_puzzleState.end();
