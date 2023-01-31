@@ -50,6 +50,7 @@ void ofApp::setup() {
 	fbo_emptyPuzzlePiece.allocate(puzzleWidth, puzzleHeight, GL_RGB);
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		vector_data.push_back(std::make_pair(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces));
+		vector_data_original = vector_data;
 		image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 	}
 	image_data.update();
@@ -145,6 +146,7 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			vector_data.clear();
 			for (float i = 0; i < xPieces * yPieces; i++) {
 				vector_data.push_back(std::make_pair(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces));
+				vector_data_original = vector_data;
 				image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 			}
 			image_data.update();
@@ -201,6 +203,7 @@ void ofApp::number_1onMousePressed(float& e) {
 	vector_data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		vector_data.push_back(std::make_pair(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces));
+		vector_data_original = vector_data;
 		image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 	}
 	image_data.update();
@@ -224,6 +227,7 @@ void ofApp::number_2onMousePressed(float& e) {
 	vector_data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		vector_data.push_back(std::make_pair(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces));
+		vector_data_original = vector_data;
 		image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 	}
 	image_data.update();
@@ -302,7 +306,7 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 			bool win = true;
 			int originalPositions = 0;
 			for (int i = 0; i < xPieces * yPieces; i++) {
-				if (vector_data[i].first != fmodf(i, xPieces) / xPieces || vector_data[i].second != floor(i / xPieces) / yPieces) {
+				if (vector_data[i].first != vector_data_original[i].first || vector_data[i].second != vector_data_original[i].second) {
 					win = false;
 				}
 				else {
@@ -408,7 +412,7 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			bool win = true;
 			int originalPositions = 0;
 			for (int i = 0; i < xPieces * yPieces; i++) {
-				if (vector_data[i].first != fmodf(i, xPieces) / xPieces || vector_data[i].second != floor(i / xPieces) / yPieces) {
+				if (vector_data[i].first != vector_data_original[i].first || vector_data[i].second != vector_data_original[i].second) {
 					win = false;
 				}
 				else {
