@@ -153,6 +153,9 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			fbo_data.begin();
 			image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
 			fbo_data.end();
+			label_5.symbol = "Moves: " + ofToString(0);
+			label_6.symbol = "Seconds: " + ofToString(0);
+			label_7.symbol = "Original positions: " + ofToString(xPieces * yPieces);
 			play = false;
 		}
 	}
@@ -165,7 +168,6 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	moves = 0;
 	label_5.symbol = "Moves: " + ofToString(moves);
 	label_6.symbol = "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
-	label_7.symbol = "Original positions: 0";
 	std::shuffle(vector_data.begin(), vector_data.end(), rng);
 	int originalPositions = 0;
 	for (int i = 0; i < xPieces * yPieces; i++) {
@@ -198,7 +200,7 @@ void ofApp::number_1onMousePressed(float& e) {
 	play = false;
 	label_5.symbol = "Moves: " + ofToString(0);
 	label_6.symbol = "Seconds: " + ofToString(0);
-	label_7.symbol = "Original positions: 0";
+	label_7.symbol = "Original positions: " + ofToString(e * yPieces);
 	xPieces = e;
 	vector_data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
@@ -222,7 +224,7 @@ void ofApp::number_2onMousePressed(float& e) {
 	play = false;
 	label_5.symbol = "Moves: " + ofToString(0);
 	label_6.symbol = "Seconds: " + ofToString(0);
-	label_7.symbol = "Original positions: 0";
+	label_7.symbol = "Original positions: " + ofToString(xPieces * e);
 	yPieces = e;
 	vector_data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
