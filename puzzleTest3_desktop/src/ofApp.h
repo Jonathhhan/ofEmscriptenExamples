@@ -58,6 +58,7 @@ public:
 	ofFbo fbo_puzzlePiece;
 	ofFbo fbo_emptyPuzzlePiece;
 	std::vector<std::pair<float, float>> vector_data;
+	std::vector<std::pair<float, float>> vector_data_original;
 	bool mouseIsPressed;
 	bool play;
 	bool isTouch;
