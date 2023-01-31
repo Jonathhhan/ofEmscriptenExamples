@@ -196,6 +196,7 @@ void ofApp::number_1onMousePressed(float& e) {
 	play = false;
 	label_5.symbol = "Moves: " + ofToString(0);
 	label_6.symbol = "Seconds: " + ofToString(0);
+	label_7.symbol = "Original positions: " + ofToString(e * yPieces);
 	xPieces = e;
 	vector_data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
@@ -218,6 +219,7 @@ void ofApp::number_2onMousePressed(float& e) {
 	play = false;
 	label_5.symbol = "Moves: " + ofToString(0);
 	label_6.symbol = "Seconds: " + ofToString(0);
+	label_7.symbol = "Original positions: " + ofToString(xPieces * e);
 	yPieces = e;
 	vector_data.clear();
 	for (int i = 0; i < xPieces * yPieces; i++) {
