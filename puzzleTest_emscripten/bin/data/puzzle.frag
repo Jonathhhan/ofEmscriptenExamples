@@ -1,6 +1,8 @@
 #version 300 es
 // fragment shader
 
+precision lowp float;
+
 out vec4 out_Color;
 
 uniform sampler2D texture_image;
