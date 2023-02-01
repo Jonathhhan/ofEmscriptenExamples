@@ -28,7 +28,7 @@ void main() {
 	counter = floor(gl_FragCoord.xy / puzzlePieceSize) / puzzlePieces;
 	mask = texture(texture_mask, (gl_FragCoord.xy / resolution - counter) * puzzlePieces);
 	
-	if(mask.r == 1. / 255.) {
+	if (mask.r == 1. / 255.) {
 		color = get(0., 0.);
 	} else if (mask.r == 2. / 255.) {
 		color = get(-1., 0.);
