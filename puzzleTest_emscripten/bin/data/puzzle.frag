@@ -35,11 +35,9 @@ void main() {
 	} else if (mask.r == 3. / 255.) {
 		color = get(0., -1.);
 	} else if (mask.r == 4. / 255.) {
-		color = get(-1., 0.);
+		color = get(1., 0.);
 	} else if (mask.r == 5. / 255.) {
-		color = get(0., -1.);
-	} else if (mask.r == 6. / 255.) {
-		color = get(0., -1.);
+		color = get(0., 1.);
 	}
 
 	out_Color = color;
