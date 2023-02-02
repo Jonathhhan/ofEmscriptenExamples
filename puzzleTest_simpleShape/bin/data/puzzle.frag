@@ -14,7 +14,7 @@ vec2 offset;
 
 void main() {
 	position = floor(gl_FragCoord.xy / puzzlePieceSize) / puzzlePieces;
-	offset = vec2(texture(texture_data, gl_FragCoord.xy / resolution).rg);
+	offset = texture(texture_data, gl_FragCoord.xy / resolution).rg;
 
 	if (mod(gl_FragCoord.x + 2., puzzlePieceSize.x) < 4. || mod(gl_FragCoord.y + 2., puzzlePieceSize.y) < 4.) {
 		out_Color = vec4(0.);
