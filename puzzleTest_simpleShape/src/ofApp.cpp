@@ -40,39 +40,43 @@ void ofApp::setup() {
 	fbo_puzzleOriginal.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	fbo_data.allocate(puzzleWidth, puzzleHeight, GL_RGB32F);
 	fbo_puzzlePiece.allocate(puzzleWidth, puzzleHeight, GL_RGBA);
-	for (int i = 0; i < 10000; i++) {
-		vector_data.push_back(i);
-		if (i < xPieces * yPieces) {
-			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
-		}
-	}
-	image_data.update();
-	fbo_data.begin();
-	image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-	fbo_data.end();
 	fbo_puzzleState.begin();
 	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo_puzzleState.end();
 	fbo_puzzleOriginal.begin();
 	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo_puzzleOriginal.end();
-	fbo_puzzleState.begin();
-	ofClear(0);
-	shader_puzzle.begin();
-	shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-	shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-	shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-	shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-	shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-	ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-	shader_puzzle.end();
-	fbo_puzzleState.end();
+	for (int i = 0; i < 10000; i++) {
+		vector_data.push_back(i);
+		if (i < xPieces * yPieces) {
+			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
+		}
+	}
+	isPuzzleShader = true;
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	if (play) {
+	if (isPlaying) {
 		label_6.symbol = "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
+	}
+	if (isPuzzleShader) {
+		isPuzzleShader = false;
+		image_data.update();
+		fbo_data.begin();
+		image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
+		fbo_data.end();
+		fbo_puzzleState.begin();
+		ofClear(0);
+		shader_puzzle.begin();
+		shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
+		shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
+		shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
+		shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
+		shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
+		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
+		shader_puzzle.end();
+		fbo_puzzleState.end();
 	}
 }
 
@@ -138,7 +142,11 @@ void ofApp::bang_1onMousePressed(bool& e) {
 		ofFile file(result.getPath());
 		string fileExtension = ofToUpper(file.getExtension());
 		if (fileExtension == "JPG" || fileExtension == "PNG" || fileExtension == "IMG" || fileExtension == "BMP" || fileExtension == "TIF" || fileExtension == "GIF") {
+			isPlaying = false;
 			ofLoadImage(texture_puzzle, result.getPath());
+			label_5.symbol = "Moves: " + ofToString(0);
+			label_6.symbol = "Seconds: " + ofToString(0);
+			label_7.symbol = "Original positions: " + ofToString(xPieces * yPieces);
 			fbo_puzzleState.begin();
 			texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 			fbo_puzzleState.end();
@@ -149,45 +157,23 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			for (float i = 0; i < xPieces * yPieces; i++) {
 				image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 			}
-			image_data.update();
-			fbo_data.begin();
-			image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-			fbo_data.end();
-			label_5.symbol = "Moves: " + ofToString(0);
-			label_6.symbol = "Seconds: " + ofToString(0);
-			label_7.symbol = "Original positions: " + ofToString(xPieces * yPieces);
-			play = false;
-			fbo_puzzleState.begin();
-			ofClear(0);
-			shader_puzzle.begin();
-			shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-			shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-			shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-			shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-			shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-			ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-			shader_puzzle.end();
-			fbo_puzzleState.end();
+			isPuzzleShader = true;
 		}
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool& e) {
-	play = true;
+	isPlaying = true;
 	playTime = ofGetElapsedTimef();
 	moves = 0;
 	label_5.symbol = "Moves: " + ofToString(moves);
 	label_6.symbol = "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
+	label_7.symbol = "Original positions: " + ofToString(xPieces * yPieces);
 	std::shuffle(vector_data.begin(), vector_data.begin() + xPieces * yPieces, rng);
-	int originalPositions = 0;
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(vector_data[i], xPieces) / xPieces, floor(vector_data[i] / xPieces) / yPieces, 0));
-		if (vector_data[i] == i) {
-			originalPositions++;
-		}
 	}
-	label_7.symbol = "Original positions: " + ofToString(originalPositions);
 	image_data.update();
 	fbo_data.begin();
 	image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
@@ -208,62 +194,34 @@ void ofApp::bang_2onMousePressed(bool& e) {
 //--------------------------------------------------------------
 void ofApp::number_1onMousePressed(float& e) {
 	if (e != xPieces) {
-		play = false;
+		isPlaying = false;
 		label_5.symbol = "Moves: " + ofToString(0);
 		label_6.symbol = "Seconds: " + ofToString(0);
 		label_7.symbol = "Original positions: " + ofToString(e * yPieces);
 		std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
 		xPieces = e;
+		puzzlePieceWidth = puzzleWidth / xPieces;
 		for (int i = 0; i < xPieces * yPieces; i++) {
 			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 		}
-		image_data.update();
-		fbo_data.begin();
-		image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-		fbo_data.end();
-		puzzlePieceWidth = puzzleWidth / xPieces;
-		fbo_puzzleState.begin();
-		ofClear(0);
-		shader_puzzle.begin();
-		shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-		shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-		shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-		shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-		shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-		shader_puzzle.end();
-		fbo_puzzleState.end();
+		isPuzzleShader = true;
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::number_2onMousePressed(float& e) {
 	if (e != yPieces) {
-		play = false;
+		isPlaying = false;
 		label_5.symbol = "Moves: " + ofToString(0);
 		label_6.symbol = "Seconds: " + ofToString(0);
 		label_7.symbol = "Original positions: " + ofToString(xPieces * e);
 		std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
 		yPieces = e;
+		puzzlePieceHeight = puzzleHeight / yPieces;
 		for (int i = 0; i < xPieces * yPieces; i++) {
 			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 		}
-		image_data.update();
-		fbo_data.begin();
-		image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-		fbo_data.end();
-		puzzlePieceHeight = puzzleHeight / yPieces;
-		fbo_puzzleState.begin();
-		ofClear(0);
-		shader_puzzle.begin();
-		shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-		shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-		shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-		shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-		shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-		ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-		shader_puzzle.end();
-		fbo_puzzleState.end();
+		isPuzzleShader = true;
 	}
 }
 
@@ -287,26 +245,13 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 			int newPosition = vector_data[floor((args.y - borderSize) / puzzlePieceHeight) * xPieces + floor((args.x - borderSize) / puzzlePieceWidth)];
 			vector_data[floor((args.y - borderSize) / puzzlePieceHeight) * xPieces + floor((args.x - borderSize) / puzzlePieceWidth)] = oldPosition;
 			vector_data[row * xPieces + column] = newPosition;
-			if (play && (oldPosition != newPosition)) {
+			if (isPlaying && (oldPosition != newPosition)) {
 				moves++;
 				label_5.symbol = "Moves: " + ofToString(moves);
 			}
 			image_data.setColor(floor((args.x - borderSize) / puzzlePieceWidth), floor((args.y - borderSize) / puzzlePieceHeight), ofFloatColor(fmodf(oldPosition, xPieces) / xPieces, floor(oldPosition / xPieces) / yPieces, 0));
 			image_data.setColor(column, row, ofFloatColor(fmodf(newPosition, xPieces) / xPieces, floor(newPosition / xPieces) / yPieces, 0));
-			image_data.update();
-			fbo_data.begin();
-			image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-			fbo_data.end();
-			fbo_puzzleState.begin();
-			shader_puzzle.begin();
-			shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-			shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-			shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-			shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-			shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-			ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-			shader_puzzle.end();
-			fbo_puzzleState.end();
+			isPuzzleShader = true;
 			bool win = true;
 			int originalPositions = 0;
 			for (int i = 0; i < xPieces * yPieces; i++) {
@@ -317,8 +262,8 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 					originalPositions++;
 				}
 			}
-			if (win && play) {
-				play = false;
+			if (win && isPlaying) {
+				isPlaying = false;
 				playTime = floor(ofGetElapsedTimef() - playTime);
 				label_7.symbol = ofToString("You won in " + ofToString(playTime) + " seconds and with " + ofToString(moves) + " moves!");
 				moves = 0;
@@ -371,26 +316,13 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			int newPosition = vector_data[floor((args.y - borderSize) / puzzlePieceHeight) * xPieces + floor((args.x - borderSize) / puzzlePieceWidth)];
 			vector_data[floor((args.y - borderSize) / puzzlePieceHeight) * xPieces + floor((args.x - borderSize) / puzzlePieceWidth)] = oldPosition;
 			vector_data[row * xPieces + column] = newPosition;
-			if (play && (oldPosition != newPosition)) {
+			if (isPlaying && (oldPosition != newPosition)) {
 				moves++;
 				label_5.symbol = "Moves: " + ofToString(moves);
 			}
 			image_data.setColor(floor((args.x - borderSize) / puzzlePieceWidth), floor((args.y - borderSize) / puzzlePieceHeight), ofFloatColor(fmodf(oldPosition, xPieces) / xPieces, floor(oldPosition / xPieces) / yPieces, 0));
 			image_data.setColor(column, row, ofFloatColor(fmodf(newPosition, xPieces) / xPieces, floor(newPosition / xPieces) / yPieces, 0));
-			image_data.update();
-			fbo_data.begin();
-			image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-			fbo_data.end();
-			fbo_puzzleState.begin();
-			shader_puzzle.begin();
-			shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-			shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-			shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-			shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-			shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-			ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-			shader_puzzle.end();
-			fbo_puzzleState.end();
+			isPuzzleShader = true;
 			bool win = true;
 			int originalPositions = 0;
 			for (int i = 0; i < xPieces * yPieces; i++) {
@@ -401,8 +333,8 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 					originalPositions++;
 				}
 			}
-			if (win && play) {
-				play = false;
+			if (win && isPlaying) {
+				isPlaying = false;
 				playTime = floor(ofGetElapsedTimef() - playTime);
 				label_7.symbol = ofToString("You won in " + ofToString(playTime) + " seconds and with " + ofToString(moves) + " moves!");
 				moves = 0;
