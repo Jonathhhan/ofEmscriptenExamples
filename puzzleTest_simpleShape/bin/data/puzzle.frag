@@ -9,7 +9,6 @@ uniform vec2 resolution;
 uniform vec2 puzzlePieces;
 uniform vec2 puzzlePieceSize;
 
-vec2 counter;
 vec2 position;
 vec2 offset;
 
