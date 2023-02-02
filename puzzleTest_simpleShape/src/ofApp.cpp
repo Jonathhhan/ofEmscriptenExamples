@@ -46,7 +46,7 @@ void ofApp::setup() {
 	fbo_puzzleOriginal.begin();
 	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo_puzzleOriginal.end();
-	for (int i = 0; i < 10000; i++) {
+	for (int i = 0; i < 2500; i++) {
 		vector_data.push_back(i);
 		if (i < xPieces * yPieces) {
 			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
