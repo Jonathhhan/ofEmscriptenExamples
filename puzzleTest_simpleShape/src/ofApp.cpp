@@ -174,21 +174,7 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(vector_data[i], xPieces) / xPieces, floor(vector_data[i] / xPieces) / yPieces, 0));
 	}
-	image_data.update();
-	fbo_data.begin();
-	image_data.draw(0, 0, pow(puzzleWidth, 2) / xPieces, pow(puzzleHeight, 2) / yPieces);
-	fbo_data.end();
-	fbo_puzzleState.begin();
-	ofClear(0);
-	shader_puzzle.begin();
-	shader_puzzle.setUniformTexture("texture_image", fbo_puzzleOriginal.getTexture(), 1);
-	shader_puzzle.setUniformTexture("texture_data", fbo_data.getTexture(), 2);
-	shader_puzzle.setUniform2f("resolution", puzzleWidth, puzzleHeight);
-	shader_puzzle.setUniform2f("puzzlePieces", xPieces, yPieces);
-	shader_puzzle.setUniform2f("puzzlePieceSize", puzzleWidth / xPieces, puzzleHeight / yPieces);
-	ofDrawRectangle(0, 0, puzzleWidth, puzzleHeight);
-	shader_puzzle.end();
-	fbo_puzzleState.end();
+	isPuzzleShader = true;
 }
 
 //--------------------------------------------------------------
