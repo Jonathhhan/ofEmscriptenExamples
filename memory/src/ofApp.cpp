@@ -228,12 +228,14 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 					oldPosition = vector_small_data[row * xPieces + column];
 					oldRow = row;
 					oldColumn = column;
+					moves++;
 					isOpen = true;
 				}
 				else {
 					if (oldPosition == vector_small_data[row * xPieces + column] && oldRow * xPieces + oldColumn != row * xPieces + column) {
 						image_duplicates.setColor(oldColumn, oldRow, ofFloatColor(1, 1, 0, 1));
 						image_duplicates.setColor(column, row, ofFloatColor(1, 1, 0, 1));
+						moves++;
 						isOpen = false;
 					}
 					else if (image_duplicates.getColor(column, row).b == 1) {
@@ -242,10 +244,10 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 					}
 					else {
 						image_duplicates.setColor(column, row, ofFloatColor(0, 1, 1, 1));
+						moves++;
 					}
 				}
 				isPuzzleShader = true;
-				moves++;
 				label_5.symbol = "Moves: " + ofToString(moves);
 			}
 			bool win = true;
