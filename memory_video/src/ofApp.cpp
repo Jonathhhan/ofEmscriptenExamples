@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	ofSetWindowTitle("Puzzle");
+	ofSetWindowTitle("Memory");
 	ofSetBackgroundColor(240, 220, 100);
 	puzzleWidth = 800;
 	puzzleHeight = 600;
