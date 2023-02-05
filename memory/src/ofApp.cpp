@@ -113,7 +113,7 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(ofKeyEventArgs& args) {
-	shader_puzzle.load("puzzle");
+
 }
 
 //--------------------------------------------------------------
@@ -282,7 +282,7 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(ofMouseEventArgs& args) {
-	if (image_duplicates.getColor(column, row).g == 1 && image_duplicates.getColor(column, row).b == 1) {
+	if (image_duplicates.getColor(column, row).g == 1 && image_duplicates.getColor(column, row).b == 1 && !isTouch) {
 		image_duplicates.setColor(column, row, ofFloatColor(0, 0, 0, 1));
 		isPuzzleShader = true;
 	}
@@ -301,6 +301,7 @@ void ofApp::mouseExited(ofMouseEventArgs& args) {
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs& args) {
 	if (args.x > borderSize && args.x < puzzleWidth + borderSize && args.y > borderSize && args.y < puzzleHeight + borderSize && isPlaying) {
+		isTouch = true;
 		row = (args.y - borderSize) / puzzlePieceHeight;
 		column = (args.x - borderSize) / puzzlePieceWidth;
 		if (image_duplicates.getColor(column, row).g == 0) {
@@ -362,8 +363,7 @@ void ofApp::touchDown(ofTouchEventArgs& args) {
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs& args) {
-	touchX = args.x;
-	touchY = args.y;
+
 }
 
 //--------------------------------------------------------------
