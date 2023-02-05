@@ -42,7 +42,8 @@ void ofApp::loadImageX() {
 	label_6.symbol = "Seconds: 0";
 	label_7.symbol = "Pairs: 0";
 	fbo_puzzleOriginal.begin();
-			texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
+	ofClear(0);
+	texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 	fbo_puzzleOriginal.end();
 	std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
 	for (float i = 0; i < xPieces * yPieces; i++) {
