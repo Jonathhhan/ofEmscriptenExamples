@@ -76,8 +76,6 @@ public:
 	std::default_random_engine rng;
 	float puzzleWidth;
 	float puzzleHeight;
-	int touchX;
-	int touchY;
 	float borderSize;
 	int oldPosition;
 	int newPosition;
