@@ -64,7 +64,6 @@ public:
 	bool isPlaying;
 	bool isTouch;
 	bool isPuzzleShader;
-	bool isOpen;
 	float xPieces;
 	float yPieces;
 	float puzzlePieceWidth;
