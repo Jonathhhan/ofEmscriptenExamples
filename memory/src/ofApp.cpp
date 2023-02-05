@@ -144,6 +144,7 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			label_6.symbol = "Seconds: 0";
 			label_7.symbol = "Pairs: 0";
 			fbo_puzzleOriginal.begin();
+			ofClear(0);
 			texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 			fbo_puzzleOriginal.end();
 			std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
