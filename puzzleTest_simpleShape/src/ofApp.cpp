@@ -147,10 +147,8 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			label_5.symbol = "Moves: " + ofToString(0);
 			label_6.symbol = "Seconds: " + ofToString(0);
 			label_7.symbol = "Original positions: " + ofToString(xPieces * yPieces);
-			fbo_puzzleState.begin();
-			texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
-			fbo_puzzleState.end();
 			fbo_puzzleOriginal.begin();
+			ofClear(0);
 			texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 			fbo_puzzleOriginal.end();
 			std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
