@@ -54,7 +54,6 @@ void ofApp::setup() {
 		}
 	}
 	isPuzzleShader = true;
-	isOpen = false;
 }
 
 //--------------------------------------------------------------
@@ -113,7 +112,7 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(ofKeyEventArgs& args) {
-
+	shader_puzzle.load("puzzle");
 }
 
 //--------------------------------------------------------------
@@ -144,7 +143,6 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			label_6.symbol = "Seconds: 0";
 			label_7.symbol = "Pairs: 0";
 			fbo_puzzleOriginal.begin();
-			ofClear(0);
 			texture_puzzle.draw(0, 0, puzzleWidth, puzzleHeight);
 			fbo_puzzleOriginal.end();
 			std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
@@ -153,7 +151,6 @@ void ofApp::bang_1onMousePressed(bool& e) {
 			}
 			image_duplicates.setColor(ofFloatColor(1, 1, 0));
 			isPuzzleShader = true;
-			isOpen = false;
 		}
 	}
 }
@@ -177,7 +174,6 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	}
 	image_duplicates.setColor(0);
 	isPuzzleShader = true;
-	isOpen = false;
 }
 
 //--------------------------------------------------------------
@@ -195,7 +191,6 @@ void ofApp::number_1onMousePressed(float& e) {
 		}
 		image_duplicates.setColor(ofFloatColor(1, 1, 0));
 		isPuzzleShader = true;
-		isOpen = false;
 	}
 }
 
@@ -214,7 +209,6 @@ void ofApp::number_2onMousePressed(float& e) {
 		}
 		image_duplicates.setColor(ofFloatColor(1, 1, 0));
 		isPuzzleShader = true;
-		isOpen = false;
 	}
 }
 
@@ -223,66 +217,61 @@ void ofApp::mousePressed(ofMouseEventArgs& args) {
 	if (args.x > borderSize && args.x < puzzleWidth + borderSize && args.y > borderSize && args.y < puzzleHeight + borderSize && isPlaying && !isTouch) {
 		row = (args.y - borderSize) / puzzlePieceHeight;
 		column = (args.x - borderSize) / puzzlePieceWidth;
-			if (image_duplicates.getColor(column, row).g == 0) {
-				if (!isOpen) {
-					image_duplicates.setColor(column, row, ofFloatColor(0, 0, 1, 1));
-					oldPosition = vector_small_data[row * xPieces + column];
-					oldRow = row;
-					oldColumn = column;
+		if (image_duplicates.getColor(column, row).r == 0 && image_duplicates.getColor(column, row).g == 0) {
+			if (image_duplicates.getColor(oldColumn, oldRow).b == 0) {
+				image_duplicates.setColor(column, row, ofFloatColor(0, 0, 1, 1));
+				oldPosition = vector_small_data[row * xPieces + column];
+				oldRow = row;
+				oldColumn = column;
+				moves++;
+			} 
+			else if (oldPosition == vector_small_data[row * xPieces + column] && oldRow * xPieces + oldColumn != row * xPieces + column) {
+					image_duplicates.setColor(oldColumn, oldRow, ofFloatColor(1, 1, 0, 1));
+					image_duplicates.setColor(column, row, ofFloatColor(1, 1, 0, 1));
 					moves++;
-					isOpen = true;
 				}
-				else {
-					if (oldPosition == vector_small_data[row * xPieces + column] && oldRow * xPieces + oldColumn != row * xPieces + column) {
-						image_duplicates.setColor(oldColumn, oldRow, ofFloatColor(1, 1, 0, 1));
-						image_duplicates.setColor(column, row, ofFloatColor(1, 1, 0, 1));
-						moves++;
-						isOpen = false;
-					}
-					else if (image_duplicates.getColor(column, row).b == 1) {
-						image_duplicates.setColor(column, row, ofFloatColor(0, 0, 0, 1));
-						isOpen = false;
-					}
-					else {
-						image_duplicates.setColor(column, row, ofFloatColor(0, 1, 1, 1));
-						moves++;
-					}
-				}
-				isPuzzleShader = true;
-				label_5.symbol = "Moves: " + ofToString(moves);
-			}
-			bool win = true;
-			int pairs = 0;
-			for (int i = 0; i < xPieces * yPieces; i++) {
-				if (image_duplicates.getColor(fmodf(i, xPieces), floor(i / xPieces)).g == 0) {
-					win = false;
-				}
-				else {
-					pairs++;
-				}
-			}
-			if (win && isPlaying) {
-				isPlaying = false;
-				playTime = floor(ofGetElapsedTimef() - playTime);
-				label_7.symbol = ofToString("You won in " + ofToString(playTime) + " seconds and with " + ofToString(moves) + " moves!");
-				moves = 0;
-				std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
-				for (int i = 0; i < xPieces * yPieces; i++) {
-					if (i < xPieces * yPieces) {
-						image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
-					}
-				}
-				isPuzzleShader = true;
+			else if (image_duplicates.getColor(oldColumn, oldRow).b == 1 && image_duplicates.getColor(column, row).b == 0) {
+				image_duplicates.setColor(column, row, ofFloatColor(0, 1, 1, 1));
+				moves++;
 			}
 			else {
-				label_7.symbol = "Pairs: " + ofToString(pairs / 2);
+				image_duplicates.setColor(column, row, ofFloatColor(0, 0, 0, 1));
 			}
+			isPuzzleShader = true;
+			label_5.symbol = "Moves: " + ofToString(moves);
+		}
+		bool win = true;
+		int pairs = 0;
+		for (int i = 0; i < xPieces * yPieces; i++) {
+			if (image_duplicates.getColor(fmodf(i, xPieces), floor(i / xPieces)).g == 0) {
+				win = false;
+			}
+			else {
+				pairs++;
+			}
+		}
+		if (win && isPlaying) {
+			isPlaying = false;
+			playTime = floor(ofGetElapsedTimef() - playTime);
+			label_7.symbol = ofToString("You won in " + ofToString(playTime) + " seconds and with " + ofToString(moves) + " moves!");
+			moves = 0;
+			std::sort(vector_data.begin(), vector_data.begin() + xPieces * yPieces);
+			for (int i = 0; i < xPieces * yPieces; i++) {
+				if (i < xPieces * yPieces) {
+					image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
+				}
+			}
+			isPuzzleShader = true;
+		}
+		else {
+			label_7.symbol = "Pairs: " + ofToString(pairs / 2);
+		}
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(ofMouseEventArgs& args) {
-	if (image_duplicates.getColor(column, row).g == 1 && image_duplicates.getColor(column, row).b == 1 && !isTouch) {
+	if (image_duplicates.getColor(column, row).g == 1 && image_duplicates.getColor(column, row).b == 1) {
 		image_duplicates.setColor(column, row, ofFloatColor(0, 0, 0, 1));
 		isPuzzleShader = true;
 	}
@@ -301,33 +290,27 @@ void ofApp::mouseExited(ofMouseEventArgs& args) {
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs& args) {
 	if (args.x > borderSize && args.x < puzzleWidth + borderSize && args.y > borderSize && args.y < puzzleHeight + borderSize && isPlaying) {
-		isTouch = true;
 		row = (args.y - borderSize) / puzzlePieceHeight;
 		column = (args.x - borderSize) / puzzlePieceWidth;
-		if (image_duplicates.getColor(column, row).g == 0) {
-			if (!isOpen) {
+		if (image_duplicates.getColor(column, row).r == 0 && image_duplicates.getColor(column, row).g == 0) {
+			if (image_duplicates.getColor(oldColumn, oldRow).b == 0) {
 				image_duplicates.setColor(column, row, ofFloatColor(0, 0, 1, 1));
 				oldPosition = vector_small_data[row * xPieces + column];
 				oldRow = row;
 				oldColumn = column;
 				moves++;
-				isOpen = true;
-			}
-			else {
-				if (oldPosition == vector_small_data[row * xPieces + column] && oldRow * xPieces + oldColumn != row * xPieces + column) {
+			} 
+			else if (oldPosition == vector_small_data[row * xPieces + column] && oldRow * xPieces + oldColumn != row * xPieces + column) {
 					image_duplicates.setColor(oldColumn, oldRow, ofFloatColor(1, 1, 0, 1));
 					image_duplicates.setColor(column, row, ofFloatColor(1, 1, 0, 1));
 					moves++;
-					isOpen = false;
 				}
-				else if (image_duplicates.getColor(column, row).b == 1) {
-					image_duplicates.setColor(column, row, ofFloatColor(0, 0, 0, 1));
-					isOpen = false;
-				}
-				else {
-					image_duplicates.setColor(column, row, ofFloatColor(0, 1, 1, 1));
-					moves++;
-				}
+			else if (image_duplicates.getColor(oldColumn, oldRow).b == 1 && image_duplicates.getColor(column, row).b == 0) {
+				image_duplicates.setColor(column, row, ofFloatColor(0, 1, 1, 1));
+				moves++;
+			}
+			else {
+				image_duplicates.setColor(column, row, ofFloatColor(0, 0, 0, 1));
 			}
 			isPuzzleShader = true;
 			label_5.symbol = "Moves: " + ofToString(moves);
@@ -363,7 +346,8 @@ void ofApp::touchDown(ofTouchEventArgs& args) {
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs& args) {
-
+	touchX = args.x;
+	touchY = args.y;
 }
 
 //--------------------------------------------------------------
