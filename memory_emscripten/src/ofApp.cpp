@@ -53,7 +53,6 @@ void ofApp::loadImageX() {
 	isPuzzleShader = true;
 }
 
-
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofSetWindowTitle("Memory");
