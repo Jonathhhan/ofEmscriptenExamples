@@ -306,6 +306,8 @@ void ofApp::touchDown(ofTouchEventArgs& args) {
 	if (args.x > borderSize && args.x < puzzleWidth + borderSize && args.y > borderSize && args.y < puzzleHeight + borderSize) {
 		mouseIsPressed = true;
 		isTouch = true;
+		touchX = args.x;
+		touchY = args.y;
 		row = (args.y - borderSize) / puzzlePieceHeight;
 		column = (args.x - borderSize) / puzzlePieceWidth;
 		fbo_puzzlePiece.begin();
