@@ -233,6 +233,15 @@ void ofApp::number_2onMousePressed(float& e) {
 		for (int i = 0; i < xPieces * yPieces; i++) {
 			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
 		}
+		bool win = true;
+		int originalPositions = 0;
+		for (int i = 0; i < xPieces * yPieces; i++) {
+			if (vector_data[i] != i) {
+				win = false;
+			} else {
+				originalPositions++;
+			}
+		}
 		isPuzzleShader = true;
 	}
 }
@@ -283,9 +292,6 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 			else {
 				label_7.symbol = "Original positions: " + ofToString(originalPositions);
 			}
-			mouseIsPressed = false;
-		}
-		else {
 			mouseIsPressed = false;
 		}
 	}
@@ -356,9 +362,6 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			else {
 				label_7.symbol = "Original positions: " + ofToString(originalPositions);
 			}
-			mouseIsPressed = false;
-		}
-		else {
 			mouseIsPressed = false;
 		}
 	}
