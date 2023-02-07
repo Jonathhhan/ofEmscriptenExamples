@@ -8,14 +8,6 @@ void ofApp::setup() {
 	ofSetBackgroundColor(200);
 	width = 800;
 	height = 600;
-	number_gridNumX.value = 10;
-	number_gridNumY.value = 10;
-	fboCells.allocate(number_gridNumX.value, number_gridNumY.value, GL_RGBA);
-	fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-	fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-	fboCellsCopy.allocate(number_gridNumX.value, number_gridNumY.value, GL_RGBA);
-	fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-	fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	fboLines.allocate(width, height);
 	shaderGameOfLife.load("GameOfLife");
 	shaderRaster.load("Raster");
