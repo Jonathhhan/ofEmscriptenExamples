@@ -244,15 +244,15 @@ void ofApp::update() {
 		groupOfLivingCells[8].value,
 		groupOfDeadCells[8].value,
 		};
-		fboCellsCopy.begin();
-		ofClear(0);
 		shaderGameOfLife.begin();
 		shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
 		shaderGameOfLife.setUniform2f("resolution", fboCells.getWidth(), fboCells.getHeight());
 		shaderGameOfLife.setUniform2fv("cells", cells, 18);
+		fboCellsCopy.begin();
+		ofClear(0);
 		ofDrawRectangle(0, 0, fboCells.getWidth(), fboCells.getHeight());
-		shaderGameOfLife.end();
 		fboCellsCopy.end();
+		shaderGameOfLife.end();
 		std::swap(fboCells, fboCellsCopy);
 		bang_iterate.value = false;
 	}
