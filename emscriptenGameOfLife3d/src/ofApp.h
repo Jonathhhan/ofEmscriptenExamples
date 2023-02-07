@@ -3,61 +3,53 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofEvents.h"
 #include "bang.h"
 #include "toggle.h"
 #include "number.h"
 #include "hRadio.h"
 #include "label.h"
 
-#include "ofxVolumetrics.h"
+constexpr auto NCELLS = 9;
+constexpr auto NLABELS = 12;
 
-constexpr auto NCELLS = 27;
+class ofApp : public ofBaseApp {
 
-class ofApp : public ofBaseApp{
-	
-	public:
-		
-		void setup();
-		void update();
-		void draw();
-		
-		void mousePressed(ofMouseEventArgs & args);
-		
-		int pattern;
-		float now;
-		float width;
-		float height;
-		int oldGridNumX;
-		int oldGridNumY;
-		int oldGridNumZ;
-		
-		vector<ofFbo> fboArray;
-		ofXml xml;
-		ofShader shaderGameOfLife;
-		ofShader shaderGameOfLifeSlice;
-		ofShader shaderRaster;
-		ofFbo fboCells;
-		ofFbo fboCellsCopy;
-		ofxVolumetrics texture3d;
-		ofxVolumetrics texture3dCopy;
-		ofFbo fboLines; 
-		ofPixels pixels;
-		ofEasyCam easyCam;
-		
-		class bang bang_copy;
-		class bang bang_paste;
-		class bang bang_save;
-		class bang bang_reset;
-		class bang bang_iterate;
-		class bang bang_update;
-		class toggle toggle_grid;
-		class toggle toggle_sequence;
-		toggle groupOfLivingCells[NCELLS];
-		toggle groupOfDeadCells[NCELLS];
-		label groupOfLabels[14];
-		class number number_gridNumX;
-		class number number_gridNumY;
-		class number number_gridNumZ;
-		class number number_interval;
-		class hRadio hRadio_pattern;
+public:
+
+	void setup();
+	void update();
+	void draw();
+
+	void mousePressed(ofMouseEventArgs& args);
+
+	float now;
+	float width;
+	float height;
+	int oldGridNumX;
+	int oldGridNumY;
+	long long counter;
+
+	ofXml xml;
+	ofShader shaderGameOfLife;
+	ofShader shaderRaster;
+	ofFbo fboCells;
+	ofFbo fboCellsCopy;
+	ofFbo fboLines;
+	ofPixels pixels;
+
+	bang bang_copy;
+	bang bang_paste;
+	bang bang_save;
+	bang bang_reset;
+	bang bang_iterate;
+	toggle toggle_grid;
+	toggle toggle_sequence;
+	toggle groupOfLivingCells[NCELLS];
+	toggle groupOfDeadCells[NCELLS];
+	label groupOfLabels[NLABELS];
+	number number_gridNumX;
+	number number_gridNumY;
+	number number_interval;
+	hRadio hRadio_pattern;
 };

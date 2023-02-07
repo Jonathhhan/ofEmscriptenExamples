@@ -1,13 +1,13 @@
-#ifndef _NUMBER
-#define _NUMBER
+#ifndef _HSLIDER
+#define _HSLIDER
 
 #include "ofMain.h"
 
-class number {
+class hSlider {
 
     public:
-    number();
-    ~number();
+    hSlider();
+    ~hSlider();
 
     void setup(float xpos, float ypos, float width, float height, float minVal, float maxVal);
     void update();
@@ -27,9 +27,6 @@ class number {
     void touchUp(ofTouchEventArgs & args);
     void touchDoubleTap(ofTouchEventArgs & args);
     void touchCancelled(ofTouchEventArgs & args);
-    
-    void keyPressed(ofKeyEventArgs & args);
-    void keyReleased(ofKeyEventArgs & args);
         
     float xpos;
     float ypos;
@@ -38,18 +35,9 @@ class number {
     float minVal;
     float maxVal;
     float value;
+    float slider;
     bool mouseState;
     bool isTouch;
-    
-    bool decimalPlace;
-float multiply;
-float key;
-float previewValue;
-bool preview;
-float count;
-float now;
-float previousMouseY;
-
     ofEvent<float> onMousePressed;
     
     protected:

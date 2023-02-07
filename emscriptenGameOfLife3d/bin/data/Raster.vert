@@ -12,4 +12,3 @@ void main()
 	texCoordVarying = texcoord;
 	gl_Position = modelViewProjectionMatrix * position;
 }
-
