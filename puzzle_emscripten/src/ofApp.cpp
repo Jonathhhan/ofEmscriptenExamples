@@ -88,6 +88,7 @@ void ofApp::setup() {
 	image_data.allocate(puzzleWidth, puzzleHeight, OF_IMAGE_COLOR);
 	image_data.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
 	fbo_puzzleState.allocate(puzzleWidth, puzzleHeight, GL_RGB);
+	fbo_puzzleState.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
 	fbo_puzzleState.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	fbo_puzzleOriginal.allocate(puzzleWidth, puzzleHeight, GL_RGB);
 	fbo_puzzleOriginal.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
