@@ -3,15 +3,15 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	auto data = xml.appendChild("data");
 	xml.load("points.xml");
 	gridNumX = 10;
 	gridNumY = 10;
-        ofSetWindowTitle("Game of Life");
-        ofSetBackgroundColor(200);
-        width = 800;
-        height = 600;
+	ofSetWindowTitle("Game of Life");
+	ofSetBackgroundColor(200);
+	width = 800;
+	height = 600;
 	fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
 	fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
 	fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
@@ -109,8 +109,8 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-	if (now < ofGetElapsedTimeMillis() && sequence == true){
+void ofApp::update() {
+	if (now < ofGetElapsedTimeMillis() && sequence == true) {
 		now = ofGetElapsedTimeMillis() + interval;
 		bool update = true;
 		bang_5onMousePressed(update);
@@ -118,7 +118,7 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	ofSetColor(240, 220, 100);
 	ofDrawRectangle(20, 20, width, height);
 	ofSetColor(20, 170, 150);
@@ -126,7 +126,7 @@ void ofApp::draw(){
 	fboCells.draw(20, 20, width, height);
 	if (raster) {
 		fboLines.draw(20, 20);
-		}
+	}
 	bang_1.draw();
 	bang_2.draw();
 	bang_3.draw();
@@ -172,338 +172,339 @@ void ofApp::draw(){
 
 
 //--------------------------------------------------------------
-void ofApp::keyPressed  (ofKeyEventArgs & args){
+void ofApp::keyPressed(ofKeyEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased  (ofKeyEventArgs & args){
+void ofApp::keyReleased(ofKeyEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(ofMouseEventArgs & args){
+void ofApp::mouseMoved(ofMouseEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(ofMouseEventArgs & args){
+void ofApp::mouseDragged(ofMouseEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_1onMousePressed(bool & e){
+void ofApp::toggle_1onMousePressed(bool& e) {
 	sequence = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::toggle_2onMousePressed(bool & e){
+void ofApp::toggle_2onMousePressed(bool& e) {
 	raster = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_1onMousePressed(bool & e){
+void ofApp::livingCell_1onMousePressed(bool& e) {
 	cellArray[0] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_2onMousePressed(bool & e){
+void ofApp::livingCell_2onMousePressed(bool& e) {
 	cellArray[2] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_3onMousePressed(bool & e){
+void ofApp::livingCell_3onMousePressed(bool& e) {
 	cellArray[4] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_4onMousePressed(bool & e){
+void ofApp::livingCell_4onMousePressed(bool& e) {
 	cellArray[6] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_5onMousePressed(bool & e){
+void ofApp::livingCell_5onMousePressed(bool& e) {
 	cellArray[8] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_6onMousePressed(bool & e){
+void ofApp::livingCell_6onMousePressed(bool& e) {
 	cellArray[10] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_7onMousePressed(bool & e){
+void ofApp::livingCell_7onMousePressed(bool& e) {
 	cellArray[12] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_8onMousePressed(bool & e){
+void ofApp::livingCell_8onMousePressed(bool& e) {
 	cellArray[14] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::livingCell_9onMousePressed(bool & e){
+void ofApp::livingCell_9onMousePressed(bool& e) {
 	cellArray[16] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_1onMousePressed(bool & e){
+void ofApp::deadCell_1onMousePressed(bool& e) {
 	cellArray[1] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_2onMousePressed(bool & e){
+void ofApp::deadCell_2onMousePressed(bool& e) {
 	cellArray[3] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_3onMousePressed(bool & e){
+void ofApp::deadCell_3onMousePressed(bool& e) {
 	cellArray[5] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_4onMousePressed(bool & e){
+void ofApp::deadCell_4onMousePressed(bool& e) {
 	cellArray[7] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_5onMousePressed(bool & e){
+void ofApp::deadCell_5onMousePressed(bool& e) {
 	cellArray[9] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_6onMousePressed(bool & e){
+void ofApp::deadCell_6onMousePressed(bool& e) {
 	cellArray[11] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_7onMousePressed(bool & e){
+void ofApp::deadCell_7onMousePressed(bool& e) {
 	cellArray[13] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_8onMousePressed(bool & e){
+void ofApp::deadCell_8onMousePressed(bool& e) {
 	cellArray[15] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::deadCell_9onMousePressed(bool & e){
+void ofApp::deadCell_9onMousePressed(bool& e) {
 	cellArray[17] = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_1onMousePressed(bool & e){
-fboCells.readToPixels(pixels);
-auto data = xml.getChild("data");
-counter = 3;
-data.removeChild("copy");
-auto copy = data.appendChild("copy");
-copy.appendChild("a1").set(gridNumX);
-copy.appendChild("a2").set(gridNumY);
-for (x = 0; x < gridNumX; x++) {
-for (y = 0; y < gridNumY; y++) {
-	if (pixels.getColor(x, y).a == 255) {
-	copy.appendChild("a" + ofToString(counter)).set(gridNumY * x + y - 1);
-		counter = counter + 1;
+void ofApp::bang_1onMousePressed(bool& e) {
+	fboCells.readToPixels(pixels);
+	auto data = xml.getChild("data");
+	counter = 3;
+	data.removeChild("copy");
+	auto copy = data.appendChild("copy");
+	copy.appendChild("a1").set(gridNumX);
+	copy.appendChild("a2").set(gridNumY);
+	for (x = 0; x < gridNumX; x++) {
+		for (y = 0; y < gridNumY; y++) {
+			if (pixels.getColor(x, y).a == 255) {
+				copy.appendChild("a" + ofToString(counter)).set(gridNumY * x + y - 1);
+				counter = counter + 1;
+			}
 		}
-	}
 	}
 	copy.appendChild("a0").set(counter);
-xml.save("points.xml");
+	xml.save("points.xml");
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_2onMousePressed(bool & e){
-auto data = xml.getChild("data");
-auto copy = data.getChild("copy");
-gridNumX = copy.getChild("a1").getIntValue();
-gridNumY = copy.getChild("a2").getIntValue();
-number_1.value = gridNumX;
-number_2.value = gridNumY;
+void ofApp::bang_2onMousePressed(bool& e) {
+	auto data = xml.getChild("data");
+	auto copy = data.getChild("copy");
+	gridNumX = copy.getChild("a1").getIntValue();
+	gridNumY = copy.getChild("a2").getIntValue();
+	number_1.value = gridNumX;
+	number_2.value = gridNumY;
 
-if (gridNumX != oldGridNumX || gridNumY != oldGridNumY){
-fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-shaderRaster.begin();
-shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
-shaderRaster.setUniform2f("resolution", width, height);
-shaderRaster.setUniform1f("gridNumX", gridNumX);
-shaderRaster.setUniform1f("gridNumY", gridNumY);
-fboLines.begin();
-ofClear(0);
-ofDrawRectangle(0, 0, width, height);
-fboLines.end();
-shaderRaster.end();
-oldGridNumX = gridNumX;
-oldGridNumY = gridNumY;
-}
+	if (gridNumX != oldGridNumX || gridNumY != oldGridNumY) {
+		fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
+		fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+		fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+		fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
+		fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+		fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+		shaderRaster.begin();
+		shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
+		shaderRaster.setUniform2f("resolution", width, height);
+		shaderRaster.setUniform1f("gridNumX", gridNumX);
+		shaderRaster.setUniform1f("gridNumY", gridNumY);
+		fboLines.begin();
+		ofClear(0);
+		ofDrawRectangle(0, 0, width, height);
+		fboLines.end();
+		shaderRaster.end();
+		oldGridNumX = gridNumX;
+		oldGridNumY = gridNumY;
+	}
 
-fboCells.begin();
-ofClear(0);
-ofSetColor(0, 0, 0, 255);
-for(int i = 3; i < copy.getChild("a0").getIntValue(); i++){
-x = copy.getChild("a" + ofToString(i)).getIntValue() / gridNumY + 1;
-y = int(copy.getChild("a" + ofToString(i)).getIntValue()) % gridNumY + 1;
-ofDrawRectangle(x * 1 - 1, y * 1 , 1, 1);
-}
-fboCells.end();	
+	fboCells.begin();
+	ofClear(0);
+	ofSetColor(0, 0, 0, 255);
+	for (int i = 3; i < copy.getChild("a0").getIntValue(); i++) {
+		x = copy.getChild("a" + ofToString(i)).getIntValue() / gridNumY + 1;
+		y = int(copy.getChild("a" + ofToString(i)).getIntValue()) % gridNumY + 1;
+		ofDrawRectangle(x * 1 - 1, y * 1, 1, 1);
+	}
+	fboCells.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_3onMousePressed(bool & e){
-fboCells.readToPixels(pixels);
-auto data = xml.getChild("data");
-counter = 3;
-data.removeChild("pattern" + ofToString(pattern));
-auto pattern2 = data.appendChild("pattern" + ofToString(pattern));
-pattern2.appendChild("a1").set(gridNumX);
-pattern2.appendChild("a2").set(gridNumY);
-for (x = 0; x < gridNumX; x++) {
-for (y = 0; y < gridNumY; y++) {
-	if (pixels.getColor(x, y).a == 255) {
-	pattern2.appendChild("a" + ofToString(counter)).set(gridNumY * x + y - 1);
-		counter = counter + 1;
+void ofApp::bang_3onMousePressed(bool& e) {
+	fboCells.readToPixels(pixels);
+	auto data = xml.getChild("data");
+	counter = 3;
+	data.removeChild("pattern" + ofToString(pattern));
+	auto pattern2 = data.appendChild("pattern" + ofToString(pattern));
+	pattern2.appendChild("a1").set(gridNumX);
+	pattern2.appendChild("a2").set(gridNumY);
+	for (x = 0; x < gridNumX; x++) {
+		for (y = 0; y < gridNumY; y++) {
+			if (pixels.getColor(x, y).a == 255) {
+				pattern2.appendChild("a" + ofToString(counter)).set(gridNumY * x + y - 1);
+				counter = counter + 1;
+			}
 		}
 	}
-	}
 	pattern2.appendChild("a0").set(counter);
-xml.save("points.xml");
+	xml.save("points.xml");
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_4onMousePressed(bool & e){
-fboCells.begin();
-ofClear(0);
-fboCells.end();
+void ofApp::bang_4onMousePressed(bool& e) {
+	fboCells.begin();
+	ofClear(0);
+	fboCells.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::bang_5onMousePressed(bool & e){
-fboCellsCopy.begin();
-ofClear(0);
-shaderGameOfLife.begin();
-shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
-shaderGameOfLife.setUniform2f("resolution", gridNumX, gridNumY);
-shaderGameOfLife.setUniform2fv("cells", cellArray, 18);
-ofDrawRectangle(0, 0, gridNumX, gridNumY);
-shaderGameOfLife.end();
-fboCellsCopy.end();
-std::swap(fboCells, fboCellsCopy);
+void ofApp::bang_5onMousePressed(bool& e) {
+	fboCellsCopy.begin();
+	ofClear(0);
+	shaderGameOfLife.begin();
+	shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
+	shaderGameOfLife.setUniform2f("resolution", gridNumX, gridNumY);
+	shaderGameOfLife.setUniform2fv("cells", cellArray, 18);
+	ofDrawRectangle(0, 0, gridNumX, gridNumY);
+	shaderGameOfLife.end();
+	fboCellsCopy.end();
+	std::swap(fboCells, fboCellsCopy);
 }
 
 //--------------------------------------------------------------
-void ofApp::number_1onMousePressed(float & e){
-gridNumX = e;
-oldGridNumX = gridNumX;
-fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-shaderRaster.begin();
-shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
-shaderRaster.setUniform2f("resolution", width, height);
-shaderRaster.setUniform1f("gridNumX", gridNumX);
-shaderRaster.setUniform1f("gridNumY", gridNumY);
-fboLines.begin();
-ofClear(0);
-ofDrawRectangle(0, 0, width, height);
-fboLines.end();
-shaderRaster.end();
-fboCells.begin();
-ofClear(0);
-fboCells.end();
+void ofApp::number_1onMousePressed(float& e) {
+	gridNumX = e;
+	oldGridNumX = gridNumX;
+	fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
+	fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+	fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
+	fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+	fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	shaderRaster.begin();
+	shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
+	shaderRaster.setUniform2f("resolution", width, height);
+	shaderRaster.setUniform1f("gridNumX", gridNumX);
+	shaderRaster.setUniform1f("gridNumY", gridNumY);
+	fboLines.begin();
+	ofClear(0);
+	ofDrawRectangle(0, 0, width, height);
+	fboLines.end();
+	shaderRaster.end();
+	fboCells.begin();
+	ofClear(0);
+	fboCells.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::number_2onMousePressed(float & e){
-gridNumY = e;
-oldGridNumY = gridNumY;
-fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-shaderRaster.begin();
-shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
-shaderRaster.setUniform2f("resolution", width, height);
-shaderRaster.setUniform1f("gridNumX", gridNumX);
-shaderRaster.setUniform1f("gridNumY", gridNumY);
-fboLines.begin();
-ofClear(0);
-ofDrawRectangle(0, 0, width, height);
-fboLines.end();
-shaderRaster.end();
-fboCells.begin();
-ofClear(0);
-fboCells.end();
+void ofApp::number_2onMousePressed(float& e) {
+	gridNumY = e;
+	oldGridNumY = gridNumY;
+	fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
+	fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+	fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
+	fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+	fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	shaderRaster.begin();
+	shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
+	shaderRaster.setUniform2f("resolution", width, height);
+	shaderRaster.setUniform1f("gridNumX", gridNumX);
+	shaderRaster.setUniform1f("gridNumY", gridNumY);
+	fboLines.begin();
+	ofClear(0);
+	ofDrawRectangle(0, 0, width, height);
+	fboLines.end();
+	shaderRaster.end();
+	fboCells.begin();
+	ofClear(0);
+	fboCells.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::number_3onMousePressed(float & e){
-interval = e;
+void ofApp::number_3onMousePressed(float& e) {
+	interval = e;
 }
 
 //--------------------------------------------------------------
-void ofApp::hRadio_1onMousePressed(float & e){
-pattern = e;
-auto data = xml.getChild("data");
-auto pattern2 = data.getChild("pattern" + ofToString(pattern));
-if (pattern2.getChild("a1").getIntValue() > 0 && pattern2.getChild("a2").getIntValue() > 2){
-gridNumX = pattern2.getChild("a1").getIntValue();
-gridNumY = pattern2.getChild("a2").getIntValue();
-number_1.value = gridNumX;
-number_2.value = gridNumY;
-}
-if (gridNumX != oldGridNumX || gridNumY != oldGridNumY){
-fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
-fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
-fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-shaderRaster.begin();
-shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
-shaderRaster.setUniform2f("resolution", width, height);
-shaderRaster.setUniform1f("gridNumX", gridNumX);
-shaderRaster.setUniform1f("gridNumY", gridNumY);
-fboLines.begin();
-ofClear(0);
-ofDrawRectangle(0, 0, width, height);
-fboLines.end();
-shaderRaster.end();
-oldGridNumX = gridNumX;
-oldGridNumY = gridNumY;
-}
-fboCells.begin();
-ofClear(0);
-ofSetColor(0, 0, 0, 255);
-for(int i = 3; i < pattern2.getChild("a0").getIntValue(); i++){
-x = pattern2.getChild("a" + ofToString(i)).getIntValue() / gridNumY + 1;
-y = int(pattern2.getChild("a" + ofToString(i)).getIntValue()) % gridNumY + 1;
-ofDrawRectangle(x * 1 - 1, y * 1 , 1, 1);
-}
-fboCells.end();	
+void ofApp::hRadio_1onMousePressed(float& e) {
+	pattern = e;
+	auto data = xml.getChild("data");
+	auto pattern2 = data.getChild("pattern" + ofToString(pattern));
+	if (pattern2.getChild("a1").getIntValue() > 0 && pattern2.getChild("a2").getIntValue() > 2) {
+		gridNumX = pattern2.getChild("a1").getIntValue();
+		gridNumY = pattern2.getChild("a2").getIntValue();
+		number_1.value = gridNumX;
+		number_2.value = gridNumY;
+	}
+	if (gridNumX != oldGridNumX || gridNumY != oldGridNumY) {
+		fboCells.allocate(gridNumX, gridNumY, GL_RGBA);
+		fboCells.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+		fboCells.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+		fboCellsCopy.allocate(gridNumX, gridNumY, GL_RGBA);
+		fboCellsCopy.getTexture().setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
+		fboCellsCopy.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+		shaderRaster.begin();
+		shaderRaster.setUniformTexture("Tex0", fboLines.getTexture(), 0);
+		shaderRaster.setUniform2f("resolution", width, height);
+		shaderRaster.setUniform1f("gridNumX", gridNumX);
+		shaderRaster.setUniform1f("gridNumY", gridNumY);
+		fboLines.begin();
+		ofClear(0);
+		ofDrawRectangle(0, 0, width, height);
+		fboLines.end();
+		shaderRaster.end();
+		oldGridNumX = gridNumX;
+		oldGridNumY = gridNumY;
+	}
+	fboCells.begin();
+	ofClear(0);
+	ofSetColor(0, 0, 0, 255);
+	for (int i = 3; i < pattern2.getChild("a0").getIntValue(); i++) {
+		x = pattern2.getChild("a" + ofToString(i)).getIntValue() / gridNumY + 1;
+		y = int(pattern2.getChild("a" + ofToString(i)).getIntValue()) % gridNumY + 1;
+		ofDrawRectangle(x * 1 - 1, y * 1, 1, 1);
+	}
+	fboCells.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(ofMouseEventArgs & args){
+void ofApp::mousePressed(ofMouseEventArgs& args) {
 	if (args.x > 20 && args.x < width + 20 && args.y > 20 && args.y < height + 20) {
 		fboCells.readToPixels(pixels);
 		int x = (args.x - 20) / (width / gridNumX);
 		int y = (args.y - 20) / (height / gridNumY);
 		fboCells.begin();
 		ofDisableAlphaBlending();
-		if (pixels.getColor(x, y).a == 255){
+		if (pixels.getColor(x, y).a == 255) {
 			ofSetColor(255, 255, 255, 0);
 			ofDrawRectangle(x, y, 1, 1);
-		} else {
+		}
+		else {
 			ofSetColor(0, 0, 0, 255);
 			ofDrawRectangle(x, y, 1, 1);
 		}
@@ -512,46 +513,46 @@ void ofApp::mousePressed(ofMouseEventArgs & args){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(ofMouseEventArgs & args){
+void ofApp::mouseReleased(ofMouseEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(ofMouseEventArgs & args){
+void ofApp::mouseEntered(ofMouseEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(ofMouseEventArgs & args){
+void ofApp::mouseExited(ofMouseEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::touchDown(ofTouchEventArgs & args){
+void ofApp::touchDown(ofTouchEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::touchMoved(ofTouchEventArgs & args){
+void ofApp::touchMoved(ofTouchEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::touchUp(ofTouchEventArgs & args){
+void ofApp::touchUp(ofTouchEventArgs& args) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::gotMessage(ofMessage msg) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 }
