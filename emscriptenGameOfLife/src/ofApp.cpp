@@ -103,9 +103,9 @@ void ofApp::setup(){
 	label_10.setup(655, 740, 120, 30, "Interval");
 	label_11.setup(655, 780, 120, 30, "Iterate");
 	label_12.setup(655, 820, 120, 30, "Sequence");
-	cellArray[0][2] = 1;
-	cellArray[0][3] = 1;
-	cellArray[1][3] = 1;
+	cellArray[4] = 1;
+	cellArray[6] = 1;
+	cellArray[7] = 1;
 }
 
 //--------------------------------------------------------------
@@ -203,92 +203,92 @@ void ofApp::toggle_2onMousePressed(bool & e){
 
 //--------------------------------------------------------------
 void ofApp::livingCell_1onMousePressed(bool & e){
-	cellArray[0][0] = e;
+	cellArray[0] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_2onMousePressed(bool & e){
-	cellArray[0][1] = e;
+	cellArray[2] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_3onMousePressed(bool & e){
-	cellArray[0][2] = e;
+	cellArray[4] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_4onMousePressed(bool & e){
-	cellArray[0][3] = e;
+	cellArray[6] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_5onMousePressed(bool & e){
-	cellArray[0][4] = e;
+	cellArray[8] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_6onMousePressed(bool & e){
-	cellArray[0][5] = e;
+	cellArray[10] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_7onMousePressed(bool & e){
-	cellArray[0][6] = e;
+	cellArray[12] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_8onMousePressed(bool & e){
-	cellArray[0][7] = e;
+	cellArray[14] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::livingCell_9onMousePressed(bool & e){
-	cellArray[0][8] = e;
+	cellArray[16] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_1onMousePressed(bool & e){
-	cellArray[1][0] = e;
+	cellArray[1] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_2onMousePressed(bool & e){
-	cellArray[1][1] = e;
+	cellArray[3] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_3onMousePressed(bool & e){
-	cellArray[1][2] = e;
+	cellArray[5] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_4onMousePressed(bool & e){
-	cellArray[1][3] = e;
+	cellArray[7] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_5onMousePressed(bool & e){
-	cellArray[1][4] = e;
+	cellArray[9] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_6onMousePressed(bool & e){
-	cellArray[1][5] = e;
+	cellArray[11] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_7onMousePressed(bool & e){
-	cellArray[1][6] = e;
+	cellArray[13] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_8onMousePressed(bool & e){
-	cellArray[1][7] = e;
+	cellArray[15] = e;
 }
 
 //--------------------------------------------------------------
 void ofApp::deadCell_9onMousePressed(bool & e){
-	cellArray[1][8] = e;
+	cellArray[17] = e;
 }
 
 //--------------------------------------------------------------
@@ -388,24 +388,7 @@ ofClear(0);
 shaderGameOfLife.begin();
 shaderGameOfLife.setUniformTexture("Tex0", fboCells.getTexture(), 0);
 shaderGameOfLife.setUniform2f("resolution", gridNumX, gridNumY);
-shaderGameOfLife.setUniform1f("lCell_0", cellArray[0][0]);
-shaderGameOfLife.setUniform1f("lCell_1", cellArray[0][1]);
-shaderGameOfLife.setUniform1f("lCell_2", cellArray[0][2]);
-shaderGameOfLife.setUniform1f("lCell_3", cellArray[0][3]);
-shaderGameOfLife.setUniform1f("lCell_4", cellArray[0][4]);
-shaderGameOfLife.setUniform1f("lCell_5", cellArray[0][5]);
-shaderGameOfLife.setUniform1f("lCell_6", cellArray[0][6]);
-shaderGameOfLife.setUniform1f("lCell_7", cellArray[0][7]);
-shaderGameOfLife.setUniform1f("lCell_8", cellArray[0][8]);
-shaderGameOfLife.setUniform1f("dCell_0", cellArray[1][0]);
-shaderGameOfLife.setUniform1f("dCell_1", cellArray[1][1]);
-shaderGameOfLife.setUniform1f("dCell_2", cellArray[1][2]);
-shaderGameOfLife.setUniform1f("dCell_3", cellArray[1][3]);
-shaderGameOfLife.setUniform1f("dCell_4", cellArray[1][4]);
-shaderGameOfLife.setUniform1f("dCell_5", cellArray[1][5]);
-shaderGameOfLife.setUniform1f("dCell_6", cellArray[1][6]);
-shaderGameOfLife.setUniform1f("dCell_7", cellArray[1][7]);
-shaderGameOfLife.setUniform1f("dCell_8", cellArray[1][8]);
+shaderGameOfLife.setUniform2fv("cells", cellArray, 18);
 ofDrawRectangle(0, 0, gridNumX, gridNumY);
 shaderGameOfLife.end();
 fboCellsCopy.end();
