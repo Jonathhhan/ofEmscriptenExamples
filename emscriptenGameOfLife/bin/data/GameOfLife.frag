@@ -9,6 +9,8 @@ uniform sampler2D Tex0;
 uniform vec2 resolution;
 uniform vec2 cells[18];
 
+vec4 color;
+
 int get(int x, int y) {
 	return int(texture(Tex0, (gl_FragCoord.xy + vec2(x, y)) / resolution).a);
 }
@@ -25,9 +27,9 @@ void main() {
 	get( 1,  1);
 	vec2 r = cells[sum];
 	if (get(0, 0) == 1) {
-		out_Color = vec4(0., 0., 0., r.x);
+		color = vec4(0., 0., 0., r.x);
+	} else {
+		color = vec4(0., 0., 0., r.y);
 	}
-		else  {
-			out_Color = vec4(0., 0., 0., r.y);
-		}
+	out_Color = color;
 }
