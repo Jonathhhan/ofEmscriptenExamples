@@ -197,6 +197,13 @@ void ofApp::bang_2onMousePressed(bool& e) {
 	label_6.symbol = "Seconds: " + ofToString(floor(ofGetElapsedTimef() - playTime));
 	label_7.symbol = "Original positions: " + ofToString(xPieces * yPieces);
 	std::shuffle(vector_data.begin(), vector_data.begin() + xPieces * yPieces, rng);
+	int originalPositions = 0;
+	for (int i = 0; i < xPieces * yPieces; i++) {
+		if (vector_data[i] == i) {
+			originalPositions++;
+		}
+	}
+	label_7.symbol = "Original positions: " + ofToString(originalPositions);
 	for (int i = 0; i < xPieces * yPieces; i++) {
 		image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(vector_data[i], xPieces) / xPieces, floor(vector_data[i] / xPieces) / yPieces, 0));
 	}
@@ -232,15 +239,6 @@ void ofApp::number_2onMousePressed(float& e) {
 		puzzlePieceHeight = puzzleHeight / yPieces;
 		for (int i = 0; i < xPieces * yPieces; i++) {
 			image_data.setColor(fmodf(i, xPieces), i / xPieces, ofFloatColor(fmodf(i, xPieces) / xPieces, floor(i / xPieces) / yPieces, 0));
-		}
-		bool win = true;
-		int originalPositions = 0;
-		for (int i = 0; i < xPieces * yPieces; i++) {
-			if (vector_data[i] != i) {
-				win = false;
-			} else {
-				originalPositions++;
-			}
 		}
 		isPuzzleShader = true;
 	}
