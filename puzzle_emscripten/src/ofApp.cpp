@@ -291,8 +291,8 @@ void ofApp::mouseReleased(ofMouseEventArgs& args) {
 			else {
 				label_7.symbol = "Original positions: " + ofToString(originalPositions);
 			}
-			mouseIsPressed = false;
-		}
+		} 
+		mouseIsPressed = false;
 	}
 }
 
@@ -361,8 +361,8 @@ void ofApp::touchUp(ofTouchEventArgs& args) {
 			else {
 				label_7.symbol = "Original positions: " + ofToString(originalPositions);
 			}
-			mouseIsPressed = false;
-		}
+		} 
+		mouseIsPressed = false;
 	}
 }
 
