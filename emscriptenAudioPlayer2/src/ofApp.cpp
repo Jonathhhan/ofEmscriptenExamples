@@ -23,11 +23,6 @@ void audioInRight(const emscripten::val & audioIn) {
 	emscripten::val memoryView{emscripten::typed_memory_view(l, rv.data())};        
 	memoryView.call<void>("set", audioIn);  
 	audioInRightEvent.notify(rv); 
-} 
-
-EMSCRIPTEN_BINDINGS(Module) {
-	emscripten::function("audioInLeft", & audioInLeft);
-	emscripten::function("audioInRight", & audioInRight);
 }
 
 void ofApp::audioChangedLeft(std::vector<float> & rv) {
@@ -130,6 +125,8 @@ void ofApp::setup() {
 	ofAddListener(bang_2.onMousePressed, this, & ofApp::bang_2onMousePressed);
 	ofAddListener(audioInLeftEvent, this, & ofApp::audioChangedLeft);
 	ofAddListener(audioInRightEvent, this, & ofApp::audioChangedRight);
+	emscripten::function("audioInLeft", & audioInLeft);
+	emscripten::function("audioInRight", & audioInRight);
 	label_1.setup(20, 20, 300, 20, "Audio Player");
 	label_2.setup(120, 60, 200, 20, "Load Audio");
 	label_3.setup(120, 100, 200, 20, "Play");
