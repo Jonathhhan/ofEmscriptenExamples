@@ -91,18 +91,20 @@ void ofApp::bang_1onMousePressed(bool & e){
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool & e){
-	EM_ASM(
+	int found = EM_ASM_INT(
 	var found = false;
 	for (const file of FS.readdir("/data/pd/")) {
-		if ("recording.wav" == file) {
+		if ("audio-recording.wav" == file) {
 			found = true;
         	}        
 	}
 	if (found) {
-		var content = FS.readFile("/data/pd/recording.wav");
-		FS.unlink("/data/pd/recording.wav");
+		var content = FS.readFile("/data/pd/audio-recording.wav");
+		FS.unlink("/data/pd/audio-recording.wav");
+		var today = new Date();
+		var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
 		var a = document.createElement('a');
-		a.download = "recording.wav";
+		a.download = "audio-recording-" + time + ".wav";
 		console.log(content);
 		var blob = new Blob([content], {type: "audio/wav"});
 		a.href = URL.createObjectURL(blob);
@@ -111,6 +113,9 @@ void ofApp::bang_2onMousePressed(bool & e){
 		document.body.removeChild(a);
 		URL.revokeObjectURL(a.href);
 	});
+	if (!found) {
+		std::cout << "Please record an audio file first!" << std::endl;
+	}
 }
 
 //--------------------------------------------------------------
@@ -142,13 +147,8 @@ void ofApp::setup() {
 	hSlider_1.slider = 0.75;
 	hSlider_2.setup(20, 260, 80, 20, 1, 125);
 	hSlider_2.slider = 0.8;
-	hSlider_3.setup(20, 300, 80, 20, 0, 1);
-	hSlider_3.slider = 0.5;
-	
-	//ofSetLogLevel("Pd", OF_LOG_VERBOSE); // see verbose info inside
-
-	// double check where we are ...
-	cout << ofFilePath::getCurrentWorkingDirectory() << endl;
+	hSlider_3.setup(20, 300, 80, 20, 0, 100);
+	hSlider_3.slider = 0.8;
 
 	// the number of libpd ticks per buffer,
 	// used to compute the audio buffer len: tpb * blocksize (always 64)
@@ -184,7 +184,7 @@ void ofApp::setup() {
 	pd.sendFloat(patch.dollarZeroStr() + "-play", true);
 	pd.sendFloat(patch.dollarZeroStr() + "-tempo", 1);
 	pd.sendFloat(patch.dollarZeroStr() + "-lowpass", 100);
-	pd.sendFloat(patch.dollarZeroStr() + "-volume", 0.75);
+	pd.sendFloat(patch.dollarZeroStr() + "-volume", 80);
 }
 
 //--------------------------------------------------------------
