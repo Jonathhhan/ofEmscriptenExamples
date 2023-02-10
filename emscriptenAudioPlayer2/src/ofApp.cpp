@@ -147,18 +147,9 @@ void ofApp::setup() {
 	hSlider_3.setup(20, 300, 80, 20, 0, 100);
 	hSlider_3.slider = 0.8;
 
-	// the number of libpd ticks per buffer,
-	// used to compute the audio buffer len: tpb * blocksize (always 64)
-	#ifdef TARGET_LINUX_ARM
-		// longer latency for Raspberry PI
-		int ticksPerBuffer = 32; // 32 * 64 = buffer len of 2048
-		int numInputs = 0; // no built in mic
-	#else
-		int ticksPerBuffer = 16; // 8 * 64 = buffer len of 512
-		int numInputs = 0;
-	#endif
+	int ticksPerBuffer = 16;
+	int numInputs = 0;
 
-	// setup OF sound stream
 	ofSoundStreamSettings settings;
 	settings.numInputChannels = 0;
 	settings.numOutputChannels = 2;
@@ -172,9 +163,8 @@ void ofApp::setup() {
 		OF_EXIT_APP(1);
 	}
 
-	// subscribe to receive source names
 	pd.subscribe("toOF");
-	pd.addReceiver(*this); // automatically receives from all subscribed sources
+	pd.addReceiver(*this);
 	pd.start();
 	patch = pd.openPatch("pd/test.pd");
 	
