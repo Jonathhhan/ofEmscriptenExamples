@@ -124,6 +124,7 @@ void ofApp::setup() {
 	ofAddListener(audioInRightEvent, this, & ofApp::audioChangedRight);
 	emscripten::function("audioInLeft", & audioInLeft);
 	emscripten::function("audioInRight", & audioInRight);
+	
 	label_1.setup(20, 20, 300, 20, "Audio Player");
 	label_2.setup(120, 60, 200, 20, "Load Audio");
 	label_3.setup(120, 100, 200, 20, "Play");
@@ -143,6 +144,7 @@ void ofApp::setup() {
 	hSlider_2.slider = 0.8;
 	hSlider_3.setup(20, 300, 80, 20, 0, 100);
 	hSlider_3.slider = 0.8;
+	
 	int ticksPerBuffer = 16;
 	int numInputs = 0;
 	ofSoundStreamSettings settings;
