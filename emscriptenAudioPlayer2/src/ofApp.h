@@ -9,7 +9,6 @@
 #include "bang.h"
 #include "toggle.h"
 #include "label.h"
-#include "emscripten.h"
 
 // a namespace for the Pd types
 using namespace pd;
