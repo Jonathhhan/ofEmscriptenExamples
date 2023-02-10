@@ -107,6 +107,7 @@ void ofApp::bang_2onMousePressed(bool & e){
 		a.click();
 		document.body.removeChild(a);
 		URL.revokeObjectURL(a.href);
+		return found;
 	});
 	if (!found) {
 		std::cout << "Please record an audio file first!" << std::endl;
