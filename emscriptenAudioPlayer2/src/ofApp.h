@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxPd.h"
+#include "emscripten.h"
+#include "emscripten/bind.h"
 
 #include "hSlider.h"
 #include "bang.h"
