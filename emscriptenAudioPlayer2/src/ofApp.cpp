@@ -1,8 +1,4 @@
 #include "ofApp.h"
-#include "emscripten.h"
-#include "emscripten/bind.h"
-
-using namespace emscripten;
 
 ofEvent<std::vector<float>> audioInLeftEvent; 
 ofEvent<std::vector<float>> audioInRightEvent; 	
@@ -147,10 +143,8 @@ void ofApp::setup() {
 	hSlider_2.slider = 0.8;
 	hSlider_3.setup(20, 300, 80, 20, 0, 100);
 	hSlider_3.slider = 0.8;
-
 	int ticksPerBuffer = 16;
 	int numInputs = 0;
-
 	ofSoundStreamSettings settings;
 	settings.numInputChannels = 0;
 	settings.numOutputChannels = 2;
@@ -159,16 +153,13 @@ void ofApp::setup() {
 	settings.setInListener(this);
 	settings.setOutListener(this);
 	ofSoundStreamSetup(settings);
-
 	if(!pd.init(2, numInputs, 44100, ticksPerBuffer, false)) {
 		OF_EXIT_APP(1);
 	}
-
 	pd.subscribe("toOF");
 	pd.addReceiver(*this);
 	pd.start();
 	patch = pd.openPatch("pd/test.pd");
-	
 	pd.sendFloat(patch.dollarZeroStr() + "-play", true);
 	pd.sendFloat(patch.dollarZeroStr() + "-tempo", 1);
 	pd.sendFloat(patch.dollarZeroStr() + "-lowpass", 100);
