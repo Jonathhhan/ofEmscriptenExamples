@@ -65,7 +65,7 @@ void ofApp::hSlider_3onMousePressed(float & e){
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e){
 	EM_ASM({
-	var offlineCtx = new OfflineAudioContext(2,44100,44100);
+	var offlineCtx = new OfflineAudioContext(2, 1, 44100);
 	var input = document.createElement('input');
 	input.type = 'file';
 	input.click();
