@@ -60,51 +60,52 @@ void ofApp::hSlider_3onMousePressed(float & e){
 
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e){
-	EM_ASM({
-	var offlineCtx = new OfflineAudioContext(2, 1, 44100);
-	var input = document.createElement('input');
-	input.type = 'file';
-	input.click();
-	input.onchange = function(e) { 
-		var file = e.target.files[0]; 
-		var reader = new FileReader();
-		reader.readAsArrayBuffer(file);
-		reader.onload = function() {
-			var arrayBuffer = reader.result;
-			offlineCtx.decodeAudioData(arrayBuffer, (buffer) => {
-			Module.audioInLeft(buffer.getChannelData(0));
-			Module.audioInRight(buffer.getChannelData(1));			
-			});
+	EM_ASM(
+		var offlineCtx = new OfflineAudioContext(2, 1, 44100);
+		var input = document.createElement('input');
+		input.type = 'file';
+		input.click();
+		input.onchange = function(e) { 
+			var file = e.target.files[0]; 
+			var reader = new FileReader();
+			reader.readAsArrayBuffer(file);
+			reader.onload = function() {
+				var arrayBuffer = reader.result;
+				offlineCtx.decodeAudioData(arrayBuffer, (buffer) => {
+					Module.audioInLeft(buffer.getChannelData(0));
+					Module.audioInRight(buffer.getChannelData(1));			
+				});
+			}
 		}
-	}
-	});
+	);
 }
 
 //--------------------------------------------------------------
 void ofApp::bang_2onMousePressed(bool & e){
 	int found = EM_ASM_INT(
-	var found = false;
-	for (const file of FS.readdir("/data/pd/")) {
-		if ("audio-recording.wav" == file) {
-			found = true;
-        	}        
-	}
-	if (found) {
-		var content = FS.readFile("/data/pd/audio-recording.wav");
-		FS.unlink("/data/pd/audio-recording.wav");
-		var today = new Date();
-		var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
-		var a = document.createElement('a');
-		a.download = "audio-recording-" + time + ".wav";
-		console.log(content);
-		var blob = new Blob([content], {type: "audio/wav"});
-		a.href = URL.createObjectURL(blob);
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		URL.revokeObjectURL(a.href);
-		return found;
-	});
+		var found = false;
+		for (const file of FS.readdir("/data/pd/")) {
+			if ("audio-recording.wav" == file) {
+				found = true;
+        		}        
+		}
+		if (found) {
+			var content = FS.readFile("/data/pd/audio-recording.wav");
+			FS.unlink("/data/pd/audio-recording.wav");
+			var today = new Date();
+			var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
+			var a = document.createElement('a');
+			a.download = "audio-recording-" + time + ".wav";
+			console.log(content);
+			var blob = new Blob([content], {type: "audio/wav"});
+			a.href = URL.createObjectURL(blob);
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(a.href);
+			return found;
+		}
+	);
 	if (!found) {
 		std::cout << "Please record an audio file first!" << std::endl;
 	}
