@@ -61,7 +61,7 @@ void ofApp::hSlider_3onMousePressed(float & e){
 //--------------------------------------------------------------
 void ofApp::bang_1onMousePressed(bool & e){
 	EM_ASM(
-		var offlineCtx = new OfflineAudioContext(2, 1, 44100);
+		var offlineCtx = new OfflineAudioContext(2, 1, AUDIO.context.sampleRate);
 		var input = document.createElement('input');
 		input.type = 'file';
 		input.click();
@@ -150,12 +150,12 @@ void ofApp::setup() {
 	ofSoundStreamSettings settings;
 	settings.numInputChannels = 0;
 	settings.numOutputChannels = 2;
-	settings.sampleRate = EM_ASM_INT(AUDIO.context.sampleRate.value);
+	settings.sampleRate = ofSoundStream().getSampleRate();
 	settings.bufferSize = ofxPd::blockSize() * ticksPerBuffer;
 	settings.setInListener(this);
 	settings.setOutListener(this);
 	ofSoundStreamSetup(settings);
-	if(!pd.init(2, numInputs, 44100, ticksPerBuffer, false)) {
+	if(!pd.init(2, numInputs, settings.sampleRate, ticksPerBuffer, false)) {
 		OF_EXIT_APP(1);
 	}
 	pd.subscribe("toOF");
