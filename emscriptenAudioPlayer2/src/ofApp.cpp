@@ -96,7 +96,6 @@ void ofApp::bang_2onMousePressed(bool & e){
 			var time = today.getFullYear() + "_" + (today.getMonth() + 1 ) + "_" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
 			var a = document.createElement('a');
 			a.download = "audio-recording-" + time + ".wav";
-			console.log(content);
 			var blob = new Blob([content], {type: "audio/wav"});
 			a.href = URL.createObjectURL(blob);
 			document.body.appendChild(a);
