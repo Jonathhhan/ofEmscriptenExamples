@@ -150,7 +150,7 @@ void ofApp::setup() {
 	ofSoundStreamSettings settings;
 	settings.numInputChannels = 0;
 	settings.numOutputChannels = 2;
-	settings.sampleRate = 44100;
+	settings.sampleRate = EM_ASM_INT(AUDIO.context.sampleRate.value);
 	settings.bufferSize = ofxPd::blockSize() * ticksPerBuffer;
 	settings.setInListener(this);
 	settings.setOutListener(this);
