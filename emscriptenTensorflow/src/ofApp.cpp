@@ -94,8 +94,6 @@ void ofApp::loadImageX() {
 	ofLoadImage(texture, "data");
 	EM_ASM(FS.unlink("/data/data"));
 	
-	ofFbo fbo;
-	ofPixels pixels;
 	fbo.allocate(texture.getWidth(), texture.getHeight(), GL_RGBA);
 	fbo.begin();
 	texture.draw(0, 0);
