@@ -32,8 +32,8 @@ var LibraryHTML5Video = {
 	            	srcPixels = imageData.data;
 	            	if (video.pixelFormat=="RGBA"){
 		            	array.set(imageData.data);
-	            	}else if(video.pixelFormat=="RGB" ){
-				detector.estimateFaces(video).then(faces => {
+	            	}else if(video.pixelFormat=="RGB" && typeof detector != 'undefined'){
+				detector.estimateFaces(video, {flipHorizontal: false}).then(faces => {
 					console.log(faces);
 					context.strokeStyle = "green";
   					faces.forEach((face) => {
@@ -467,6 +467,8 @@ var LibraryHTML5Video = {
     	    // background color if no video present
     	    videoImageContext.fillStyle = '#000000';
     	    videoImageContext.fillRect( 0, 0, w, h );
+    	    videoImageContext.translate(w, 0);
+    	    videoImageContext.scale(-1, 1);
 
     	    VIDEO.grabbersContexts[id] = videoImageContext;
 
@@ -479,7 +481,7 @@ var LibraryHTML5Video = {
 	    			video: {
 		    		    mandatory: {
 		    		        maxWidth: w,
-		    		        maxHeight: h
+		    		        maxHeight: h,
 		    		    }
 	    		    }
     			};
