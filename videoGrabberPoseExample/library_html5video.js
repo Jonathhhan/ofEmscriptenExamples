@@ -35,7 +35,7 @@ var LibraryHTML5Video = {
 	            	}else if(video.pixelFormat=="RGB" && typeof detector != 'undefined'){
 	            		detector.estimatePoses(
 				video,
-				{maxPoses: 17, flipHorizontal: false}).then(pose => {
+				{maxPoses: 1, flipHorizontal: false}).then(pose => {
 					context.strokeStyle = "green";
 					if (typeof pose[0] != 'undefined') {
 						var keypoints = pose[0].keypoints;
