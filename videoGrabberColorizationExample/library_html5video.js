@@ -239,7 +239,7 @@ var LibraryHTML5Video = {
     },
     
     html5video_grabber_create: function(){
-	edges2pikachu = pix2pix('data/colorize_AtoB.pict', true);
+	edges2pikachu = pix2pix('colorize_AtoB.pict', true);
 	
         var video = document.createElement('video');
         video.autoplay=true;
