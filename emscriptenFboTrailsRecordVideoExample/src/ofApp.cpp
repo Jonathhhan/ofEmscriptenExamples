@@ -131,7 +131,7 @@ void ofApp::draw(){
 	toggle_1.draw();
 	toggle_2.draw();
 	if (isDrawingTexture) {
-		EM_ASM({drawTexture($0, $1)}, rgbaFbo.getWidth(), rgbaFbo.getHeight());
+		EM_ASM(drawTexture($0, $1), rgbaFbo.getWidth(), rgbaFbo.getHeight());
 	}
 }
 
