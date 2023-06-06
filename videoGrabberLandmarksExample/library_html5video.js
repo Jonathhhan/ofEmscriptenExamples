@@ -28,13 +28,13 @@ var LibraryHTML5Video = {
         	if((updatePixels || video.pixelFormat!="RGBA") && video.width!=0 && video.height!=0 && dstPixels!=0){
         		try {
 	            	context.drawImage( video, 0, 0, video.width, video.height );
-	            	imageData = context.getImageData(0,0,video.width,video.height);
-	            	srcPixels = imageData.data;
+	            	// imageData = context.getImageData(0,0,video.width,video.height);
+	            	// srcPixels = imageData.data;
 	            	if (video.pixelFormat=="RGBA"){
 		            	array.set(imageData.data);
 	            	}else if(video.pixelFormat=="RGB" && typeof detector != 'undefined'){
 				detector.estimateFaces(video, {flipHorizontal: false}).then(faces => {
-					console.log(faces);
+					// console.log(faces);
 					context.strokeStyle = "green";
   					faces.forEach((face) => {
             					const keypoints = face.keypoints.map((keypoint) => [keypoint.x, keypoint.y]);
@@ -58,7 +58,6 @@ var LibraryHTML5Video = {
 		            			array[i++] = imageData2.data[j++];
 		            			++j;
 		            		}
-	            			var imageData2 = context.getImageData(0,0,video.width,video.height);	
 					GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[video.textureId]);
                 			GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGB, video.width, video.height, 0, GLctx.RGB, GLctx.UNSIGNED_BYTE, imageData2);
                 			GLctx.bindTexture(GLctx.TEXTURE_2D, null);
