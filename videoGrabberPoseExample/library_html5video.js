@@ -104,7 +104,6 @@ var LibraryHTML5Video = {
 		            			array[i++] = imageData2.data[j++];
 		            			++j;
 		            		}
-	            			var imageData2 = context.getImageData(0,0,video.width,video.height);	
 					GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[video.textureId]);
                 			GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGB, video.width, video.height, 0, GLctx.RGB, GLctx.UNSIGNED_BYTE, imageData2);
                 			GLctx.bindTexture(GLctx.TEXTURE_2D, null);
