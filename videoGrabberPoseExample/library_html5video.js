@@ -301,10 +301,7 @@ var LibraryHTML5Video = {
     },
     
     html5video_grabber_create: function(){
-    console.log(poseDetection.SupportedModels);
 	const model = poseDetection.SupportedModels.MoveNet;
-	console.log(model);
-	tf.setBackend('webgl');
 	const detectorConfig = {
 		runtime: 'tfjs',
 	}
