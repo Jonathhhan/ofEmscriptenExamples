@@ -131,7 +131,7 @@ void ofApp::draw(){
 	toggle_1.draw();
 	toggle_2.draw();
 	if (isDrawingTexture) {
-		EM_ASM({drawTexture($0, $1, $2)}, rgbaFbo.getTexture().getTextureData().textureID, rgbaFbo.getWidth(), rgbaFbo.getHeight());
+		EM_ASM({drawTexture($0, $1)}, rgbaFbo.getWidth(), rgbaFbo.getHeight());
 	}
 }
 
@@ -205,6 +205,6 @@ void ofApp::toggle_2_event(bool & e) {
 		} else {
 			isDrawingTexture = false;
 		}	
-		EM_ASM(recordVideo($0, true), e);
+		EM_ASM(recordVideo($0, true, $1), e, rgbaFbo.getTexture().getTextureData().textureID);
 	}
 }
