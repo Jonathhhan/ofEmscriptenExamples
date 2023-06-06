@@ -193,7 +193,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //--------------------------------------------------------------
 void ofApp::toggle_1_event(bool & e) { 
 	if (rgbaFbo.getTexture().isAllocated()) {	
-		EM_ASM(recordVideo($0, false), e);
+		EM_ASM(recordVideo($0), e);
 	}
 }
 
@@ -205,6 +205,6 @@ void ofApp::toggle_2_event(bool & e) {
 		} else {
 			isDrawingTexture = false;
 		}	
-		EM_ASM(recordVideo($0, true, $1), e, rgbaFbo.getTexture().getTextureData().textureID);
+		EM_ASM(recordVideo($0, $1), e, rgbaFbo.getTexture().getTextureData().textureID);
 	}
 }
