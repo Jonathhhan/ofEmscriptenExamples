@@ -74,6 +74,7 @@ async function computing_animate_latent_space(model, draw_multiplier, animate_fr
         });
 
         await tf.browser.toPixels(y, c);
+        tf.dispose(y);
 	GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[textureID]);
 	GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, c);
 	GLctx.bindTexture(GLctx.TEXTURE_2D, null);
@@ -89,6 +90,7 @@ async function computing_generate_main(model, size, draw_multiplier, latent_dim,
     });
     let c = canvas2;
     await tf.browser.toPixels(y, c);
+        tf.dispose(y);
 	GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[textureID]);
 	GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, c);
 	GLctx.bindTexture(GLctx.TEXTURE_2D, null);
