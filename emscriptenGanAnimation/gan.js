@@ -74,7 +74,7 @@ async function computing_animate_latent_space(model, draw_multiplier, animate_fr
     // while (i < animate_frame) {
     while (animate_frame) { // For generating endless animations.
         i++;
-        if (animationSpeed != oldAnimationSpeed) {
+        if (animationSpeed != oldAnimationSpeed) { // For changing the animation speed.
             freq = tf.randomNormal(inputShape, 0, Math.pow(animationSpeed, 2)).expandDims(0);
             oldAnimationSpeed = animationSpeed;
         }
