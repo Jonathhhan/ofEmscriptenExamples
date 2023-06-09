@@ -1,18 +1,14 @@
 #pragma once
 
 #include "ofMain.h"
+#include "hSlider.h"
+
 #include "emscripten.h"
 #include "emscripten/bind.h"
-
-// This openFrameworks example is designed to demonstrate how to access the
-// webcam.
-//
-// For more information regarding this example take a look at the README.md.
 
 class ofApp : public ofBaseApp{
 
 	public:
-
 		void setup();
 		void update();
 		void draw();
@@ -28,6 +24,8 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
+		void slider_onMousePressed(float & e);
+		
 		ofTexture tex;
+		hSlider slider;
 };
