@@ -1,11 +1,17 @@
-// Code ported from Yingtao Tian: https://github.com/alantian/ganshowcase
-
 // --------------------------------------------------------------------------------------------------------
 // Configuration
 // --------------------------------------------------------------------------------------------------------
 
 computing_generate_main_space__deps = ['$GL'];
 computing_animate_latent_space__deps = ['$GL'];
+
+var canvas2;
+var animationSpeed = 0.3;
+var oldAnimationSpeed;
+
+function animationValue(speed) {
+    animationSpeed = speed;
+}
 
 let all_model_info = {
     dcgan64: {
@@ -62,14 +68,18 @@ function image_enlarge(y, draw_multiplier) {
 async function computing_animate_latent_space(model, draw_multiplier, animate_frame, textureID) {
     const inputShape = model.inputs[0].shape.slice(1);
     const shift = tf.randomNormal(inputShape).expandDims(0);
-    const freq = tf.randomNormal(inputShape, 0, .1).expandDims(0);
-
+    var freq;
     let c = canvas2;
     let i = 0;
     // while (i < animate_frame) {
-    while (animate_frame) {
+    while (animate_frame) { // for generating endless animations...
         i++;
+        if (animationSpeed != oldAnimationSpeed) {
+            freq = tf.randomNormal(inputShape, 0, Math.pow(animationSpeed, 2)).expandDims(0);
+            oldAnimationSpeed = animationSpeed;
+        }
         const y = tf.tidy(() => {
+
             const z = tf.sin(tf.scalar(i).mul(freq).add(shift));
             const y = model.predict(z).squeeze().transpose([1, 2, 0]).div(tf.scalar(2)).add(tf.scalar(.5));
             return image_enlarge(y, draw_multiplier);
