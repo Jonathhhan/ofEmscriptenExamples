@@ -1,0 +1,1 @@
+https://github.com/josephrocca/openai-clip-js/blob/main/tfjs-text-demo.html
