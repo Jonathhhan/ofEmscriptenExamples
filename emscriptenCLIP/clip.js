@@ -16,6 +16,6 @@ function interference(prompt) {
 	var input = {'input': tf.tensor(textTokens, [1, 77], "int32")};
 	model.executeAsync(input).then(results => {   
         	console.log(results.dataSync());
-        	tf.dispose(results);
+        	// tf.dispose(results);
 	});
 }
