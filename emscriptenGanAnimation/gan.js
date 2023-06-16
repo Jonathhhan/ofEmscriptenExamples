@@ -32,7 +32,8 @@ let all_model_info = {
     },
     resnet256: {
         description: 'ResNet, 256x256 (252 MB)',
-        model_url: "https://storage.googleapis.com/store.alantian.net/tfjs_gan/chainer-resent256-celebahq-256/tfjs_SmoothedGenerator_40000/model.json",
+        // model_url: "https://storage.googleapis.com/store.alantian.net/tfjs_gan/chainer-resent256-celebahq-256/tfjs_SmoothedGenerator_40000/model.json",
+	model_url: "data/StyleGanModel/model.json",
         model_size: 256,
         model_latent_dim: 128,
         draw_multiplier: 1,
