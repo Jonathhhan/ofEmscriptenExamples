@@ -1,0 +1,140 @@
+<html>
+    <head>
+        <title>AI Chatbot from Movie Quotes: Chatbots in the Browser with TensorFlow.js</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
+    </head>
+    <body>
+        <h1 id="status">Movie Dialogue Bot</h1>
+        <p id="bot-text"></p>
+        <input id="question" type="text" />
+        <button id="submit">Send</button>
+        <script>
+        let tensors = [];
+        function setText( text ) {
+            document.getElementById( "status" ).innerText = text;
+        }
+
+        // Calculate the dot product of two vector arrays.
+        const dotProduct = (xs, ys) => {
+          const sum = xs => xs ? xs.reduce((a, b) => a + b, 0) : undefined;
+
+          return xs.length === ys.length ?
+            sum(zipWith((a, b) => a * b, xs, ys))
+            : undefined;
+        }
+
+        // zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+        const zipWith =
+            (f, xs, ys) => {
+              const ny = ys.length;
+              return (xs.length <= ny ? xs : xs.slice(0, ny))
+                  .map((x, i) => f(x, ys[i]));
+            }
+
+        (async () => {
+		// fetch('subTensors.json').then((response) => response.json()).then((json) => tensors = json);
+            let movie_lines = await fetch( "https://raw.githubusercontent.com/Killer2499/AI-ChatBot/master/movie_lines.txt" ).then( r => r.text() );
+            let lines = {};
+            movie_lines.split( "\n" ).forEach( l => {
+                let parts = l.split( " +++$+++ " );
+                lines[ parts[ 0 ] ] = parts[ 4 ];
+            });
+
+            let questions = [];
+            let responses = [];
+            let movie_conversations = await fetch( "https://raw.githubusercontent.com/Killer2499/AI-ChatBot/master/movie_conversations.txt" ).then( r => r.text() );
+            movie_conversations.split( "\n" ).forEach( c => {
+                let parts = c.split( " +++$+++ " );
+                if( parts[ 3 ] ) {
+                    let phrases = parts[ 3 ].replace(/[^L0-9 ]/gi, "").split( " " ).filter( x => !!x ); // Split & remove empty lines
+                    for( let i = 0; i < phrases.length - 1; i++ ) {
+                        questions.push( lines[ phrases[ i ] ] );
+                        responses.push( lines[ phrases[ i + 1 ] ] );
+                    }
+                }
+            });
+            
+            // Load the universal sentence encoder
+            setText( "Loading USE..." );
+            //let encoder = await use.load();
+            setText( "Loaded!" );
+            const model = await use.loadQnA();
+
+		// Run the calculation things
+		const numSamples = 220000;
+		console.log(questions.length);
+		let randomOffset = Math.floor( Math.random() * (questions.length - numSamples) );
+		for (let i = 0; i < numSamples / 1000; i++) {
+			const input = {
+				queries: [ "hello" ],
+				responses: questions.slice( randomOffset + i * 1000, randomOffset + 1000 + i * 1000 )
+			};
+			let embeddings = await model.embed( input );
+			tf.tidy( () => {
+				const embed_query = embeddings[ "queryEmbedding" ].arraySync();
+				const embed_responses = embeddings[ "responseEmbedding" ].arraySync();
+				embed_responses.forEach( response => {
+					tensors.push( response );
+				});
+			});
+			embeddings.queryEmbedding.dispose();
+			embeddings.responseEmbedding.dispose();
+		}
+		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tensors));
+		var a = document.createElement('a');
+		a.setAttribute("href", dataStr);
+		a.setAttribute("download", "subTensors.json");
+		a.click();
+
+            document.getElementById( "question" ).addEventListener( "keyup", function( event ) {
+                // Number 13 is the "Enter" key on the keyboard
+                if( event.keyCode === 13 ) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    document.getElementById( "submit" ).click();
+                }
+            });
+
+	document.getElementById( "submit" ).addEventListener( "click", async function( event ) {
+		let scores = [];
+		let text = document.getElementById( "question" ).value;
+		document.getElementById( "question" ).value = "";
+
+		// Run the calculation things
+
+			const input = {
+				queries: [ text ],
+				responses: questions.slice( 0, 0 )
+			};
+			let embeddings = await model.embed( input );
+			tf.tidy( () => {
+				const embed_query = embeddings[ "queryEmbedding" ].arraySync();
+				const embed_responses = embeddings[ "responseEmbedding" ].arraySync();
+				tensors.forEach( response => {
+					scores.push( dotProduct( embed_query[ 0 ], response ) );
+				});
+			});
+			embeddings.queryEmbedding.dispose();
+			embeddings.responseEmbedding.dispose();
+
+		let id = scores.indexOf(getMax( scores  ));
+		console.log(id);
+		console.log(scores);
+		document.getElementById( "bot-text" ).innerText = responses[ id ]; 
+	});
+	
+        })();
+        function getMax(arr) {
+    let len = arr.length;
+    let max = -Infinity;
+
+    while (len--) {
+        max = arr[len] > max ? arr[len] : max;
+    }
+    return max;
+}
+        </script>
+    </body>
+</html>
