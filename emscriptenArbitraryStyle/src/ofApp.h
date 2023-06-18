@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "emscripten.h"
+#include "emscripten/bind.h"
 
 class ofApp : public ofBaseApp{
 
@@ -25,5 +26,5 @@ class ofApp : public ofBaseApp{
 		ofTexture tex1;
 		ofTexture tex2;
 		ofTexture tex3;
-		std::string textInput;
+		int oldStyleImageKey;
 };
