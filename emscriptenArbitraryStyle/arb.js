@@ -2,8 +2,7 @@ setupArbitraryStyle__deps = ['$GL'];
 loadStyleImage__deps = ['$GL'];
 
 var destinationCanvas = document.createElement('canvas');    
-var fb1;
-var fb2;
+var fb1, fb2;
 
 function setupArbitraryStyle (styleTextureID, contentTextureID) {
 	tf.loadGraphModel('data/arbitrayStyleModel/model.json').then( (model) => {
