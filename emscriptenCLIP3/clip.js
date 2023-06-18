@@ -81,6 +81,9 @@ function interferenceImage() {
 }
 
 function interferenceText(prompt, textureId1, textureId2, textureId3, textureId4) {
+	// console.log(`numBytesInGPUAllocated: ${tf.memory().numBytesInGPUAllocated}`);
+	// console.log(`numBytesInGPUAllocated: ${tf.memory().numBytesInGPU}`);
+	// console.log(`numTensors: ${tf.memory().numTensors}`);
 	dict = {};
 	var textTokens = tokenizer.encodeForCLIP(prompt);
 	textTokens = Int32Array.from(textTokens);
@@ -95,6 +98,8 @@ function interferenceText(prompt, textureId1, textureId2, textureId3, textureId4
 			}
 			cosineSimilarity(array, imageTensor[i * 2 + 1]);
 		}
+		tf.dispose(input);
+		textTensor.dispose();
 		var entries = Object.entries(dict);
 		var sorted = entries.sort((a, b) => b[1] - a[1]);
 		var link = "https://raw.githubusercontent.com/EliSchwartz/imagenet-sample-images/master/"
