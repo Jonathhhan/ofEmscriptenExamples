@@ -4,11 +4,15 @@ loadStyleImage__deps = ['$GL'];
 var destinationCanvas = document.createElement('canvas');    
 var fb1, fb2;
 
-function setupArbitraryStyle (styleTextureID, contentTextureID) {
-	tf.loadGraphModel('data/arbitrayStyleModel/model.json').then( (model) => {
+function setupArbitraryStyle (styleTextureID, contentTextureID, destinationTextureID, contentTextureWidth, contentTextureHeight) {
+	tf.loadGraphModel('https://huggingface.co/Jona0123456789/arbitrary-style-tfjs/resolve/main/model.json').then( (model) => {
 		arbitrayStyleModel = model;
+		Module.arbitraryStyleModelLoaded();
+		runArbitraryStyle (styleTextureID, contentTextureID, destinationTextureID, contentTextureWidth, contentTextureHeight);
 	});
-
+}
+    
+function runArbitraryStyle (styleTextureID, contentTextureID, destinationTextureID, contentTextureWidth, contentTextureHeight) {
 	var styleTexture = GL.textures[styleTextureID];
 	fb1 = GLctx.createFramebuffer();
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb1);
@@ -20,9 +24,7 @@ function setupArbitraryStyle (styleTextureID, contentTextureID) {
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb2);
 	GLctx.framebufferTexture2D(GLctx.FRAMEBUFFER, GLctx.COLOR_ATTACHMENT0, GLctx.TEXTURE_2D, contentTexture, 0);
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, null);
-}
-    
-function runArbitraryStyle (destinationTextureID, contentTextureWidth, contentTextureHeight) {
+	
 	var w = contentTextureWidth, h = contentTextureHeight;
 
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb1);
@@ -45,7 +47,7 @@ function runArbitraryStyle (destinationTextureID, contentTextureWidth, contentTe
 	inputs2 = tf.sub(inputs2, VGG_MEAN);
 	
 	const features = tf.tidy(() =>{
-		var alpha = tf.tensor2d([[0.9]]);
+		var alpha = tf.tensor2d([[1]]);
 		return arbitrayStyleModel.predict([inputs2, inputs1, alpha]);
 	});
 	let stylized = features[3];
