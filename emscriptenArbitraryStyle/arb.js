@@ -62,6 +62,5 @@ function runArbitraryStyle (textureID3, textureWidth2, textureHeight2) {
         });
 	inputs1.dispose();
 	inputs2.dispose();
-	features.dispose();
 	VGG_MEAN.dispose();
 }
