@@ -1,30 +1,30 @@
 setupArbitraryStyle__deps = ['$GL'];
 loadStyleImage__deps = ['$GL'];
 
-var canvas2 = document.createElement('canvas');    
+var destinationCanvas = document.createElement('canvas');    
 var fb1;
 var fb2;
 
-function setupArbitraryStyle (textureID1, textureID2) {
+function setupArbitraryStyle (styleTextureID, contentTextureID) {
 	tf.loadGraphModel('data/arbitrayStyleModel/model.json').then( (model) => {
 		arbitrayStyleModel = model;
 	});
 
-	var texture1 = GL.textures[textureID1];
+	var styleTexture = GL.textures[styleTextureID];
 	fb1 = GLctx.createFramebuffer();
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb1);
-	GLctx.framebufferTexture2D(GLctx.FRAMEBUFFER, GLctx.COLOR_ATTACHMENT0, GLctx.TEXTURE_2D, texture1, 0);
+	GLctx.framebufferTexture2D(GLctx.FRAMEBUFFER, GLctx.COLOR_ATTACHMENT0, GLctx.TEXTURE_2D, styleTexture, 0);
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, null);
 			
-	var texture2 = GL.textures[textureID2];
+	var contentTexture = GL.textures[contentTextureID];
 	fb2 = GLctx.createFramebuffer();
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb2);
-	GLctx.framebufferTexture2D(GLctx.FRAMEBUFFER, GLctx.COLOR_ATTACHMENT0, GLctx.TEXTURE_2D, texture2, 0);
+	GLctx.framebufferTexture2D(GLctx.FRAMEBUFFER, GLctx.COLOR_ATTACHMENT0, GLctx.TEXTURE_2D, contentTexture, 0);
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, null);
 }
     
-function runArbitraryStyle (textureID3, textureWidth2, textureHeight2) {
-	var w = textureWidth2, h = textureHeight2;
+function runArbitraryStyle (destinationTextureID, contentTextureWidth, contentTextureHeight) {
+	var w = contentTextureWidth, h = contentTextureHeight;
 
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb1);
 	var data = new Uint8Array(w * h * 4);
@@ -51,13 +51,13 @@ function runArbitraryStyle (textureID3, textureWidth2, textureHeight2) {
 	});
 	let stylized = features[3];
 	stylized = stylized.clipByValue(0, 255);
-	if (canvas2.width != w || canvas2.height != h) {
-		canvas2.width = w;
-		canvas2.height = h;
+	if (destinationCanvas.width != w || destinationCanvas.height != h) {
+		destinationCanvas.width = w;
+		destinationCanvas.height = h;
 	}
-	tf.browser.toPixels(stylized.toInt().squeeze(), canvas2).then(()=>{
-		GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[textureID3]);
-		GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, canvas2);
+	tf.browser.toPixels(stylized.toInt().squeeze(), destinationCanvas).then(()=>{
+		GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[destinationTextureID]);
+		GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, destinationCanvas);
 		GLctx.bindTexture(GLctx.TEXTURE_2D, null);
         });
 	inputs1.dispose();
