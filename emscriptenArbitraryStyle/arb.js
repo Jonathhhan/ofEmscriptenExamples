@@ -32,9 +32,9 @@ function runArbitraryStyle (textureID3, textureWidth2, textureHeight2) {
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, null);
 	var imageData = new ImageData(new Uint8ClampedArray(data.buffer), w, h);
 	const VGG_MEAN = tf.tensor([103.939, 116.779, 123.68]);
-	var inputs = tf.browser.fromPixels(imageData).toFloat().expandDims();
-	inputs = tf.reverse(inputs, axis=[-1]);
-	inputs = tf.sub(inputs, VGG_MEAN);
+	var inputs1 = tf.browser.fromPixels(imageData).toFloat().expandDims();
+	inputs1 = tf.reverse(inputs1, axis=[-1]);
+	inputs1 = tf.sub(inputs1, VGG_MEAN);
 	
 	GLctx.bindFramebuffer(GLctx.FRAMEBUFFER, fb2);
     	var data2 = new Uint8Array(w * h * 4);
@@ -44,11 +44,10 @@ function runArbitraryStyle (textureID3, textureWidth2, textureHeight2) {
 	var inputs2 = tf.browser.fromPixels(imageData2).toFloat().expandDims();
 	inputs2 = tf.reverse(inputs2, axis=[-1]);
 	inputs2 = tf.sub(inputs2, VGG_MEAN);
-	VGG_MEAN.dispose();
 	
 	const features = tf.tidy(() =>{
 		var alpha = tf.tensor2d([[0.9]]);
-		return arbitrayStyleModel.predict([inputs2, inputs, alpha]);
+		return arbitrayStyleModel.predict([inputs2, inputs1, alpha]);
 	});
 	let stylized = features[3];
 	stylized = stylized.clipByValue(0, 255);
@@ -61,4 +60,8 @@ function runArbitraryStyle (textureID3, textureWidth2, textureHeight2) {
 		GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, canvas2);
 		GLctx.bindTexture(GLctx.TEXTURE_2D, null);
         });
+	inputs1.dispose();
+	inputs2.dispose();
+	features.dispose();
+	VGG_MEAN.dispose();
 }
