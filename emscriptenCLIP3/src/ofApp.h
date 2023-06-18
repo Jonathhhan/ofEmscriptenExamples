@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "hSlider.h"
 
 #include "emscripten.h"
 #include "emscripten/bind.h"
@@ -31,6 +30,5 @@ class ofApp : public ofBaseApp{
 		ofTexture tex2;
 		ofTexture tex3;
 		ofTexture tex4;
-		hSlider slider;
 		std::string textInput;
 };
