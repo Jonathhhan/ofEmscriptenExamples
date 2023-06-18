@@ -46,25 +46,25 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	if (key == 49) {
-		ofLoadImage(tex1, "data/style/antimonocromatismo.jpg");
-	} else if (key == 50) {
-		ofLoadImage(tex1, "data/style/chinese_style.jpg");
-	} else if (key == 51) {
-		ofLoadImage(tex1, "data/style/face_and_hands.jpg");
-	} else if (key == 52) {
-		ofLoadImage(tex1, "data/style/flower_of_life.jpg");
-	} else if (key == 53) {
-		ofLoadImage(tex1, "data/style/higher_than_mountains.jpg");
-	} else if (key == 54) {
-		ofLoadImage(tex1, "data/style/udnie.jpg");
-	} else if (key == 55) {
-		ofLoadImage(tex1, "data/style/gogh.jpg");
-	} else if (key == 56) {
-		ofLoadImage(tex1, "data/style/wall.jpg");
-	}
-	if (arbitraryStyleModelIsLoaded && oldStyleImageKey != key) {
+	if (key >= 49 && key <= 56 && arbitraryStyleModelIsLoaded && oldStyleImageKey != key) {
 		oldStyleImageKey = key;
+		if (key == 49) {
+			ofLoadImage(tex1, "data/style/antimonocromatismo.jpg");
+		} else if (key == 50) {
+			ofLoadImage(tex1, "data/style/chinese_style.jpg");
+		} else if (key == 51) {
+			ofLoadImage(tex1, "data/style/face_and_hands.jpg");
+		} else if (key == 52) {
+			ofLoadImage(tex1, "data/style/flower_of_life.jpg");
+		} else if (key == 53) {
+			ofLoadImage(tex1, "data/style/higher_than_mountains.jpg");
+		} else if (key == 54) {
+			ofLoadImage(tex1, "data/style/udnie.jpg");
+		} else if (key == 55) {
+			ofLoadImage(tex1, "data/style/gogh.jpg");
+		} else if (key == 56) {
+			ofLoadImage(tex1, "data/style/wall.jpg");
+		}
 		EM_ASM(
 			runArbitraryStyle($0, $1, $2, $3, $4), tex1.getTextureData().textureID, tex2.getTextureData().textureID, tex3.getTextureData().textureID, tex2.getWidth(), tex2.getHeight()
 		);
