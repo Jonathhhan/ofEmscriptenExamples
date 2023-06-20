@@ -7,7 +7,7 @@ function startGanSynth() {
 	const checkpointURL = "https://storage.googleapis.com/magentadata/js/checkpoints/gansynth/acoustic_only";
 	// const checkpointURL = "https://storage.googleapis.com/magentadata/js/checkpoints/gansynth/all_instruments";
 	const ganSynthModel = new gansynth.GANSynth(checkpointURL);
-	ganSynthModel.initialize().then(()=>{
+	ganSynthModel.initialize().then(() => {
 		ganSynth = ganSynthModel;
 		Module.ganSynthModelLoaded();
 	});
