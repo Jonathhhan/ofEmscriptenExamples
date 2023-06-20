@@ -46,12 +46,14 @@ function plotSpectra(spectra, destinationTextureID1, destinationTextureID2) {
 	});
 	tf.browser.toPixels(spectraPlot1, destinationCanvas).then(()=>{
 		GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[destinationTextureID1]);
+		GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, true);
 		GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, destinationCanvas);
 		GLctx.bindTexture(GLctx.TEXTURE_2D, null);
 		spectraPlot1.dispose();
 	});
 	tf.browser.toPixels(spectraPlot2, destinationCanvas).then(()=>{
 		GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[destinationTextureID2]);
+		GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, true);
 		GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, destinationCanvas);
 		GLctx.bindTexture(GLctx.TEXTURE_2D, null);
 		spectraPlot2.dispose();
