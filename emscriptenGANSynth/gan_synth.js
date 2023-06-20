@@ -15,7 +15,7 @@ function startGanSynth() {
 
 function sampleGanNote(destinationTextureID1, destinationTextureID2) {
 	const lengthInSeconds = 4.0;
-	const sampleRate = AUDIO.context.sampleRate;
+	const sampleRate = 16000;
 	const length = lengthInSeconds * sampleRate;
 	const specgrams = ganSynth.randomSample(48);
 	ganSynth.specgramsToAudio(specgrams).then((audio) => {
@@ -23,7 +23,9 @@ function sampleGanNote(destinationTextureID1, destinationTextureID2) {
 		audioBuffer.copyToChannel(audio, 0, 0);
 		const source = AUDIO.context.createBufferSource();
 		source.buffer = audioBuffer;
-		source.connect(AUDIO.fft);
+		const gain = AUDIO.context.createGain();
+		gain.gain.value = 0.05;
+		source.connect(gain).connect(AUDIO.fft);
 		source.start();
 	});
 	plotSpectra(specgrams, destinationTextureID1, destinationTextureID2);
